@@ -1,0 +1,9 @@
+# Dev / CI dependencies for scripts/validate.py
+#   pip install -r requirements-dev.txt
+#
+# owlrl is a pure-Python OWL 2 RL reasoner (no Java). It is REQUIRED for the
+# defined-class, consistency, and sub-property entailment checks. Without it,
+# validate.py degrades gracefully and SKIPS those checks -- so keep it pinned
+# here to ensure CI actually exercises the `Inference` definition.
+rdflib>=7.0
+owlrl>=7.1
