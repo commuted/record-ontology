@@ -27,7 +27,7 @@
 <https://www.epistemic-ontology.net/record>
     a owl:Ontology ;
     dc:title "The Record Ontology"@en ;
-    owl:versionInfo "0.1.0 — seed/base" ;
+    owl:versionInfo "0.2.0 — seed + inference (defined), force, metadata role" ;
     rdfs:comment "A base ontology of the Record, constrained to agents. One class (Record); formal/empirical is an attribute (warrant), not a kind; two excluded limits (world-in-itself, form-in-itself) are never instantiated. See ROOT.md for the full rationale."@en .
 
 
@@ -146,6 +146,21 @@ rec:directedToward a owl:ObjectProperty ;
     rdfs:domain rec:Record ;
     rdfs:comment "The intentional object: what the record is of, AS RECORDED (Husserl; Peirce's immediate object). NOT a certified reference. The dynamical object / world-in-itself it asymptotically approaches is an EXCLUDED LIMIT -- never modelled as a class. Range therefore stays within the record web; deferred."@en .
 
+# -- metadata: NOT a layer -- a record directed at another record --------------
+# There is no metadata in this ontology (the excision is part of the support, so
+# provenance is constitutive, not strippable). What is called "metadata" is just
+# a record directed at another record. "Metadata-ness" is a ROLE relative to a
+# chosen level of abstraction and purpose -- it can swap (a timestamp is
+# background when reading, focal under authentication). Hence a sub-property of
+# directedToward, never a class. The LoA-relativity is not expressible in OWL and
+# lives in usage; this property only records the directedness.
+rec:metadataOf a owl:ObjectProperty ;
+    rdfs:label "metadata of"@en ;
+    rdfs:subPropertyOf rec:directedToward ;
+    rdfs:domain rec:Record ;
+    rdfs:range  rec:Record ;
+    rdfs:comment "Role-relation: this record is held AS metadata of another record, at some level of abstraction. Not a class; LoA/purpose-relative and reversible."@en .
+
 # -- provenance: the genealogy (constitutive, not metadata) -------------------
 rec:hasProvenance a owl:ObjectProperty ;
     rdfs:label "has provenance"@en ;
@@ -157,6 +172,66 @@ rec:pragmaticAdequacy a owl:ObjectProperty ;
     rdfs:label "pragmatic adequacy"@en ;
     rdfs:domain rec:Record ;
     rdfs:comment "Fitness for purpose ('expected to work'), relative to a purpose and an agent (Peirce/Dewey). Range deferred."@en .
+
+
+# ----------------------------------------------------------------------------
+# INFERENCE  --  the OPERATIONAL face of the formal (vs. the triangle, its
+#                OBJECT face). An inference IS a Record (a formal record whose
+#                form is a transition over records); it is set apart not by
+#                composing (everything composes) but by its RELATIONAL FORM:
+#                it has premises and a conclusion.
+# ----------------------------------------------------------------------------
+
+rec:hasPremise a owl:ObjectProperty ;
+    rdfs:label "has premise"@en ;
+    rdfs:domain rec:Record ;
+    rdfs:range  rec:Record ;
+    rdfs:comment "A record this inference takes as input. Premises may themselves be conclusions of other inferences -> derivation DAG."@en .
+
+rec:concludes a owl:ObjectProperty ;
+    rdfs:label "concludes"@en ;
+    rdfs:domain rec:Record ;
+    rdfs:range  rec:Record ;
+    rdfs:comment "The record this inference yields as output."@en .
+
+# `Inference` is a DEFINED class, never a primitive kind: a record BECOMES an
+# inference by having premises and a conclusion (reasoner-recognised). This keeps
+# the no-primitive-kinds discipline -- the "triangle / formal object" face is
+# simply a formally-warranted record that is NOT an inference (the residual; no
+# class needed for it).
+rec:Inference a owl:Class ;
+    rdfs:label "Inference"@en ;
+    rdfs:comment "DEFINED: Record AND (has some premise) AND (concludes something). The operational face of the formal. Not a stipulated kind."@en ;
+    owl:equivalentClass [ a owl:Class ;
+        owl:intersectionOf (
+            rec:Record
+            [ a owl:Restriction ; owl:onProperty rec:hasPremise ; owl:someValuesFrom rec:Record ]
+            [ a owl:Restriction ; owl:onProperty rec:concludes  ; owl:someValuesFrom rec:Record ]
+        ) ] .
+
+# Force -- the second parameter of an inference, and the HINGE between formal and
+# empirical warrant. Truth-preserving (deductive) passes a triangle's
+# completeness through unchanged; ampliative (abductive/inductive) adds content
+# and is therefore DEFEASIBLE even from certain premises. This is why a
+# historical narrative -- ampliative inference over given leaves -- can never
+# reach formal completeness, and its revisability is ENTAILED, not stipulated.
+rec:InferentialForce a owl:Class ;
+    rdfs:label "Inferential Force"@en ;
+    rdfs:comment "How an inference carries warrant from premises to conclusion. Two values: rec:TruthPreserving, rec:Ampliative."@en .
+
+rec:TruthPreserving a owl:NamedIndividual , rec:InferentialForce ;
+    rdfs:label "truth-preserving (deductive)"@en ;
+    rdfs:comment "Passes the completeness/fidelity of formal premises through unchanged. Triangle-grade."@en .
+
+rec:Ampliative a owl:NamedIndividual , rec:InferentialForce ;
+    rdfs:label "ampliative (abductive / inductive)"@en ;
+    rdfs:comment "Adds content beyond the premises -- defeasible even when the premises are certain. The force on which empirical and historical reasoning runs."@en .
+
+rec:hasForce a owl:ObjectProperty ;
+    rdfs:label "has force"@en ;
+    rdfs:domain rec:Inference ;
+    rdfs:range  rec:InferentialForce ;
+    rdfs:comment "The force of an inference. A record whose force is ampliative cannot be internally completed regardless of its premises."@en .
 
 
 # ============================================================================

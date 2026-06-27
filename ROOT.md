@@ -53,6 +53,16 @@ one Record is formal here and empirical there.
   closed). Demoting "formal" from kind to attribute is the same move as not
   eating the apple, completed — it describes how the record is *warranted*, not a
   relation to a thing-in-itself.
+    - The **formal** side itself has **two faces**: *formal objects* (the
+      **triangle** — a self-standing structure, complete in itself) and *formal
+      operations* (**inference** — a transition over records). This is the
+      object/morphism (term/rule, formula/derivation) duality, and is plausibly
+      *exhaustive* of formal content. See §8.
+    - Inference carries a second parameter, its **force**: *truth-preserving*
+      (deductive — passes a triangle's completeness through unchanged) or
+      *ampliative* (abductive/inductive — adds content, hence **defeasible even
+      from certain premises**). Force is what makes inference the **hinge between
+      formal and empirical warrant**.
 - **level of abstraction (grain)** — the excision needed to support something may
   vary: a light switch (works, expected to), or Maxwell's equations, or a
   quantum-mechanical account. Floridi's *Level of Abstraction*.
@@ -116,14 +126,20 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
 - Composition (Record of Records).
 - Continuum as the unique non-Record ground (disjoint from Record).
 - The two excluded limits, recorded as commentary, never as classes.
+- The formal warrant splits into *objects* (triangle) and *operations*
+  (inference); inference carries a *force* (truth-preserving ↔ ampliative). §2, §8.
+- Inference modelled by relational form (`hasPremise`, `concludes`) and surfaced
+  as a **defined** class `Inference` — not a primitive kind. §8.
+- **No metadata:** records directed at records; `metadataOf` is a defined,
+  LoA-relative role, never a class. §9.
 
 **Open (left uncommitted on purpose):**
 - **Carrier** — is it a distinct relatum (`Record = form borne by a Carrier`) or
   does it dissolve into the record's *locus/provenance* in the Continuum? Not
   decided.
 - **Composition transitivity** — `partOf`/`composedOf` left non-transitive for
-  now; mereological transitivity is a deliberate later decision. (Cf.
-  record-harm, which had to *drop* `buildsUpon` transitivity to stay OWL 2 DL.)
+  now (see §6 below); mereological transitivity is a deliberate later decision.
+  (Cf. record-harm, which had to *drop* `buildsUpon` transitivity for OWL 2 DL.)
 - **Namespace** — born at `https://www.epistemic-ontology.net/record#` rather
   than an `example.org` placeholder, applying the lesson record-harm is still
   paying for (its v3.0 migration). Confirm before external adopters rely on IRIs.
@@ -136,6 +152,60 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   to a *claimed* origin; a false *posit* exposed by incoherence with other
   records) — not correspondence to the noumenon.
 - **epistemic-ontology.net** (`eon`) is the intended home; slug `record`.
+
+## 8. Inference, the derivation DAG, and narrative
+
+**Inference *is* a Record** — a formal record whose *form* is a transition over
+records. So "an inference composed of inferences and records" introduces no new
+compositional primitive: it is a Record `composedOf` other Records, **some of
+which bear the inference role**. Base case — premises are empirical or triangle
+records; recursive case — premises are the *conclusions* of other inferences.
+The result is a **derivation DAG**: given/structural records at the leaves,
+inferences at the internal nodes, one standing conclusion.
+
+What sets inference apart from a triangle is not its compositional status
+(everything composes) but its **relational form** — it has premises and a
+conclusion. So it earns two properties a triangle never uses: `hasPremise`
+(Record → Record) and `concludes` (Record → Record).
+
+To keep the no-primitive-kinds discipline (§2), **`Inference` is a *defined*
+class, not a primitive one**:
+
+> `Inference ≡ Record ⊓ (∃hasPremise.Record) ⊓ (∃concludes.Record)`
+
+A record *becomes* an inference by having premises — reasoner-recognised, never
+stipulated — so a patchwork can have inferential joints without anything being
+declared an "Inference kind" up front. Same refusal as not subclassing by
+warrant.
+
+**Historical narrative** is the canonical test, because it is a *mixed-warrant
+patchwork*: empirical records at the leaves (attested sources), inferences —
+*almost all ampliative* — at the joints, and a root narrative `directedToward`
+the past (an excluded limit, §4). The model then **predicts the right
+epistemics for free**: running on ampliative force over defeasible leaves, a
+narrative can never reach triangle-completeness, so its revisability is
+*entailed*, not bolted on. This is exactly where `record-harm`'s **Fabrication**
+lives — a false posit in the DAG, exposable only by incoherence with the rest of
+the web.
+
+## 9. Metadata — there is none
+
+The data/metadata split is **refused**. The excision is always part of the
+support (§5), so what is called metadata decomposes with no remainder into
+machinery we already have:
+
+- An author, date-stamp, or citation is simply **a record directed at another
+  record** (`directedToward` / `hasProvenance` ranging over Records) — a record
+  *about* a record, nothing more exotic.
+- "Metadata-ness" is **not intrinsic**: it is a **role relative to a chosen level
+  of abstraction and purpose**. At a reading LoA a timestamp is background; under
+  forensic authentication the *timestamp becomes the focal record* and the
+  document its context — the roles swap. So it rides on `atLevelOfAbstraction` +
+  `pragmaticAdequacy`, not on a class.
+
+Like `Inference`, metadata is therefore a **defined relational role**
+(`metadataOf`), never a primitive class — making it a class would quietly
+re-seat the privileged outside vantage (a mild cousin of the apple).
 
 ---
 
