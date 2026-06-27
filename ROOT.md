@@ -207,6 +207,53 @@ Like `Inference`, metadata is therefore a **defined relational role**
 (`metadataOf`), never a primitive class — making it a class would quietly
 re-seat the privileged outside vantage (a mild cousin of the apple).
 
+## 10. Future directions (vision — not yet modelled)
+
+Recorded so it does not vanish (late-session sketch, 2026-06-26). **None of this
+is built**; it is the horizon the base is being shaped toward. The target is
+complex science, where discoveries are built on earlier work and bottom out in
+observation.
+
+- **Science as a derivation DAG across time and agents.** A discovery is an
+  inference whose premises are earlier conclusions — often *other agents'*, via
+  provenance (observation → between agents → social fixation). Already carried by
+  `hasPremise`/`concludes`/`composedOf`; "pull the evidence" = traverse premises
+  to the empirical leaves. Fluid because it is Record-of-Records throughout.
+
+- **Non-monotonic propagation (the genuinely new mechanism).** When a leaf
+  observation changes, the effect should flow up the DAG: *re-level* dependents,
+  *propagate uncertainty*, or *open a stub* where support is withdrawn.
+  **Architectural rule:** OWL DL is **monotonic** — it cannot retract — so this
+  dynamics is a **computational layer *over* the static ontology, never axioms in
+  it.** The ontology holds the structure (DAG, warrants, forces); a separate
+  engine computes fidelity, forks, and revisions. Keep the two strata distinct.
+  Kin to study: truth-maintenance / **assumption-based TMS** (de Kleer —
+  justifications, retraction, environments-as-forks) and belief/uncertainty
+  propagation (Bayesian networks) over the same graph.
+
+- **Fidelity as a combinatorial quantity (deepens §2).** Fidelity is already
+  *entailed by warrant, not primitive*. The extension: it is entailed by the
+  **whole sub-DAG** of warrants and forces feeding a record — computed, not a
+  scalar stamped per node. **Forks for unknowns** = where ampliative/abductive
+  inference admits competing explanations; each fork a candidate sub-DAG, fidelity
+  distributed across them. An **open stub** is a first-class hole (a conclusion
+  with an unresolved premise — candidate defined classes `OpenQuestion` / `Stub`).
+  Refinement = forks collapsing as observations arrive; "discoveries pop out" when
+  one fork's fidelity dominates or a stub resolves.
+
+- **Quantum mechanics as the sharpest test — perhaps the truest domain.** Two
+  resonances to chase: (1) the *excision / "the cut is part of the support"* maps
+  onto the **Heisenberg cut** between system and apparatus; (2) measurement's
+  irreducible incompleteness **is** the empirical-branch finitude of §5. A "level
+  below to assist the quantum model" = a finer `atLevelOfAbstraction`, exercising
+  the re-leveling mechanism. **Caution:** keep the *epistemic fork* (our unknown)
+  distinct from *ontic superposition* (the physics) — they meet at
+  measurement/decoherence but are not the same; the model must not conflate them.
+
+- **Tie to record-harm.** A revision is *controlled* change; **fabrication** is
+  *uncontrolled* false change, exposed by incoherence with the DAG. The
+  propagation engine and the harm model are two readings of the same web.
+
 ---
 
 *Provenance of this document:* reconstructed verbatim from session transcript
