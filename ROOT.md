@@ -87,10 +87,14 @@ one Record is formal here and empirical there.
   recorded** (Husserl; Peirce's *immediate* object). Not a certified reference.
   The agent holds the object-as-presented; the object-as-it-is is approached
   asymptotically and never possessed (see §4).
-- **provenance** — the genealogy: sensory observation → formal mental paths →
-  traversal between agents → establishment in broad contexts (society, books).
-  *The excision is always part of the support*: provenance/context is
+- **provenance** — the genealogy (*whence*): sensory observation → formal mental
+  paths → traversal between agents → establishment in broad contexts (society,
+  books). *The excision is always part of the support*: provenance/context is
   **constitutive, not metadata** — it cannot be fully stripped.
+- **locus** — *where/when* the form is borne, **agent-relative** (as
+  experienced/individuated), never a certified position in space-time-in-itself.
+  Provenance (*whence*) + locus (*where/when*) are what the **carrier dissolves
+  into** — there is no `Carrier` class (§11).
 - **pragmatic adequacy** — fitness for purpose ("expected to work"), relative to a
   purpose and an agent (Peirce/Dewey).
 
@@ -128,8 +132,8 @@ To make either a class would re-seat the all-knowing observer. They stay outside
 
 The **Continuum** is the undivided, continuously interacting ground — the *only*
 thing that is **not** a record and not agent-relative; the origin you never get
-behind. One distinguished individual, not a class of many. Carriers are
-**individuated** from it, and the cut is never clean: *the excision is always
+behind. One distinguished individual, not a class of many. A record's support (its
+locus) is **individuated** from it, and the cut is never clean: *the excision is always
 part of the support*, and (the universe interacting continuously) the support is
 never causally sealed off from what it was cut from. **No support equals the
 whole Continuum ⇒ no total support, no complete [empirical] record.** This is
@@ -140,7 +144,7 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
 **Settled (encoded in the stub):**
 - One class `Record`; agent-relativity (every Record is *for* an Agent).
 - Attributes: warrant (formal · empirical · self-verifying — one per limit),
-  level of abstraction, directedness, provenance, pragmatic adequacy.
+  level of abstraction, directedness, provenance, locus, pragmatic adequacy.
   Fidelity/completeness *derived*, not primitive.
 - Composition (Record of Records).
 - Continuum as the unique non-Record ground (disjoint from Record).
@@ -154,9 +158,9 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   as a **defined** class `Inference` — not a primitive kind. §8.
 - **No metadata:** records directed at records; `metadataOf` is a defined,
   LoA-relative role, never a class. §9.
-- **Carrier is a distinct relatum** (`borneBy`), well-founded because it bottoms
-  out at the **Agent** via the cogito; the *foundational carrier* is a defined
-  class. §11.
+- **Carrier dissolves** into `hasProvenance` + `hasLocus` (no `Carrier` class).
+  The cogito's foundation lives in the **self-verifying warrant** + reflexive
+  provenance — a *pattern*, not a class; the regress halts in the warrant. §11.
 - **Stance:** DL-in-form, ecumenical-in-content — the OWL/DL ↔ SKOS schism is
   demoted to the `warrant` attribute, not a choice of framework. §12.
 
@@ -280,57 +284,64 @@ discoveries are built on earlier work and bottom out in observation:
   *uncontrolled* false change, exposed by incoherence with the DAG. The
   propagation engine and the harm model are two readings of the same web.
 
-## 11. The Carrier and the cogito (resolving §6)
+## 11. The carrier dissolved, and the cogito as self-verifying foundation (resolving §6)
 
-Why the Carrier question was hard: a **regress**. Every external record is borne
-by a carrier *excised from the Continuum*, and the excision is never clean
-(carrier ⊂ Continuum, never severed; §5). So what carries the carrier? Either an
+Why the carrier question was hard: a **regress**. Every external record is borne
+by a support *excised from the Continuum*, and the excision is never clean
+(support ⊂ Continuum, never severed; §5). So what carries the carrier? Either an
 infinite regress, or the web floats unanchored.
 
-**Descartes halts it — credit to him.** The **cogito** is the one record whose
-carrier is *the act of recording itself*: "I think" is borne by the thinking,
-and its tokening entails its own support. The carrier is self-supporting, so the
-regress stops — at the **Agent**.
+**Resolution — dissolution, not a new class.** The carrier is *not* a distinct
+relatum. It **dissolves into two attributes already in hand**: `hasProvenance`
+(the genealogy — *whence* the form was individuated from the Continuum) and
+`hasLocus` (*where/when* it is borne, agent-relative — never a certified position
+in space-time-in-itself). This honours the founding creed (§1–§2): **one class,
+attributes not kinds**. Reintroducing a `Carrier` class to hold the support
+would have bought the regress-halt at the cost of the ontology's own discipline.
+(An earlier draft *did* make Carrier a relatum, `borneBy`, grounded at the Agent;
+we reversed it — see "why the reversal" below.)
 
-**Resolution:** the Carrier is a **distinct relatum** (`borneBy`: Record →
-Carrier), *not* dissolved into Continuum-locus — and it is **well-founded**
-because it bottoms out at the Agent. Both old intuitions were partly right:
+**Where, then, does the regress halt? In the warrant, not in a thing.** The
+**cogito** is the record whose warrant is **self-verifying** (§2's third value):
+"I think" is true in virtue of the *act* of recording it, and its **provenance is
+that very act**. Its support is not a substrate it *has* but the thinking it *is*
+— which is more faithful to Descartes than positing a carrier-substance. So the
+regress stops not at an entity but at a **warrant** (self-verification) backed by
+a **reflexive provenance** (the act that is its own genealogy). Credit Descartes
+for the cogito; **Hintikka** for the warrant (performance, not inference).
 
-- for **external** records the carrier really *is* its excised locus/provenance
-  (the "dissolve" intuition holds there);
-- for the **cogito** the carrier is the **Agent** itself.
-
-So Carrier is one relatum with **two grounding modes**: Continuum-excision (the
-many, defeasible) and Agent (the one, self-supporting).
-
-**The fixed point.** The cogito is where the three roles we keep apart *collapse
-onto the Agent*: the agent is the *for-whom* (A1), the *carrier* (`borneBy`), and
-the *intentional object* (`directedToward`) at once. Indubitable *because* of the
-collapse. This gives the system its epistemic shape: a **coherentist web** (§7)
-with exactly **one foundationalist anchor**. And it marks an asymmetry with §4 —
+**The fixed point.** The cogito is where the roles we keep apart *coincide on the
+Agent*: the *for-whom* (A1) and the *intentional object* (`directedToward`) are
+both the agent, and the *provenance* is the agent's own act. Indubitable
+*because* of the collapse. This gives the system its epistemic shape: a
+**coherentist web** (§7) with exactly **one foundationalist anchor** — placed now
+in the self-verifying warrant, not a class. And it keeps the asymmetry with §4:
 the world-in-itself and form-in-itself stay excluded limits, but the
-**Agent-in-itself is not excluded**; it is the one thing given to itself.
+**Agent-in-itself is not excluded** — it is the one thing given to itself, and
+the self-verifying warrant is exactly the warrant that reaches it.
 
-**The boundary — how much Descartes to credit.** We take the fixed point, not the
-substance. The cogito certifies *that* the carrier-agent **exists** (the "I am"),
-not *what* it is. Descartes' slide from "I am" to "I am a thinking substance"
-(*res cogitans*) is a self-knowledge **apple** — a transparent, complete grasp of
-the agent-in-itself. Finitude (§5) must survive even here: the foundational
-carrier is a certain anchor of **existence**, not a fully-known object. We halt
-the regress with him; we leave the substance dualism on the table.
+**The boundary — how much Descartes to credit.** The fixed point, not the
+substance. The cogito certifies *that* the agent **exists** (the "I am"), not
+*what* it is. Descartes' slide from "I am" to "I am a thinking substance"
+(*res cogitans*) is a self-knowledge **apple** — a complete grasp of the
+agent-in-itself. Finitude (§5) survives even here: a certain anchor of
+**existence**, not a fully-known object.
 
-The cogito's **warrant is self-verifying** (§2's third value) — true in virtue of
-the act, not the form. This is also what *tightens* the class: a cogito is an
-agent-borne record *with self-verifying warrant*, which correctly excludes a mere
-*memory* (also agent-borne, but empirical/defeasible).
+**Why the reversal** (from the earlier distinct-relatum resolution): two reasons,
+both decisive. (1) **Discipline** — a `Carrier` class violates "attributes not
+kinds"; dissolution into provenance + locus keeps the one-class ontology intact.
+(2) **Over-capture** — a *defined* `Cogito` class (Record borne by an Agent with
+self-verifying warrant) wrongly swept up *every* performative: a **promise** is
+agent-borne and self-verifying yet is not the cogito (the normative/aesthetic
+stress test surfaced this). Demoting the cogito from a **class** to a **pattern**
+— self-verifying warrant + reflexive provenance + directedness at one's own
+existence — dissolves the over-capture too: performatives share the *warrant*
+without being mistaken for *the* cogito.
 
-*Modelled as:* `rec:Carrier` + `rec:borneBy`; `rec:Cogito` a **defined** class
-(a Record borne by an Agent **with self-verifying warrant**); `rec:FoundationalCarrier`
-a **defined** class (a Carrier that is an Agent — the self-supporting mode).
-Descartes credited in the term metadata. (Self-verifying warrant is broader than
-the cogito — performatives like "I promise" share it — so the DL class captures
-the self-verifying-agent-borne family; the cogito-proper, bare existence via the
-for=by=of coincidence, is graph-checked.)
+*Modelled as:* `rec:hasLocus` (new) alongside `rec:hasProvenance`; **no**
+`Carrier`/`Cogito`/`FoundationalCarrier` classes and **no** `borneBy`. The cogito
+is recognised by its pattern (self-verifying warrant, reflexive provenance,
+self-directedness), not by a class membership a reasoner derives.
 
 ## 12. Stance — between the OWL/DL and SKOS/thesaurus camps
 
@@ -361,9 +372,8 @@ never formally complete.
 **A third position.** The DL camp's implicit ideal is formal **foundationalism**
 (axioms close the world); the SKOS camp is conventional **coherentism** (no
 bedrock). Our cogito-anchored web (§11) is **neither** — a coherent web with one
-fixed point. This also settles the modelling discipline: because we are DL in
-form, the foundational carrier is a *defined class*, not a SKOS-style associative
-gesture.
+fixed point, anchored in the self-verifying *warrant* rather than a SKOS-style
+associative gesture.
 
 **Where the schism re-enters (the scope of §10).** A discipline's vocabulary —
 its named concepts and categories — *is* community-fixed (SKOS-shaped), yet it
