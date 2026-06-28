@@ -2,20 +2,24 @@
 @prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
 
 # ============================================================================
-# MINIMAL 7: the cogito (self-verifying warrant; the foundational carrier)
-# Shows: SelfVerifying warrant; the reasoner derives rec:Cogito and
-#        rec:FoundationalCarrier; for/by/of coincide on the one agent
-# Eyeball: 1 agent (also a carrier) + 1 record
+# MINIMAL 7: the cogito as a self-verifying PATTERN (no Cogito class; §11)
+# Shows: SelfVerifying warrant + reflexive provenance + self-directedness.
+#        The carrier is dissolved -- the cogito's support IS its provenance
+#        (the act of thinking). Not a defined class, so it cannot over-capture
+#        performatives (a promise shares the warrant but isn't the cogito).
+# Eyeball: 1 agent + 1 record
 # ============================================================================
 
-ex:Hugo a rec:Agent , rec:Carrier .           # the agent, serving as its own carrier
+ex:Hugo a rec:Agent .
 
 ex:IThinkThereforeIAm a rec:Record ;
-    rec:forAgent       ex:Hugo ;              # for-whom  )
-    rec:borneBy        ex:Hugo ;              # carrier   ) all the one agent
-    rec:directedToward ex:Hugo ;              # of-what   )
-    rec:hasWarrant     rec:SelfVerifying .    # true by the ACT, not the form
+    rec:forAgent       ex:Hugo ;          # for-whom     )
+    rec:directedToward ex:Hugo ;          # of-what      ) coincide on the agent
+    rec:hasProvenance  ex:TheThinking ;   # whence: the act itself (reflexive)
+    rec:hasWarrant     rec:SelfVerifying .  # true by the ACT, not the form
 
-# Reasoner derives: ex:IThinkThereforeIAm a rec:Cogito ;
-#                   ex:Hugo a rec:FoundationalCarrier.
+# Its support is not a substrate it HAS but the thinking it IS (provenance).
 # Certifies existence ("I am"), not nature. Indubitable but barren.
+ex:TheThinking a rec:Record ;
+    rec:forAgent ex:Hugo ;
+    rec:hasWarrant rec:SelfVerifying .

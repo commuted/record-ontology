@@ -49,9 +49,11 @@ by a relation to an object that lies outside all records.*
   `hasPremise` / `concludes`, surfaced as a **defined** class (never a primitive
   kind). Inference carries a **force** (truth-preserving ↔ ampliative). Chains of
   inference form a derivation DAG.
-- **Carrier & the cogito** — `Carrier` is a distinct relatum (`borneBy`); the
-  regress of "what carries the carrier?" halts at the **Agent** via Descartes'
-  cogito. `Cogito` and `FoundationalCarrier` are **defined** classes.
+- **Carrier (dissolved) & the cogito** — there is no `Carrier` class: the carrier
+  dissolves into `hasProvenance` (whence) + `hasLocus` (where/when). The regress
+  "what carries the carrier?" halts in the **self-verifying warrant** — the cogito
+  is a *pattern* (self-verifying + reflexive provenance + self-directedness), not
+  a class. Credit Descartes (existence) and Hintikka (the warrant).
 - **No metadata** — `metadataOf` is a defined role (sub-property of
   `directedToward`): a record *about* a record, never a separate layer.
 - **The Continuum** — the one thing that is *not* a Record: the undivided ground
@@ -75,15 +77,15 @@ record-ontology/
 │   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.4.0)
 ├── examples/
 │   ├── historical-narrative.ttl   # a derivation DAG (sources → ampliative inferences)
-│   ├── cogito.ttl                 # the cogito as the foundational carrier
+│   ├── cogito.ttl                 # the cogito as a self-verifying pattern (+ a promise)
 │   └── minimal/                   # eyeball-sized examples, one feature each
 │       ├── minimal-empirical.ttl      # empirical warrant, directedness, provenance
 │       ├── minimal-formal.ttl         # formal warrant (the triangle)
 │       ├── minimal-inference.ttl      # truth-preserving inference (syllogism)
 │       ├── minimal-ampliative.ttl     # ampliative inference → revisability
 │       ├── minimal-metadata.ttl       # metadata as record-about-record
-│       ├── minimal-carrier.ttl        # carrier as a distinct relatum (borneBy)
-│       ├── minimal-cogito.ttl         # self-verifying warrant; foundational carrier
+│       ├── minimal-carrier.ttl        # carrier dissolved into provenance + locus
+│       ├── minimal-cogito.ttl         # the cogito as a self-verifying pattern
 │       ├── minimal-composition.ttl    # a record composed of records (compound)
 │       └── minimal-level.ttl          # level of abstraction + pragmatic adequacy
 ├── scripts/
@@ -103,10 +105,11 @@ python scripts/validate.py
 
 `validate.py` runs a pure-Python OWL 2 RL reasoner (`owlrl`, no Java) and checks:
 
-- **Defined-class entailment** — strips the asserted `Inference` / `Cogito` types
-  and confirms the *definitions* re-derive them, with negative controls (a
-  premise-less formal object is not an inference; an agent-borne *memory* is not a
-  cogito).
+- **Defined-class entailment** — strips the asserted `Inference` type and confirms
+  the *definition* re-derives it, with a negative control (a premise-less formal
+  object is not an inference).
+- **Cogito pattern** — confirms the cogito pattern (self-verifying + for=of) holds
+  and that a self-verifying *promise* is correctly **not** conflated with it.
 - **Consistency** — no individual is both `Record` and `Continuum`.
 - **Sub-property entailment** — every `metadataOf` edge entails `directedToward`.
 

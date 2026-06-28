@@ -2,21 +2,23 @@
 @prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
 
 # ============================================================================
-# MINIMAL 6: the carrier (a DISTINCT relatum), for an external record
-# Shows: §11 resolution -- Carrier is its own relatum (borneBy), NOT dissolved
-#        into provenance. For an external record the carrier is an excision from
-#        the Continuum (here, a sheet of paper).
-# Eyeball: 1 agent + 1 carrier + 1 record
+# MINIMAL 6: the carrier DISSOLVED into provenance + locus (§11)
+# Shows: there is NO Carrier class. A record's support is two attributes:
+#        hasProvenance (whence) + hasLocus (where/when, agent-relative).
+# Eyeball: 1 agent + 1 record (+ 2 bare support records)
 # ============================================================================
 
 ex:Gita a rec:Agent .
 
-ex:Paper a rec:Carrier .                      # a sheet of paper: an excised support
-
 ex:ShoppingList a rec:Record ;
-    rec:forAgent   ex:Gita ;
-    rec:hasWarrant rec:Empirical ;
-    rec:borneBy    ex:Paper .                 # the carrier is a distinct relatum
+    rec:forAgent      ex:Gita ;
+    rec:hasWarrant    rec:Empirical ;
+    rec:hasProvenance ex:WrittenByHand ;   # whence -- the genealogy
+    rec:hasLocus      ex:OnTheFridge .     # where/when -- agent-relative
 
-# "What carries the carrier?" -- the regress halts at the Agent, via the cogito
-# (see minimal-cogito). For external records the carrier is a Continuum-excision.
+# The carrier is not a separate thing; it IS the provenance + locus.
+# "What carries the carrier?" halts in the self-verifying warrant (see
+# minimal-cogito), not in a substrate.
+
+ex:WrittenByHand a rec:Record .
+ex:OnTheFridge   a rec:Record .

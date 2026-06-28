@@ -176,76 +176,50 @@ def check_metadata_subproperty(ont_graph, ex_graph):
     return ok
 
 
-def check_cogito(ont_graph, ex_graph):
-    """The defined Carrier classes (ROOT.md §11). `Cogito` (Record borne by an
-    Agent AND held with self-verifying warrant) and `FoundationalCarrier`
-    (Carrier ⊓ Agent) are DEFINED, not asserted. Require the reasoner to derive
-    Cogito for exactly the agent-borne + self-verifying records, derive the
-    carrier as a FoundationalCarrier, and -- the negative controls -- NOT classify
-    (a) a record on a non-agent carrier, nor (b) a MEMORY that is agent-borne but
-    merely empirical. Also confirm the cogito's for/by/of coincide on one agent.
-    """
-    print("\n🔍 Checking the DEFINED Carrier classes (Cogito / FoundationalCarrier)...")
-    if not HAVE_OWLRL:
-        print("⚠️  owlrl not installed -- skipping cogito check")
+def check_cogito_pattern(ont_graph, ex_graph):
+    """The cogito as a PATTERN, not a class (ROOT.md §11). There is no Cogito
+    class to derive; the cogito is recognised by: self-verifying warrant +
+    for-whom = of-what (directed at its own agent). The decisive check is that
+    this does NOT conflate with other performatives: a promise is self-verifying
+    but directed elsewhere (for != of), so it is correctly NOT the cogito. This
+    is a graph-pattern check (no reasoner needed)."""
+    print("\n🔍 Checking the cogito PATTERN (no class; over-capture removed)...")
+    merged = ont_graph + ex_graph
+
+    sv = set(merged.subjects(REC.hasWarrant, REC.SelfVerifying))
+    if not sv:
+        print("⚠️  No self-verifying records present; nothing to test.")
         return True
 
-    reasoned = _closure(ont_graph + ex_graph)
-    cogitos = set(reasoned.subjects(RDF.type, REC.Cogito))
-    foundational = set(reasoned.subjects(RDF.type, REC.FoundationalCarrier))
+    def coincides(r):  # for-whom == of-what, both present
+        fa = set(merged.objects(r, REC.forAgent))
+        dt = set(merged.objects(r, REC.directedToward))
+        return bool(fa) and fa == dt
 
-    # Expected = agent-borne AND self-verifying warrant; the rest of the carried
-    # records are negative controls (non-agent carrier, OR agent-borne-but-empirical).
-    carried = set(reasoned.subjects(REC.borneBy, None))
-    expected = {r for r in carried
-                if any((c, RDF.type, REC.Agent) in reasoned
-                       for c in reasoned.objects(r, REC.borneBy))
-                and (r, REC.hasWarrant, REC.SelfVerifying) in reasoned}
-    negatives = carried - expected
-
-    if not expected:
-        print("⚠️  No agent-borne self-verifying records present; nothing to test.")
-        return True
+    cogito_pattern = {r for r in sv if coincides(r)}
+    performatives = sv - cogito_pattern  # self-verifying but not self-directed
 
     ok = True
-    missing = expected - cogitos
-    if missing:
-        ok = False
-        print("❌ self-verifying agent-borne record(s) NOT derived as Cogito:",
-              ", ".join(sorted(map(_short, missing))))
-    else:
-        print(f"✅ definition derives Cogito for all {len(expected)} self-verifying "
-              f"agent-borne record(s): {', '.join(sorted(map(_short, expected)))}")
-
-    leaked = negatives & cogitos
-    if leaked:
-        ok = False
-        print("❌ record(s) wrongly classified as Cogito:",
-              ", ".join(sorted(map(_short, leaked))))
-    elif negatives:
-        print(f"✅ negative controls correctly NOT Cogito "
-              f"({', '.join(sorted(map(_short, negatives)))}) — incl. the "
-              "agent-borne-but-empirical memory the warrant clause excludes")
-
-    if foundational:
-        print(f"✅ foundational carrier(s) derived (Carrier ⊓ Agent): "
-              f"{', '.join(sorted(map(_short, foundational)))}")
+    if cogito_pattern:
+        print(f"✅ cogito pattern (self-verifying + for=of) holds for: "
+              f"{', '.join(sorted(map(_short, cogito_pattern)))}")
     else:
         ok = False
-        print("❌ no FoundationalCarrier derived (expected the agent qua carrier)")
+        print("❌ no record matches the cogito pattern (self-verifying + for=of)")
 
-    # the fixed point: for-whom == carrier == intentional object, on one agent
-    for c in sorted(cogitos):
-        fa = set(reasoned.objects(c, REC.forAgent))
-        bb = set(reasoned.objects(c, REC.borneBy))
-        dt = set(reasoned.objects(c, REC.directedToward))
-        coincide = fa and (fa == bb == dt)
-        if coincide:
-            print(f"✅ fixed point on {_short(c)}: for-whom = carrier = "
-                  f"intentional-object = {_short(next(iter(fa)))}")
-        else:
-            print(f"⚠️  {_short(c)} does not show full for/by/of coincidence "
-                  "(definition still holds; coincidence is the full cogito pattern)")
+    if performatives:
+        print(f"✅ {len(performatives)} self-verifying performative(s) correctly "
+              f"NOT the cogito ({', '.join(sorted(map(_short, performatives)))}) "
+              "— the demotion-to-pattern removed the old class over-capture")
+
+    # No Carrier class should exist or be used.
+    stray = (set(merged.objects(None, REC.borneBy))
+             | set(merged.subjects(RDF.type, REC.Carrier))
+             | set(merged.subjects(RDF.type, REC.Cogito)))
+    if stray:
+        ok = False
+        print("❌ removed carrier/cogito terms still in use:",
+              ", ".join(sorted(map(_short, stray))))
     return ok
 
 
@@ -262,7 +236,7 @@ def print_metrics(ont_graph, ex_graph):
         ("Object properties", set(ont_graph.subjects(RDF.type, OWL.ObjectProperty))),
         ("Records (examples)", set(ex_graph.subjects(RDF.type, REC.Record))),
         ("Inferences (reasoned)", set(reasoned.subjects(RDF.type, REC.Inference))),
-        ("Cogitos (reasoned)", set(reasoned.subjects(RDF.type, REC.Cogito))),
+        ("Self-verifying records", set(reasoned.subjects(REC.hasWarrant, REC.SelfVerifying))),
     ]
     for label, s in counts:
         print(f"   {label}: {len(s)}")
@@ -296,7 +270,7 @@ def main():
 
     ok = True
     ok &= check_inference_definition(ont_graph, ex_graph)
-    ok &= check_cogito(ont_graph, ex_graph)
+    ok &= check_cogito_pattern(ont_graph, ex_graph)
     ok &= check_consistency(ont_graph, ex_graph)
     ok &= check_metadata_subproperty(ont_graph, ex_graph)
     print_metrics(ont_graph, ex_graph)
