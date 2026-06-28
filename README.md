@@ -80,6 +80,7 @@ record-ontology/
 │   └── validate.py                # syntax + OWL 2 RL reasoner checks + metrics
 ├── requirements-dev.txt           # rdflib + owlrl
 ├── ROOT.md                        # the conceptual source of truth (read this)
+├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts)
 └── README.md
 ```
 
@@ -115,6 +116,16 @@ g = Graph().parse("ontology/record-ontology.ttl", format="turtle")
   `record`) is pending.
 - **Non-monotonic propagation** — fidelity propagation, forks, and stubs are an
   unbuilt *computational layer over* the static ontology (`ROOT.md` §10).
+
+## License
+
+The ontology and documentation are licensed **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** —
+permissive, reuse and adapt freely (including commercially), with attribution:
+
+> "The Record Ontology — epistemic-ontology.net" — https://www.epistemic-ontology.net/record
+
+The scripts (`scripts/`) are additionally available under the **MIT License**.
+See [LICENSE](LICENSE). Copyright © 2026 Ron Hinchley / epistemic-ontology.net.
 
 ## Related
 

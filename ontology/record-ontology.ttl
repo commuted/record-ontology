@@ -27,6 +27,8 @@
 <https://www.epistemic-ontology.net/record>
     a owl:Ontology ;
     dc:title "The Record Ontology"@en ;
+    dc:creator "Ron Hinchley / epistemic-ontology.net" ;
+    dc:license <http://creativecommons.org/licenses/by/4.0/> ;
     owl:versionInfo "0.4.0 — warrant triad: + self-verifying; cogito tightened" ;
     rdfs:comment "A base ontology of the Record, constrained to agents. One class (Record); formal/empirical is an attribute (warrant), not a kind; two excluded limits (world-in-itself, form-in-itself) are never instantiated. See ROOT.md for the full rationale."@en .
 
