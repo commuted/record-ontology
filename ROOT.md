@@ -132,11 +132,13 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   as a **defined** class `Inference` — not a primitive kind. §8.
 - **No metadata:** records directed at records; `metadataOf` is a defined,
   LoA-relative role, never a class. §9.
+- **Carrier is a distinct relatum** (`borneBy`), well-founded because it bottoms
+  out at the **Agent** via the cogito; the *foundational carrier* is a defined
+  class. §11.
+- **Stance:** DL-in-form, ecumenical-in-content — the OWL/DL ↔ SKOS schism is
+  demoted to the `warrant` attribute, not a choice of framework. §12.
 
 **Open (left uncommitted on purpose):**
-- **Carrier** — is it a distinct relatum (`Record = form borne by a Carrier`) or
-  does it dissolve into the record's *locus/provenance* in the Continuum? Not
-  decided.
 - **Composition transitivity** — `partOf`/`composedOf` left non-transitive for
   now (see §6 below); mereological transitivity is a deliberate later decision.
   (Cf. record-harm, which had to *drop* `buildsUpon` transitivity for OWL 2 DL.)
@@ -253,6 +255,89 @@ observation.
 - **Tie to record-harm.** A revision is *controlled* change; **fabrication** is
   *uncontrolled* false change, exposed by incoherence with the DAG. The
   propagation engine and the harm model are two readings of the same web.
+
+## 11. The Carrier and the cogito (resolving §6)
+
+Why the Carrier question was hard: a **regress**. Every external record is borne
+by a carrier *excised from the Continuum*, and the excision is never clean
+(carrier ⊂ Continuum, never severed; §5). So what carries the carrier? Either an
+infinite regress, or the web floats unanchored.
+
+**Descartes halts it — credit to him.** The **cogito** is the one record whose
+carrier is *the act of recording itself*: "I think" is borne by the thinking,
+and its tokening entails its own support. The carrier is self-supporting, so the
+regress stops — at the **Agent**.
+
+**Resolution:** the Carrier is a **distinct relatum** (`borneBy`: Record →
+Carrier), *not* dissolved into Continuum-locus — and it is **well-founded**
+because it bottoms out at the Agent. Both old intuitions were partly right:
+
+- for **external** records the carrier really *is* its excised locus/provenance
+  (the "dissolve" intuition holds there);
+- for the **cogito** the carrier is the **Agent** itself.
+
+So Carrier is one relatum with **two grounding modes**: Continuum-excision (the
+many, defeasible) and Agent (the one, self-supporting).
+
+**The fixed point.** The cogito is where the three roles we keep apart *collapse
+onto the Agent*: the agent is the *for-whom* (A1), the *carrier* (`borneBy`), and
+the *intentional object* (`directedToward`) at once. Indubitable *because* of the
+collapse. This gives the system its epistemic shape: a **coherentist web** (§7)
+with exactly **one foundationalist anchor**. And it marks an asymmetry with §4 —
+the world-in-itself and form-in-itself stay excluded limits, but the
+**Agent-in-itself is not excluded**; it is the one thing given to itself.
+
+**The boundary — how much Descartes to credit.** We take the fixed point, not the
+substance. The cogito certifies *that* the carrier-agent **exists** (the "I am"),
+not *what* it is. Descartes' slide from "I am" to "I am a thinking substance"
+(*res cogitans*) is a self-knowledge **apple** — a transparent, complete grasp of
+the agent-in-itself. Finitude (§5) must survive even here: the foundational
+carrier is a certain anchor of **existence**, not a fully-known object. We halt
+the regress with him; we leave the substance dualism on the table.
+
+*Modelled as:* `rec:Carrier` + `rec:borneBy`; `rec:Cogito` a **defined** class
+(a Record borne by an Agent — its carrier is an agent, not a Continuum-excision);
+`rec:FoundationalCarrier` a **defined** class (a Carrier that is an Agent — the
+self-supporting mode). Descartes credited in the term metadata.
+
+## 12. Stance — between the OWL/DL and SKOS/thesaurus camps
+
+A standing schism in knowledge representation: the **OWL/DL** camp (terms are
+**classes** with truth-conditions; a **reasoner** classifies and checks
+consistency; `owl:Class`/`equivalentClass`/`disjointWith`) versus the
+**SKOS/thesaurus** camp (terms are **concepts** related *associatively* by
+community convention; `skos:Concept`/`broader`/`related`, deliberately weak, for
+indexing and retrieval; SKOS-as-published is OWL Full).
+
+**This implementation is DL-in-form.** Every concrete choice is the DL choice:
+defined classes by necessary-and-sufficient conditions, reasoner re-derivation
+(`validate.py`), `owl:disjointWith` + a consistency check, dropping transitivity
+to stay in OWL 2 DL (in the sibling), and the explicit decision *not* to import
+SKOS because it is OWL Full. We say `rdfs:label`, not `skos:prefLabel`.
+
+**But ecumenical-in-content.** The schism is demoted from a *choice of framework*
+to an *attribute of a record* — **`warrant`**. A DL hierarchy is a record
+warranted **formally** (subsumption, truth-preserving); a SKOS thesaurus is a
+record warranted **empirically/given** (community-fixed, ampliative, defeasible —
+`skos:broader` is a curatorial edge, not a deductive one). We refuse to make
+"ontology vs. thesaurus" a *kind*; it is a *warrant*. A real scientific taxonomy
+is **both** — formal at some joints, conventional at others (the patchwork, §2).
+So the ontology does not take a side; it **represents the axis** the camps fight
+over, using the DL machine to formalise *why* most knowledge is conventional and
+never formally complete.
+
+**A third position.** The DL camp's implicit ideal is formal **foundationalism**
+(axioms close the world); the SKOS camp is conventional **coherentism** (no
+bedrock). Our cogito-anchored web (§11) is **neither** — a coherent web with one
+fixed point. This also settles the modelling discipline: because we are DL in
+form, the foundational carrier is a *defined class*, not a SKOS-style associative
+gesture.
+
+**Where the schism re-enters (the QM roadmap, §10).** Scientific vocabularies —
+"spin," "observable," "eigenstate" — *are* community-fixed concepts (SKOS-shaped)
+feeding a *formally* structured inference DAG (DL-shaped). `warrant` is the
+bridge. And the schism itself is a §10 **fork**: two agent-communities with
+different warrant-defaults, an unresolved fork the ontology can represent.
 
 ---
 
