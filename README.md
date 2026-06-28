@@ -75,7 +75,17 @@ record-ontology/
 │   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.4.0)
 ├── examples/
 │   ├── historical-narrative.ttl   # a derivation DAG (sources → ampliative inferences)
-│   └── cogito.ttl                 # the cogito as the foundational carrier
+│   ├── cogito.ttl                 # the cogito as the foundational carrier
+│   └── minimal/                   # eyeball-sized examples, one feature each
+│       ├── minimal-empirical.ttl      # empirical warrant, directedness, provenance
+│       ├── minimal-formal.ttl         # formal warrant (the triangle)
+│       ├── minimal-inference.ttl      # truth-preserving inference (syllogism)
+│       ├── minimal-ampliative.ttl     # ampliative inference → revisability
+│       ├── minimal-metadata.ttl       # metadata as record-about-record
+│       ├── minimal-carrier.ttl        # carrier as a distinct relatum (borneBy)
+│       ├── minimal-cogito.ttl         # self-verifying warrant; foundational carrier
+│       ├── minimal-composition.ttl    # a record composed of records (compound)
+│       └── minimal-level.ttl          # level of abstraction + pragmatic adequacy
 ├── scripts/
 │   └── validate.py                # syntax + OWL 2 RL reasoner checks + metrics
 ├── requirements-dev.txt           # rdflib + owlrl

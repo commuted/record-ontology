@@ -1,0 +1,33 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 9: level of abstraction (and pragmatic adequacy)
+# Shows: atLevelOfAbstraction -- the same thing recorded at different grains;
+#        pragmaticAdequacy -- "expected to work"
+# Eyeball: 1 agent + 1 referent + 2 records (two grains)
+# ============================================================================
+
+ex:Jack a rec:Agent .
+
+ex:TheCircuit a rec:Record ;
+    rec:forAgent ex:Jack ; rec:hasWarrant rec:Empirical .
+
+# the everyday grain: flip the switch, the light comes on (and is expected to)
+ex:SwitchEveryday a rec:Record ;
+    rec:forAgent             ex:Jack ;
+    rec:hasWarrant           rec:Empirical ;
+    rec:directedToward       ex:TheCircuit ;
+    rec:atLevelOfAbstraction ex:EverydayGrain ;
+    rec:pragmaticAdequacy    ex:ItWorks .
+
+# the same circuit at a finer grain: Maxwell's equations (formal)
+ex:SwitchMaxwell a rec:Record ;
+    rec:forAgent             ex:Jack ;
+    rec:hasWarrant           rec:Formal ;
+    rec:directedToward       ex:TheCircuit ;
+    rec:atLevelOfAbstraction ex:MaxwellGrain .
+
+ex:EverydayGrain a rec:Record .
+ex:MaxwellGrain  a rec:Record .
+ex:ItWorks       a rec:Record .

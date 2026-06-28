@@ -1,0 +1,24 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 8 (compound): a record made of records
+# Shows: composedOf -- the patchwork. A weather report bundles an observation
+#        and a forecast. (partOf is its inverse.)
+# Eyeball: 1 agent + 2 parts + 1 whole
+# ============================================================================
+
+ex:Iris a rec:Agent .
+
+ex:TempReading a rec:Record ;
+    rec:forAgent ex:Iris ; rec:hasWarrant rec:Empirical .
+
+ex:RainForecast a rec:Record ;
+    rec:forAgent ex:Iris ; rec:hasWarrant rec:Empirical .
+
+ex:WeatherReport a rec:Record ;
+    rec:forAgent   ex:Iris ;
+    rec:hasWarrant rec:Empirical ;
+    rec:composedOf ex:TempReading , ex:RainForecast .
+
+# Records are made of Records. A patchwork can mix warrants across its parts.

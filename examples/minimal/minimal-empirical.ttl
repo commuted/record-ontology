@@ -1,0 +1,22 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 1: a single empirical record
+# Shows: agent-relativity, empirical warrant, directedness, provenance
+# Eyeball: 1 agent + 1 record (+ 2 bare supporting records)
+# ============================================================================
+
+ex:Alice a rec:Agent .
+
+ex:Observation a rec:Record ;
+    rec:forAgent       ex:Alice ;
+    rec:hasWarrant     rec:Empirical ;       # given through the senses; defeasible
+    rec:directedToward ex:TheSky ;           # what it is OF (as recorded)
+    rec:hasProvenance  ex:SensoryObservation .
+
+ex:TheSky a rec:Record ;
+    rec:forAgent ex:Alice ;
+    rec:hasWarrant rec:Empirical .
+
+ex:SensoryObservation a rec:Record .

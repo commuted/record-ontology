@@ -1,0 +1,22 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 5: metadata as record-about-record (there is no metadata layer)
+# Shows: metadataOf is a role (sub-property of directedToward); "metadata-ness"
+#        is LoA-relative and can swap -- no separate class
+# Eyeball: 1 agent + document + timestamp
+# ============================================================================
+
+ex:Eve a rec:Agent .
+
+ex:Document a rec:Record ;
+    rec:forAgent ex:Eve ; rec:hasWarrant rec:Empirical .
+
+ex:Timestamp a rec:Record ;
+    rec:forAgent   ex:Eve ;
+    rec:hasWarrant rec:Empirical ;
+    rec:metadataOf ex:Document .             # entails directedToward ex:Document
+
+# Reading LoA: the timestamp is background. Authentication LoA: it becomes focal,
+# the document its context. Same individuals; the roles swap.

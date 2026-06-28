@@ -1,0 +1,16 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 2: a formal record (the "triangle" face)
+# Shows: formal warrant, internal completeness, no premises (NOT an inference)
+# Eyeball: 1 agent + 1 record
+# ============================================================================
+
+ex:Bob a rec:Agent .
+
+ex:PythagoreanTheorem a rec:Record ;
+    rec:forAgent   ex:Bob ;
+    rec:hasWarrant rec:Formal .   # internally completable; verifies itself
+
+# A triangle, not an inference: it has no premises.

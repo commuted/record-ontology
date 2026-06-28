@@ -1,0 +1,27 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 4: an ampliative inference (the hinge to revisability)
+# Shows: ampliative force makes the conclusion DEFEASIBLE even from certain
+#        premises -- why empirical/historical knowledge stays revisable
+# Eyeball: 1 agent + 2 leaves + 1 inference + 1 conclusion
+# ============================================================================
+
+ex:Frank a rec:Agent .
+
+ex:SunRoseYesterday a rec:Record ;
+    rec:forAgent ex:Frank ; rec:hasWarrant rec:Empirical .
+
+ex:SunRoseToday a rec:Record ;
+    rec:forAgent ex:Frank ; rec:hasWarrant rec:Empirical .
+
+ex:InductiveInference a rec:Record ;
+    rec:forAgent   ex:Frank ;
+    rec:hasForce   rec:Ampliative ;          # adds content beyond the premises
+    rec:hasPremise ex:SunRoseYesterday , ex:SunRoseToday ;
+    rec:concludes  ex:SunWillRiseTomorrow .
+
+ex:SunWillRiseTomorrow a rec:Record ;
+    rec:forAgent ex:Frank ;
+    rec:hasWarrant rec:Empirical .           # defeasible -- the conclusion can fail

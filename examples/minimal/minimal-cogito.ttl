@@ -1,0 +1,21 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 7: the cogito (self-verifying warrant; the foundational carrier)
+# Shows: SelfVerifying warrant; the reasoner derives rec:Cogito and
+#        rec:FoundationalCarrier; for/by/of coincide on the one agent
+# Eyeball: 1 agent (also a carrier) + 1 record
+# ============================================================================
+
+ex:Hugo a rec:Agent , rec:Carrier .           # the agent, serving as its own carrier
+
+ex:IThinkThereforeIAm a rec:Record ;
+    rec:forAgent       ex:Hugo ;              # for-whom  )
+    rec:borneBy        ex:Hugo ;              # carrier   ) all the one agent
+    rec:directedToward ex:Hugo ;              # of-what   )
+    rec:hasWarrant     rec:SelfVerifying .    # true by the ACT, not the form
+
+# Reasoner derives: ex:IThinkThereforeIAm a rec:Cogito ;
+#                   ex:Hugo a rec:FoundationalCarrier.
+# Certifies existence ("I am"), not nature. Indubitable but barren.

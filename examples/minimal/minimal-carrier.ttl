@@ -1,0 +1,22 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 6: the carrier (a DISTINCT relatum), for an external record
+# Shows: §11 resolution -- Carrier is its own relatum (borneBy), NOT dissolved
+#        into provenance. For an external record the carrier is an excision from
+#        the Continuum (here, a sheet of paper).
+# Eyeball: 1 agent + 1 carrier + 1 record
+# ============================================================================
+
+ex:Gita a rec:Agent .
+
+ex:Paper a rec:Carrier .                      # a sheet of paper: an excised support
+
+ex:ShoppingList a rec:Record ;
+    rec:forAgent   ex:Gita ;
+    rec:hasWarrant rec:Empirical ;
+    rec:borneBy    ex:Paper .                 # the carrier is a distinct relatum
+
+# "What carries the carrier?" -- the regress halts at the Agent, via the cogito
+# (see minimal-cogito). For external records the carrier is a Continuum-excision.

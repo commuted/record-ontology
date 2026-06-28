@@ -1,0 +1,27 @@
+@prefix rec: <https://www.epistemic-ontology.net/record#> .
+@prefix ex:  <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 3: a truth-preserving inference (the Socrates syllogism)
+# Shows: Inference is a DEFINED class (reasoner derives it from premises +
+#        conclusion); truth-preserving force
+# Eyeball: 1 agent + 2 premises + 1 inference + 1 conclusion
+# ============================================================================
+
+ex:Carol a rec:Agent .
+
+ex:AllMenMortal a rec:Record ;
+    rec:forAgent ex:Carol ; rec:hasWarrant rec:Formal .
+
+ex:SocratesIsMan a rec:Record ;
+    rec:forAgent ex:Carol ; rec:hasWarrant rec:Formal .
+
+# rec:Inference is NOT asserted -- the reasoner derives it (Record + premises + concludes)
+ex:SyllogismInference a rec:Record ;
+    rec:forAgent   ex:Carol ;
+    rec:hasForce   rec:TruthPreserving ;     # passes the premises' certainty through
+    rec:hasPremise ex:AllMenMortal , ex:SocratesIsMan ;
+    rec:concludes  ex:SocratesMortal .
+
+ex:SocratesMortal a rec:Record ;
+    rec:forAgent ex:Carol ; rec:hasWarrant rec:Formal .

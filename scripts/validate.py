@@ -287,7 +287,7 @@ def main():
     ont_graph = validate_syntax(ont_path)
     # Merge every example so the defined classes are exercised across them all.
     ex_graph = Graph()
-    ex_files = sorted(examples_dir.glob("*.ttl")) if examples_dir.exists() else []
+    ex_files = sorted(examples_dir.rglob("*.ttl")) if examples_dir.exists() else []
     if ex_files:
         for p in ex_files:
             ex_graph += validate_syntax(p)
