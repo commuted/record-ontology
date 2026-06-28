@@ -231,12 +231,23 @@ Like `Inference`, metadata is therefore a **defined relational role**
 (`metadataOf`), never a primitive class — making it a class would quietly
 re-seat the privileged outside vantage (a mild cousin of the apple).
 
-## 10. Future directions (vision — not yet modelled)
+## 10. Scope and future directions
 
-Recorded so it does not vanish (late-session sketch, 2026-06-26). **None of this
-is built**; it is the horizon the base is being shaped toward. The target is
-complex science, where discoveries are built on earlier work and bottom out in
-observation.
+**Indicated scope — the epistemic structure, not the domains.** This is a
+*domain-neutral* ontology of **warranted record-structure**: how agents warrant,
+compose, ground, and revise records — the connective grammar of knowledge, not
+the things known. It applies wherever agents build knowledge from evidence:
+scientific discovery above all (the motivating case), but equally history (§8),
+scholarship, law, intelligence analysis. It is **not a domain ontology** — it
+models neither electrons nor organisms nor battles, only the *records* of them
+and how they are held. (The same refusal as directedness: we never name a record
+by the world-object it is "of"; §2.) Domain ontologies and vocabularies — SKOS
+thesauri, scientific term-sets — **plug in** through `warrant` (§12); they are
+*attached, never absorbed*.
+
+**The rest of this section is unbuilt vision** (sketched 2026-06-26), recorded so
+it does not vanish — the horizon the base is being shaped toward, where
+discoveries are built on earlier work and bottom out in observation:
 
 - **Science as a derivation DAG across time and agents.** A discovery is an
   inference whose premises are earlier conclusions — often *other agents'*, via
@@ -264,15 +275,6 @@ observation.
   with an unresolved premise — candidate defined classes `OpenQuestion` / `Stub`).
   Refinement = forks collapsing as observations arrive; "discoveries pop out" when
   one fork's fidelity dominates or a stub resolves.
-
-- **Quantum mechanics as the sharpest test — perhaps the truest domain.** Two
-  resonances to chase: (1) the *excision / "the cut is part of the support"* maps
-  onto the **Heisenberg cut** between system and apparatus; (2) measurement's
-  irreducible incompleteness **is** the empirical-branch finitude of §5. A "level
-  below to assist the quantum model" = a finer `atLevelOfAbstraction`, exercising
-  the re-leveling mechanism. **Caution:** keep the *epistemic fork* (our unknown)
-  distinct from *ontic superposition* (the physics) — they meet at
-  measurement/decoherence but are not the same; the model must not conflate them.
 
 - **Tie to record-harm.** A revision is *controlled* change; **fabrication** is
   *uncontrolled* false change, exposed by incoherence with the DAG. The
@@ -363,11 +365,12 @@ fixed point. This also settles the modelling discipline: because we are DL in
 form, the foundational carrier is a *defined class*, not a SKOS-style associative
 gesture.
 
-**Where the schism re-enters (the QM roadmap, §10).** Scientific vocabularies —
-"spin," "observable," "eigenstate" — *are* community-fixed concepts (SKOS-shaped)
-feeding a *formally* structured inference DAG (DL-shaped). `warrant` is the
-bridge. And the schism itself is a §10 **fork**: two agent-communities with
-different warrant-defaults, an unresolved fork the ontology can represent.
+**Where the schism re-enters (the scope of §10).** A discipline's vocabulary —
+its named concepts and categories — *is* community-fixed (SKOS-shaped), yet it
+feeds a *formally* structured inference DAG (DL-shaped). `warrant` is the bridge:
+the term is warranted by convention, the inference by form. And the schism itself
+is a §10 **fork**: two agent-communities with different warrant-defaults, an
+unresolved fork the ontology can represent.
 
 ---
 
