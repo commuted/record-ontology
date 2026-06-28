@@ -47,22 +47,39 @@ What used to look like *kinds* of record are **attributes**, because records are
 could not be both. As attributes they attach to a record's **grounds/parts**, so
 one Record is formal here and empirical there.
 
-- **warrant** — *formal ↔ empirical/given*. How the agent **holds/justifies** the
-  record: formally (internal, deductive — the triangle verifies itself) or by
-  **givenness** (arriving through the senses or an instrument; defeasible, never
-  closed). Demoting "formal" from kind to attribute is the same move as not
-  eating the apple, completed — it describes how the record is *warranted*, not a
-  relation to a thing-in-itself.
-    - The **formal** side itself has **two faces**: *formal objects* (the
-      **triangle** — a self-standing structure, complete in itself) and *formal
-      operations* (**inference** — a transition over records). This is the
-      object/morphism (term/rule, formula/derivation) duality, and is plausibly
-      *exhaustive* of formal content. See §8.
-    - Inference carries a second parameter, its **force**: *truth-preserving*
-      (deductive — passes a triangle's completeness through unchanged) or
-      *ampliative* (abductive/inductive — adds content, hence **defeasible even
-      from certain premises**). Force is what makes inference the **hinge between
-      formal and empirical warrant**.
+- **warrant** — *formal · empirical/given · self-verifying*. How the agent
+  **holds/justifies** the record. Demoting warrant from kind to attribute is the
+  same move as not eating the apple, completed — it describes how the record is
+  *warranted*, not a relation to a thing-in-itself. **Three values, one per
+  limit** (the strongest reason it is a triad, not a pair — see the table below):
+    - **formal** — true *in virtue of form* (internal, deductive — the triangle
+      verifies itself); **agent-independent**, type-level; reaches toward the
+      *form-in-itself* (excluded, §4). Internally completable. Two faces: *formal
+      objects* (the **triangle** — a self-standing structure) and *formal
+      operations* (**inference** — a transition over records); the object/morphism
+      (term/rule, formula/derivation) duality, plausibly *exhaustive* of formal
+      content (§8). Inference also carries a **force**: *truth-preserving*
+      (deductive — passes a triangle's completeness through) or *ampliative*
+      (abductive/inductive — adds content, hence **defeasible even from certain
+      premises**). Force is the hinge between formal and empirical warrant.
+    - **empirical / given** — true *by givenness* (through the senses or an
+      instrument; defeasible, never closed); agent-relative; reaches toward the
+      *world-in-itself* (excluded, §4).
+    - **self-verifying / performative** — true *in virtue of the act of recording*
+      (Hintikka: the cogito as performance, not inference); **agent-dependent**,
+      first-person, token-level; reaches toward the **Agent-in-itself**, the one
+      limit that is **not** excluded but given to itself (§11). Indubitable but
+      **punctual**: it certifies *existence, not nature* — high fidelity, **zero
+      amplification** (you cannot deduce a domain from "I am"). This is the
+      warrant of the cogito; it is a **peer of formal, not a species of it** —
+      formal is agent-independent and extensible, self-verifying is
+      agent-dependent and barren.
+
+  | warrant | reaches toward | the limit's status |
+  |---|---|---|
+  | formal | form-in-itself | excluded (§4) |
+  | empirical/given | world-in-itself | excluded (§4) |
+  | self-verifying | **Agent-in-itself** | **not excluded** — given to itself (§11) |
 - **level of abstraction (grain)** — the excision needed to support something may
   vary: a light switch (works, expected to), or Maxwell's equations, or a
   quantum-mechanical account. Floridi's *Level of Abstraction*.
@@ -81,7 +98,8 @@ one Record is formal here and empirical there.
 primitives — they follow from **warrant**. Formally-warranted grounds are
 internally completable and high-fidelity (the type is recoverable from the
 token with little loss — why discrete/formal codes transmit well); empirical
-grounds are neither. One fewer thing to assert.
+grounds are neither; self-verifying grounds are maximally certain but
+non-extensible (high fidelity, zero amplification). One fewer thing to assert.
 
 ## 3. Composition
 
@@ -121,13 +139,17 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
 
 **Settled (encoded in the stub):**
 - One class `Record`; agent-relativity (every Record is *for* an Agent).
-- Attributes: warrant (formal↔empirical), level of abstraction, directedness,
-  provenance, pragmatic adequacy. Fidelity/completeness *derived*, not primitive.
+- Attributes: warrant (formal · empirical · self-verifying — one per limit),
+  level of abstraction, directedness, provenance, pragmatic adequacy.
+  Fidelity/completeness *derived*, not primitive.
 - Composition (Record of Records).
 - Continuum as the unique non-Record ground (disjoint from Record).
 - The two excluded limits, recorded as commentary, never as classes.
 - The formal warrant splits into *objects* (triangle) and *operations*
   (inference); inference carries a *force* (truth-preserving ↔ ampliative). §2, §8.
+- **Warrant is a triad, one value per limit:** formal (form-in-itself),
+  empirical (world-in-itself), self-verifying/performative (Agent-in-itself —
+  the cogito's warrant; a peer of formal, not a species). §2, §11.
 - Inference modelled by relational form (`hasPremise`, `concludes`) and surfaced
   as a **defined** class `Inference` — not a primitive kind. §8.
 - **No metadata:** records directed at records; `metadataOf` is a defined,
@@ -295,10 +317,18 @@ the agent-in-itself. Finitude (§5) must survive even here: the foundational
 carrier is a certain anchor of **existence**, not a fully-known object. We halt
 the regress with him; we leave the substance dualism on the table.
 
+The cogito's **warrant is self-verifying** (§2's third value) — true in virtue of
+the act, not the form. This is also what *tightens* the class: a cogito is an
+agent-borne record *with self-verifying warrant*, which correctly excludes a mere
+*memory* (also agent-borne, but empirical/defeasible).
+
 *Modelled as:* `rec:Carrier` + `rec:borneBy`; `rec:Cogito` a **defined** class
-(a Record borne by an Agent — its carrier is an agent, not a Continuum-excision);
-`rec:FoundationalCarrier` a **defined** class (a Carrier that is an Agent — the
-self-supporting mode). Descartes credited in the term metadata.
+(a Record borne by an Agent **with self-verifying warrant**); `rec:FoundationalCarrier`
+a **defined** class (a Carrier that is an Agent — the self-supporting mode).
+Descartes credited in the term metadata. (Self-verifying warrant is broader than
+the cogito — performatives like "I promise" share it — so the DL class captures
+the self-verifying-agent-borne family; the cogito-proper, bare existence via the
+for=by=of coincidence, is graph-checked.)
 
 ## 12. Stance — between the OWL/DL and SKOS/thesaurus camps
 
