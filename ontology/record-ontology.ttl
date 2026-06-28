@@ -27,7 +27,7 @@
 <https://www.epistemic-ontology.net/record>
     a owl:Ontology ;
     dc:title "The Record Ontology"@en ;
-    owl:versionInfo "0.2.0 — seed + inference (defined), force, metadata role" ;
+    owl:versionInfo "0.3.0 — + carrier, cogito & foundational carrier (defined)" ;
     rdfs:comment "A base ontology of the Record, constrained to agents. One class (Record); formal/empirical is an attribute (warrant), not a kind; two excluded limits (world-in-itself, form-in-itself) are never instantiated. See ROOT.md for the full rationale."@en .
 
 
@@ -81,6 +81,56 @@ rec:forAgent a owl:ObjectProperty ;
     rdfs:domain rec:Record ;
     rdfs:range  rec:Agent ;
     rdfs:comment "Agent-relativity: the agent FOR WHOM this is a record."@en .
+
+
+# ----------------------------------------------------------------------------
+# CARRIER  --  the support that bears a record's form (ROOT.md §11)
+# ----------------------------------------------------------------------------
+# A record needs a carrier. Regress: what carries the carrier? For EXTERNAL
+# records the carrier is an excision from the Continuum (defeasible; the cut is
+# part of the support, never severed -- §5). The regress is halted by the COGITO:
+# the one record whose carrier is the act of recording itself. Its carrier is the
+# AGENT. So Carrier is a distinct relatum with TWO grounding modes -- a
+# Continuum-excision (the many) or the Agent (the one, self-supporting). Note an
+# Agent may also SERVE as a carrier; Agent and Carrier are not disjoint.
+
+rec:Carrier a owl:Class ;
+    rdfs:label "Carrier"@en ;
+    rdfs:comment "The support that bears a record's form. Two grounding modes: an excision from the Continuum (external records) or the Agent itself (the cogito; ROOT.md §11)."@en .
+
+rec:borneBy a owl:ObjectProperty ;
+    rdfs:label "borne by"@en ;
+    rdfs:domain rec:Record ;
+    rdfs:range  rec:Carrier ;
+    rdfs:comment "The carrier that bears this record's form."@en .
+
+# The COGITO -- a DEFINED class (not a primitive kind): a Record whose carrier is
+# an AGENT rather than a Continuum-excision. This is the self-supporting record
+# that halts the regress. In the full pattern its for-whom / carrier / intentional
+# object coincide on the one agent (asserted on instances; the necessary core
+# captured here is "borne by an agent"). Credit DESCARTES -- but for the FIXED
+# POINT (existence, the "I am"), NOT the res cogitans (nature): a complete grasp
+# of the agent-in-itself would be a self-knowledge apple (ROOT.md §11).
+rec:Cogito a owl:Class ;
+    rdfs:label "Cogito"@en ;
+    dc:source "Descartes, Discourse on the Method (1637); Meditations on First Philosophy (1641)" ;
+    rdfs:seeAlso <https://en.wikipedia.org/wiki/Cogito,_ergo_sum> ;
+    rdfs:comment "DEFINED: a Record borne by an Agent (its carrier is an agent, not a Continuum-excision). The self-supporting record that grounds the carrier regress. Certifies the agent's EXISTENCE, not its nature."@en ;
+    owl:equivalentClass [ a owl:Class ;
+        owl:intersectionOf (
+            rec:Record
+            [ a owl:Restriction ; owl:onProperty rec:borneBy ; owl:someValuesFrom rec:Agent ]
+        ) ] .
+
+# The FOUNDATIONAL CARRIER -- a DEFINED class: a Carrier that is an Agent (the
+# agent qua carrier, the self-supporting mode). The direct answer to "is the
+# agent-as-carrier defined or stipulated?" -- defined, in keeping with the
+# no-primitive-kinds discipline.
+rec:FoundationalCarrier a owl:Class ;
+    rdfs:label "Foundational Carrier"@en ;
+    rdfs:comment "DEFINED: Carrier AND Agent. The self-supporting carrier that bears the cogito and halts the regress."@en ;
+    owl:equivalentClass [ a owl:Class ;
+        owl:intersectionOf ( rec:Carrier rec:Agent ) ] .
 
 
 # ----------------------------------------------------------------------------

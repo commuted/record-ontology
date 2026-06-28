@@ -176,6 +176,76 @@ def check_metadata_subproperty(ont_graph, ex_graph):
     return ok
 
 
+def check_cogito(ont_graph, ex_graph):
+    """The defined Carrier classes (ROOT.md §11). `Cogito` (Record borne by an
+    Agent) and `FoundationalCarrier` (Carrier ⊓ Agent) are DEFINED, not asserted.
+    Require the reasoner to derive a Cogito borne by the agent, derive its carrier
+    as a FoundationalCarrier, and -- the negative control -- NOT classify a record
+    borne by a non-agent (Continuum-excision) carrier as a Cogito. Also confirm
+    the cogito's for-whom / carrier / intentional-object coincide on one agent.
+    """
+    print("\n🔍 Checking the DEFINED Carrier classes (Cogito / FoundationalCarrier)...")
+    if not HAVE_OWLRL:
+        print("⚠️  owlrl not installed -- skipping cogito check")
+        return True
+
+    merged = ont_graph + ex_graph
+    # records borne by an Agent (the positive cases) vs by a non-Agent Carrier
+    reasoned = _closure(merged)
+    cogitos = set(reasoned.subjects(RDF.type, REC.Cogito))
+    foundational = set(reasoned.subjects(RDF.type, REC.FoundationalCarrier))
+
+    self_borne = {r for r, c in reasoned.subject_objects(REC.borneBy)
+                  if (c, RDF.type, REC.Agent) in reasoned}
+    ext_borne = {r for r, c in reasoned.subject_objects(REC.borneBy)
+                 if (c, RDF.type, REC.Carrier) in reasoned
+                 and (c, RDF.type, REC.Agent) not in reasoned}
+
+    if not self_borne:
+        print("⚠️  No agent-borne records present; nothing to test.")
+        return True
+
+    ok = True
+    missing = self_borne - cogitos
+    if missing:
+        ok = False
+        print("❌ agent-borne record(s) NOT derived as Cogito:",
+              ", ".join(sorted(map(_short, missing))))
+    else:
+        print(f"✅ definition derives Cogito for all {len(self_borne)} agent-borne "
+              f"record(s): {', '.join(sorted(map(_short, self_borne)))}")
+
+    leaked = ext_borne & cogitos
+    if leaked:
+        ok = False
+        print("❌ externally-borne record(s) misclassified as Cogito:",
+              ", ".join(sorted(map(_short, leaked))))
+    elif ext_borne:
+        print(f"✅ negative control: {len(ext_borne)} record(s) on a non-agent "
+              f"carrier correctly NOT Cogito ({', '.join(sorted(map(_short, ext_borne)))})")
+
+    if foundational:
+        print(f"✅ foundational carrier(s) derived (Carrier ⊓ Agent): "
+              f"{', '.join(sorted(map(_short, foundational)))}")
+    else:
+        ok = False
+        print("❌ no FoundationalCarrier derived (expected the agent qua carrier)")
+
+    # the fixed point: for-whom == carrier == intentional object, on one agent
+    for c in sorted(cogitos):
+        fa = set(reasoned.objects(c, REC.forAgent))
+        bb = set(reasoned.objects(c, REC.borneBy))
+        dt = set(reasoned.objects(c, REC.directedToward))
+        coincide = fa and (fa == bb == dt)
+        if coincide:
+            print(f"✅ fixed point on {_short(c)}: for-whom = carrier = "
+                  f"intentional-object = {_short(next(iter(fa)))}")
+        else:
+            print(f"⚠️  {_short(c)} does not show full for/by/of coincidence "
+                  "(definition still holds; coincidence is the full cogito pattern)")
+    return ok
+
+
 # ---------------------------------------------------------------------------
 # Metrics
 # ---------------------------------------------------------------------------
@@ -187,8 +257,9 @@ def print_metrics(ont_graph, ex_graph):
     counts = [
         ("Classes (ontology)", set(ont_graph.subjects(RDF.type, OWL.Class))),
         ("Object properties", set(ont_graph.subjects(RDF.type, OWL.ObjectProperty))),
-        ("Records (example)", set(ex_graph.subjects(RDF.type, REC.Record))),
+        ("Records (examples)", set(ex_graph.subjects(RDF.type, REC.Record))),
         ("Inferences (reasoned)", set(reasoned.subjects(RDF.type, REC.Inference))),
+        ("Cogitos (reasoned)", set(reasoned.subjects(RDF.type, REC.Cogito))),
     ]
     for label, s in counts:
         print(f"   {label}: {len(s)}")
@@ -197,7 +268,7 @@ def print_metrics(ont_graph, ex_graph):
 def main():
     repo_root = Path(__file__).parent.parent
     ont_path = repo_root / "ontology" / "record-ontology.ttl"
-    ex_path = repo_root / "examples" / "historical-narrative.ttl"
+    examples_dir = repo_root / "examples"
 
     if not ont_path.exists():
         print(f"❌ Ontology not found: {ont_path}")
@@ -211,14 +282,18 @@ def main():
               "Install: pip install -r requirements-dev.txt")
 
     ont_graph = validate_syntax(ont_path)
+    # Merge every example so the defined classes are exercised across them all.
     ex_graph = Graph()
-    if ex_path.exists():
-        ex_graph = validate_syntax(ex_path)
+    ex_files = sorted(examples_dir.glob("*.ttl")) if examples_dir.exists() else []
+    if ex_files:
+        for p in ex_files:
+            ex_graph += validate_syntax(p)
     else:
-        print(f"⚠️  Example not found, skipping: {ex_path}")
+        print("⚠️  No example files found; skipping example-backed checks.")
 
     ok = True
     ok &= check_inference_definition(ont_graph, ex_graph)
+    ok &= check_cogito(ont_graph, ex_graph)
     ok &= check_consistency(ont_graph, ex_graph)
     ok &= check_metadata_subproperty(ont_graph, ex_graph)
     print_metrics(ont_graph, ex_graph)
