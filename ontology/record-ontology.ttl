@@ -27,7 +27,7 @@
 <https://www.epistemic-ontology.net/record>
     a owl:Ontology ;
     dc:title "The Record Ontology"@en ;
-    owl:versionInfo "0.3.0 — + carrier, cogito & foundational carrier (defined)" ;
+    owl:versionInfo "0.4.0 — warrant triad: + self-verifying; cogito tightened" ;
     rdfs:comment "A base ontology of the Record, constrained to agents. One class (Record); formal/empirical is an attribute (warrant), not a kind; two excluded limits (world-in-itself, form-in-itself) are never instantiated. See ROOT.md for the full rationale."@en .
 
 
@@ -104,22 +104,26 @@ rec:borneBy a owl:ObjectProperty ;
     rdfs:range  rec:Carrier ;
     rdfs:comment "The carrier that bears this record's form."@en .
 
-# The COGITO -- a DEFINED class (not a primitive kind): a Record whose carrier is
-# an AGENT rather than a Continuum-excision. This is the self-supporting record
-# that halts the regress. In the full pattern its for-whom / carrier / intentional
-# object coincide on the one agent (asserted on instances; the necessary core
-# captured here is "borne by an agent"). Credit DESCARTES -- but for the FIXED
-# POINT (existence, the "I am"), NOT the res cogitans (nature): a complete grasp
-# of the agent-in-itself would be a self-knowledge apple (ROOT.md §11).
+# The COGITO -- a DEFINED class (not a primitive kind): a Record borne by an
+# AGENT (carrier = agent, not a Continuum-excision) AND held with SELF-VERIFYING
+# warrant. The warrant clause is what tightens it: "borne by an agent" alone is
+# too loose -- a MEMORY is also agent-borne yet empirical/defeasible; requiring
+# self-verifying warrant excludes it. Self-verifying warrant is broader than the
+# cogito (performatives like "I promise" share it), so this DL class captures the
+# self-verifying-agent-borne FAMILY; the cogito-proper (bare existence, the
+# for=by=of coincidence on one agent) is asserted on instances and graph-checked.
+# Credit DESCARTES -- for the FIXED POINT (existence, the "I am"), NOT the res
+# cogitans (nature), which would be a self-knowledge apple (ROOT.md §11).
 rec:Cogito a owl:Class ;
     rdfs:label "Cogito"@en ;
     dc:source "Descartes, Discourse on the Method (1637); Meditations on First Philosophy (1641)" ;
     rdfs:seeAlso <https://en.wikipedia.org/wiki/Cogito,_ergo_sum> ;
-    rdfs:comment "DEFINED: a Record borne by an Agent (its carrier is an agent, not a Continuum-excision). The self-supporting record that grounds the carrier regress. Certifies the agent's EXISTENCE, not its nature."@en ;
+    rdfs:comment "DEFINED: a Record borne by an Agent and held with self-verifying warrant. The self-supporting record that grounds the carrier regress. Certifies the agent's EXISTENCE, not its nature."@en ;
     owl:equivalentClass [ a owl:Class ;
         owl:intersectionOf (
             rec:Record
             [ a owl:Restriction ; owl:onProperty rec:borneBy ; owl:someValuesFrom rec:Agent ]
+            [ a owl:Restriction ; owl:onProperty rec:hasWarrant ; owl:hasValue rec:SelfVerifying ]
         ) ] .
 
 # The FOUNDATIONAL CARRIER -- a DEFINED class: a Carrier that is an Agent (the
@@ -165,18 +169,27 @@ rec:partOf a owl:ObjectProperty ;
 # are ENTAILED by warrant (formal grounds: completable, high-fidelity; empirical
 # grounds: neither). One fewer thing to stipulate.
 
-# -- warrant: formal <-> empirical/given (the old "kinds", now a property) ----
+# -- warrant: a TRIAD, one value per limit (the old "kinds", now a property) --
+# Three ways a record is held/justified, each reaching toward one "in-itself":
+#   formal          -> form-in-itself   (excluded limit, see below)
+#   empirical/given -> world-in-itself  (excluded limit)
+#   self-verifying  -> Agent-in-itself  (NOT excluded -- given to itself; §11)
 rec:Warrant a owl:Class ;
     rdfs:label "Warrant"@en ;
-    rdfs:comment "How a record (or a ground of it) is held/justified. Two settled values: rec:Formal and rec:Empirical. Mixable across a patchwork."@en .
+    rdfs:comment "How a record (or a ground of it) is held/justified. Three values: rec:Formal, rec:Empirical, rec:SelfVerifying -- one per limit. Mixable across a patchwork."@en .
 
 rec:Formal a owl:NamedIndividual , rec:Warrant ;
     rdfs:label "formal"@en ;
-    rdfs:comment "Internal, deductive warrant -- the triangle verifies itself. Internally completable and high-fidelity. Approaches (never grasps) the form-in-itself."@en .
+    rdfs:comment "Internal, deductive warrant -- the triangle verifies itself. Agent-INDEPENDENT, type-level. Internally completable and high-fidelity. Approaches (never grasps) the form-in-itself."@en .
 
 rec:Empirical a owl:NamedIndividual , rec:Warrant ;
     rdfs:label "empirical / given"@en ;
     rdfs:comment "Warrant by givenness -- arriving through the senses or an instrument. Defeasible and never closed. Named by the MODE OF GIVENNESS, never by what it is 'of' (which would eat the apple)."@en .
+
+rec:SelfVerifying a owl:NamedIndividual , rec:Warrant ;
+    rdfs:label "self-verifying / performative"@en ;
+    dc:source "Hintikka, 'Cogito, Ergo Sum: Inference or Performance?' (1962)" ;
+    rdfs:comment "Warrant in virtue of the ACT of recording, not the form (the cogito as performance, not inference). Agent-DEPENDENT, first-person, token-level. Reaches the Agent-in-itself, the one limit NOT excluded (§11). A PEER of rec:Formal, not a species of it: formal is agent-independent and extensible; self-verifying is agent-dependent and barren -- maximally certain (high fidelity) but non-extensible (zero amplification): it certifies existence, not nature."@en .
 
 rec:hasWarrant a owl:ObjectProperty ;
     rdfs:label "has warrant"@en ;

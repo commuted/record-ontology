@@ -26,17 +26,19 @@
 ex:Meditator a owl:NamedIndividual , rec:Agent , rec:Carrier ;
     rdfs:label "the meditating agent"@en .
 
-# the cogito: for-whom = carrier = intentional-object, all the one agent
+# the cogito: for-whom = carrier = intentional-object, all the one agent,
+# held with SELF-VERIFYING warrant (true in virtue of the act of recording)
 ex:Cogito a owl:NamedIndividual , rec:Record ;
     rdfs:label "I think, therefore I am"@en ;
     rec:forAgent       ex:Meditator ;   # for-whom
     rec:borneBy        ex:Meditator ;   # carrier (self-supporting)
     rec:directedToward ex:Meditator ;   # intentional object -> the agent's own existence
+    rec:hasWarrant     rec:SelfVerifying ;
     rdfs:comment "The three roles collapse onto the one agent. Certifies existence ('I am'), not nature (no res cogitans)."@en .
 # NOTE: rec:Cogito is intentionally NOT asserted -- the reasoner must DERIVE it
-# from the definition (Record + borneBy some Agent).
+# from the definition (Record + borneBy some Agent + self-verifying warrant).
 
-# -- negative control: an external record on a Continuum-excision carrier ------
+# -- negative control 1: an external record on a Continuum-excision carrier ----
 ex:WaxTablet a owl:NamedIndividual , rec:Carrier ;
     rdfs:label "a wax tablet (excised support, not an agent)"@en .
 
@@ -45,3 +47,17 @@ ex:NoteOnTablet a owl:NamedIndividual , rec:Record ;
     rec:forAgent  ex:Meditator ;
     rec:borneBy   ex:WaxTablet ;
     rec:hasWarrant rec:Empirical .
+
+# -- negative control 2: a MEMORY -- ALSO borne by the agent, but empirical, so
+#    NOT a cogito. This is what the self-verifying warrant clause exists to
+#    exclude (last turn's looser "borne by an agent" definition would have
+#    wrongly swept it in). Its intentional object is a sunset, not the agent.
+ex:SunsetSeen a owl:NamedIndividual , rec:Record ;
+    rdfs:label "a remembered sunset"@en .
+
+ex:MemoryOfSunset a owl:NamedIndividual , rec:Record ;
+    rdfs:label "the agent's memory of a sunset"@en ;
+    rec:forAgent       ex:Meditator ;
+    rec:borneBy        ex:Meditator ;     # agent-borne...
+    rec:directedToward ex:SunsetSeen ;    # ...but directed elsewhere
+    rec:hasWarrant     rec:Empirical .    # ...and defeasible -> NOT a cogito

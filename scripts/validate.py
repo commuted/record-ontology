@@ -178,51 +178,54 @@ def check_metadata_subproperty(ont_graph, ex_graph):
 
 def check_cogito(ont_graph, ex_graph):
     """The defined Carrier classes (ROOT.md §11). `Cogito` (Record borne by an
-    Agent) and `FoundationalCarrier` (Carrier ⊓ Agent) are DEFINED, not asserted.
-    Require the reasoner to derive a Cogito borne by the agent, derive its carrier
-    as a FoundationalCarrier, and -- the negative control -- NOT classify a record
-    borne by a non-agent (Continuum-excision) carrier as a Cogito. Also confirm
-    the cogito's for-whom / carrier / intentional-object coincide on one agent.
+    Agent AND held with self-verifying warrant) and `FoundationalCarrier`
+    (Carrier ⊓ Agent) are DEFINED, not asserted. Require the reasoner to derive
+    Cogito for exactly the agent-borne + self-verifying records, derive the
+    carrier as a FoundationalCarrier, and -- the negative controls -- NOT classify
+    (a) a record on a non-agent carrier, nor (b) a MEMORY that is agent-borne but
+    merely empirical. Also confirm the cogito's for/by/of coincide on one agent.
     """
     print("\n🔍 Checking the DEFINED Carrier classes (Cogito / FoundationalCarrier)...")
     if not HAVE_OWLRL:
         print("⚠️  owlrl not installed -- skipping cogito check")
         return True
 
-    merged = ont_graph + ex_graph
-    # records borne by an Agent (the positive cases) vs by a non-Agent Carrier
-    reasoned = _closure(merged)
+    reasoned = _closure(ont_graph + ex_graph)
     cogitos = set(reasoned.subjects(RDF.type, REC.Cogito))
     foundational = set(reasoned.subjects(RDF.type, REC.FoundationalCarrier))
 
-    self_borne = {r for r, c in reasoned.subject_objects(REC.borneBy)
-                  if (c, RDF.type, REC.Agent) in reasoned}
-    ext_borne = {r for r, c in reasoned.subject_objects(REC.borneBy)
-                 if (c, RDF.type, REC.Carrier) in reasoned
-                 and (c, RDF.type, REC.Agent) not in reasoned}
+    # Expected = agent-borne AND self-verifying warrant; the rest of the carried
+    # records are negative controls (non-agent carrier, OR agent-borne-but-empirical).
+    carried = set(reasoned.subjects(REC.borneBy, None))
+    expected = {r for r in carried
+                if any((c, RDF.type, REC.Agent) in reasoned
+                       for c in reasoned.objects(r, REC.borneBy))
+                and (r, REC.hasWarrant, REC.SelfVerifying) in reasoned}
+    negatives = carried - expected
 
-    if not self_borne:
-        print("⚠️  No agent-borne records present; nothing to test.")
+    if not expected:
+        print("⚠️  No agent-borne self-verifying records present; nothing to test.")
         return True
 
     ok = True
-    missing = self_borne - cogitos
+    missing = expected - cogitos
     if missing:
         ok = False
-        print("❌ agent-borne record(s) NOT derived as Cogito:",
+        print("❌ self-verifying agent-borne record(s) NOT derived as Cogito:",
               ", ".join(sorted(map(_short, missing))))
     else:
-        print(f"✅ definition derives Cogito for all {len(self_borne)} agent-borne "
-              f"record(s): {', '.join(sorted(map(_short, self_borne)))}")
+        print(f"✅ definition derives Cogito for all {len(expected)} self-verifying "
+              f"agent-borne record(s): {', '.join(sorted(map(_short, expected)))}")
 
-    leaked = ext_borne & cogitos
+    leaked = negatives & cogitos
     if leaked:
         ok = False
-        print("❌ externally-borne record(s) misclassified as Cogito:",
+        print("❌ record(s) wrongly classified as Cogito:",
               ", ".join(sorted(map(_short, leaked))))
-    elif ext_borne:
-        print(f"✅ negative control: {len(ext_borne)} record(s) on a non-agent "
-              f"carrier correctly NOT Cogito ({', '.join(sorted(map(_short, ext_borne)))})")
+    elif negatives:
+        print(f"✅ negative controls correctly NOT Cogito "
+              f"({', '.join(sorted(map(_short, negatives)))}) — incl. the "
+              "agent-borne-but-empirical memory the warrant clause excludes")
 
     if foundational:
         print(f"✅ foundational carrier(s) derived (Carrier ⊓ Agent): "
