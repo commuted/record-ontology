@@ -77,6 +77,8 @@ record-ontology/
 │   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.4.0)
 ├── examples/
 │   ├── historical-narrative.ttl   # a derivation DAG (sources → ampliative inferences)
+│   ├── neptune-discovery.ttl      # the §10 flagship: a real discovery with a fork
+│   │                              #   (engine fixture — fork collapse as oracle)
 │   ├── cogito.ttl                 # the cogito as a self-verifying pattern (+ a promise)
 │   └── minimal/                   # eyeball-sized examples, one feature each
 │       ├── minimal-empirical.ttl      # empirical warrant, directedness, provenance
