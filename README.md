@@ -131,6 +131,16 @@ g = Graph().parse("ontology/record-ontology.ttl", format="turtle")
   `record`) is pending.
 - **Non-monotonic propagation** — fidelity propagation, forks, and stubs are an
   unbuilt *computational layer over* the static ontology (`ROOT.md` §10).
+- **Escalations, formation, and the moment** — the decision layer (trade-offs
+  between objectives replacing punitive calculus; escalation history *forming*
+  the agent) and order-derived time (moments as positions in the
+  happened-before order; the clock as a defeasible overlay) are recorded as
+  horizon in `ROOT.md` §13, not yet vocabulary.
+- **The knowledge-automaton** — a groomed record web as a generative asset:
+  subsumption creates redundancy, warrant entails the puncturing map (formal
+  interior regenerates by deduction; empirical leaves and the escalation trail
+  must be kept), regeneration is replay. Recorded as horizon in `ROOT.md` §14;
+  engine/asset layer, no vocabulary proposed.
 
 ## License
 

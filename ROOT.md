@@ -171,6 +171,12 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
 - **Namespace** — born at `https://www.epistemic-ontology.net/record#` rather
   than an `example.org` placeholder, applying the lesson record-harm is still
   paying for (its v3.0 migration). Confirm before external adopters rely on IRIs.
+- **Objectives and the escalation pattern** (§13) — objectives must become
+  first-class (today latent in `pragmaticAdequacy`); escalation as a *defined*
+  relational pattern over them. No vocabulary committed yet.
+- **The moment** (§13) — order-derived time (happened-before over
+  `hasPremise`/provenance). Deliberately *not* axiomatized in OWL (would force
+  the transitivity question); engine-materialized, carried by the revision log.
 
 ## 7. Relation to neighbours
 
@@ -381,6 +387,199 @@ feeds a *formally* structured inference DAG (DL-shaped). `warrant` is the bridge
 the term is warranted by convention, the inference by form. And the schism itself
 is a §10 **fork**: two agent-communities with different warrant-defaults, an
 unresolved fork the ontology can represent.
+
+## 13. The escalation view, formation, and the moment (unbuilt, recorded 2026-07-03)
+
+**Horizon, like §10** — recorded so it does not vanish; nothing here is in the
+Turtle. Three linked ideas that join at the root.
+
+**13.1 The escalation view — replacing punitive calculus.** An **escalation** is
+a *surfaced trade-off between objectives*, and every decision process is a
+resolution of such trade-offs; escalations are **between objectives, always**.
+Like inference (§8), an escalation is set apart by its **relational form** —
+objectives in tension, plus a resolution — so it will be a *defined* pattern,
+never a primitive kind. This forces **objectives to become first-class**
+(currently latent in `pragmaticAdequacy`, range deferred).
+
+- **Why it replaces punitive calculus.** Punitive calculus judges an agent
+  against what they *should have known* — a counterfactual, fully-informed
+  standpoint. That is the *sicut-deus* apple applied to time: **hindsight is
+  the god's-eye view along the temporal axis**. The replacement criterion is
+  web-internal: judge by (a) the sub-DAG **as it stood at the agent's moment**
+  (13.3), and (b) whether the escalation was **explicit** — recorded — never by
+  whether the resolution turned out right. The blame boundary moves from "was
+  it wrong?" (correspondence — unavailable) to "was the trade-off recorded?"
+  (available). Same move as record-harm's Fabrication becoming
+  incoherence-with-the-web: **fabrication is a concealed escalation** — a
+  trade-off made but never surfaced, exposed later by incoherence (§7, §10).
+- **Skipped data is normal.** Deliberately skipping data is §5 restated as
+  decision practice: the excision is constitutive; no total support; finite
+  agents *must* winnow. The honesty condition: the skip should itself become a
+  record ("X deferred, for objective Y, at this moment") — and that is exactly
+  the §10 stub machinery. **A stub is the explicit form of a skip**; the same
+  gap left unrecorded is where negligence and fabrication live. Stubs are not
+  just epistemic bookkeeping — they are the ethical hinge.
+- **Errors are entailed, not primitive.** An error is *a node whose support was
+  later withdrawn* — precisely what the propagation engine computes.
+  Error-identification falls out of non-monotonic re-leveling, time-indexed and
+  relational; no punitive stamp needed. One fewer thing to assert (again).
+- **Actions are maximal escalations.** The record web is non-monotonic, but
+  **time is monotonic**: the engine can retract a belief; nothing retracts an
+  action. Escalations therefore order by **irrevocability** — noticing a
+  tension < recording it < ranking it < acting on it — with action at the top
+  because it spends the one non-retractable resource. Adopted (*scoped*)
+  objectives sit there too: adopting an objective governs all downstream
+  winnowing. This is why a decision layer is needed at all, given a retraction
+  engine: **retraction reaches records, never the world.**
+- **The winnowing regress and its halt.** Not every escalation can be recorded
+  (recording costs; total explicitness is another god-like demand), so
+  escalations are themselves winnowed and ranked — and that ranking is an
+  escalation. The regress halts by **level of abstraction**, as metadata's did
+  (§9): record the winnowing *policy*, not every application. Significance is
+  combinatorial like fidelity (§10): computed over the web, never stamped per
+  node.
+
+**13.2 Agent-centricity — formation, not verdict.** Escalation records feed
+back into the agent: the accumulated, winnowed history of one's own escalations
+becomes the **prior for future winnowing**. So the purpose of recording
+trade-offs is finally stated — not adjudication but **formation**. This is
+virtue-shaped rather than court-shaped, and it completes the Bonhoeffer lineage
+of §0: refusing the judge's standpoint was never amoral — it relocates good and
+bad from *verdicts on* the agent to *formation of* the agent.
+
+- **The Agent gains interior structure, but only as records.** Character — the
+  standing residue of escalation history — is a **self-directed, empirically
+  warranted, defeasible** record. The §11 boundary survives: the cogito
+  certifies *existence, not nature*; finitude applies reflexively; **no agent
+  completes its own file**. This keeps agent-centricity from becoming a
+  self-knowledge apple.
+- **The back door to guard.** Punitive calculus will try to re-enter as a
+  *scalar* — a reputation score or reward signal stamped per agent. Refused for
+  the same reason fidelity is never stamped per node: agent quality is
+  **entailed by the whole web** (which escalations were explicit, how their
+  sub-DAGs fared). Escalation records inform future decisions **as premises,
+  never as a number**. A reputation scalar is punitive calculus with better
+  marketing.
+- **Person or AI alike** (§1's A1): formation-by-recorded-escalations is the
+  defensible shape of AI self-improvement — post-hoc review of explicit
+  trade-offs feeding policy, evaluated as-of-the-moment, no god's-eye reward.
+
+**13.3 The moment — time from order; the clock as overlay.** `hasLocus` already
+refuses "a certified position in space-time-in-itself" (§2) — which means
+**clock time was always apple-adjacent**. What the agent actually has is
+*order*: this-was-built-on-that. The derivation DAG already induces it —
+`hasPremise` and provenance edges are a *happened-before* relation (credit
+**Lamport**, arrived at here from the epistemology side). A **moment** is a
+position in that order. It is therefore **entailed by structure the web already
+has, not a new primitive** — one fewer thing to assert; the same move as
+fidelity, error, and inference.
+
+- **A partial order, and that is a feature.** Across agents there is no global
+  clock: two agents' concurrent moments are genuinely *incomparable* until a
+  communication record creates an edge (the letter to Galle, in the Neptune
+  exemplar). A **priority dispute** — Adams v. Le Verrier is the canonical case
+  — demands a *total* order the record web honestly supplies only partially:
+  punitive calculus applied to time.
+- **Retrospection is as-of-moment, not as-of-timestamp.** The temporal place of
+  an error or escalation (13.1) is the sub-DAG **reachable at that point in the
+  order**. Anachronism becomes *structurally detectable without any clock* — a
+  premise edge from a record that sits later in the order — a purely
+  web-internal test, exactly what the founding rule permits.
+- **Clock time re-enters as content.** A date is a record *about* a record
+  (`metadataOf` — the Atticus dating in the narrative example is already this):
+  an empirically warranted, defeasible claim tying a moment to a calendar.
+  Dating documents *is* reconciling order with clock. The clock is a derived
+  overlay — important when coordinating across webs or with the world's
+  periodic processes — while the moment is load-bearing.
+- **Strata discipline (§10's rule, applied to time).** Order stays **out of the
+  OWL stratum** — axiomatizing it would demand the transitivity §6 deliberately
+  defers. The engine materializes moments; the append-only revision log is
+  their carrier (log position = moment; as-of views index by it); a retraction
+  is a **new moment appended, never a rewrite of old ones** — "a record to
+  amend rather than a thread to remember," applied to time itself.
+
+**13.4 Where they join.** The cogito is **punctual** (§2): it certifies
+existence *at the act*, token-level — so **the cogito is a moment**, and
+nothing more. The agent's continuity across moments — the very character that
+escalation history forms (13.2) — is an **empirical composition of punctual
+self-verifying anchors**: certain of existence at each token, only defeasibly
+stitched into a persisting self (the *res cogitans* refused again, now along
+the temporal axis). Formation is what composition-across-moments looks like
+from the inside.
+
+## 14. The first escalation is the cut, and the knowledge-automaton (unbuilt, recorded 2026-07-03)
+
+**Horizon, like §10 and §13** — recorded so it does not vanish; nothing here is
+in the Turtle, and (unlike §13) nothing here even asks for vocabulary: this is
+the engine/asset layer imagined at full size.
+
+**14.1 The first escalation is the cut (§5 ⋈ §13).** The excision that
+individuates a support from the Continuum is itself an escalation — the primal
+one, made before any objective is explicit. What to excise and what to leave
+*is* a trade-off; §5 already says the cut is never clean and the excision is
+always part of the support. So winnowing is not something agents *add* to
+records — **records begin in it**: every record's existence already embodies an
+escalation, and provenance is the escalation trail read backward. This grounds
+§13 retroactively — the escalation view was never a layer *on top of* the
+ontology; it was present in the first act the ontology describes.
+
+**14.2 The knowledge-automaton.** Imagine an agent's groomed record web operated
+as a *generative* store — a **knowledge-automaton** that grows by the §13 loop
+(escalations surfaced, recorded, ranked; formation as the prior for future
+winnowing), expanding in **size and accuracy together**. Then the payoff the
+base has been quietly preparing:
+
+- **Growth in accuracy creates compressibility.** *Subsumption* is the DL word
+  for the growth of internal redundancy: as grooming strengthens the general
+  records, ever more of the web's interior becomes *derivable* from them —
+  and what is derivable need not be stored.
+- **The puncturing map is entailed by warrant (§2 pays off).** §2 already holds
+  that formally-warranted grounds are high-fidelity because "the type is
+  recoverable from the token with little loss — why discrete/formal codes
+  transmit well." Read as compression: the **formally-warranted interior may be
+  punctured** — deduction regenerates it on demand. **Empirical leaves cannot
+  be regenerated** (no total support, §5) and must be kept. **Ampliative
+  regions regenerate only defeasibly**: a punctured abduction may regenerate a
+  *different fork* — drift. (The analogy is punctured convolutional codes under
+  Viterbi decoding: drop exactly the bits the trellis's redundancy lets the
+  decoder reconstruct. Here the trellis is the derivation structure, the
+  puncturing matrix is the winnowing policy, and decoding is re-derivation.)
+- **So the minimal asset is the non-derivable residue:** the empirical leaves +
+  **the escalation records themselves** — fork resolutions, explicit skips, the
+  winnowing policy — + pointers to the formal machinery. The "details kept for
+  reconstruction" are precisely the **escalation trail**: everything
+  deductively downstream of a decision regenerates, but the decision itself
+  never does. Cut down after subsumption, the automaton becomes a small,
+  dependable asset that regenerates specific knowledge on demand.
+- **Regeneration is replay.** The §13.3 moment machinery already provides the
+  mechanism: re-derivation from the punctured core *in order* (the revision
+  log), "pull the evidence" run forward. And the fidelity calculus (§10)
+  doubles as a **rate–distortion theory of knowledge**: a web's compression
+  ratio is its warrant profile — formal-heavy webs punct to almost nothing;
+  ampliative-heavy webs must keep their decisions or accept drift.
+
+**14.3 Divergence between agents — §12 generalized, not a bug.** Importance is
+objective-relative (§13.1), so two agents' automata puncture *differently*:
+what one drops as derivable-noise another keeps as load-bearing. This is the
+OWL/SKOS schism (§12) generalized from communities to agents — different
+winnowing priors, an unresolved fork the ontology can represent.
+Interoperability is therefore not agreement but **transmitting the puncturing
+policy along with the core** — the excision is part of the support, stated for
+compression. (A teaching aside: a **textbook is a punctured web** — axioms,
+kept worked details, and exercises that make the student *regenerate the
+interior*. Education is puncturing tuned so the decoder strengthens by
+decoding.)
+
+**14.4 Birthing, and the guard (§13.2 applied).** How does such an automaton
+stay on track? Seed it with a known base web — *birth it* with curated
+knowledge — then let lived escalations shape its importance-prior: formation
+**becoming its choices**, the §13.2 loop run at full scale, for a person or an
+AI alike. The guard matters more here than anywhere: an automaton that grooms
+its own store is judge and party at once, and **concealed grooming is
+self-fabrication** (§13.1) — a trade-off made against one's own web and not
+recorded. The explicitness discipline is what keeps the asset auditable: the
+escalation trail it must keep for *reconstruction* is the same trail that keeps
+it *honest*. Compression and integrity turn out to be one requirement.
 
 ---
 
