@@ -75,16 +75,19 @@ test case), Bode's law rides along as the false-but-used assumption, and the
 letter to Galle is the cross-agent ordering edge §13.3 now cares about. The
 Airy/Challis inaction story makes it the §13 escalation test case too.
 
-### 2. ATMS-style propagation engine prototype (E-1)
-**What:** A separate Python package (`engine/`, MIT like the other scripts) that
-loads the ontology + an example DAG via rdflib and implements: justification
-tracking, leaf retraction, dependent re-leveling, environments-as-forks.
-**Why:** this *is* the capability-depth objective — §10 calls it "the genuinely
-new mechanism." Kin literature is already identified (de Kleer's ATMS); the
-architectural rule (layer over, not axioms in) is settled, so no design blockage.
-**Assumptions to validate:** the two-strata split is workable in practice (the
-engine can treat the OWL file as read-only structure); ATMS environments map
-cleanly onto §10 forks; performance is a non-issue at exemplar scale.
+### 2. ATMS-style propagation engine prototype (E-1) — ✅ DONE
+**Built as `engine/` (core.py: web extraction + revision log + support/level
+fixpoint; forks.py: candidates, temporal corroboration, fork reports), with
+`scripts/engine_demo.py` running all Neptune oracle checks green.** Assumptions
+validated: the two-strata split works (RDF is read-only structure; all dynamics
+are log events); performance is trivially fine at exemplar scale. One design
+finding beyond the sketch: **corroboration had to be temporal** — a rival is
+only confirmed by empirical evidence *first-asserted after the rivalry was
+declared* (otherwise Bode's law, baked into both predictions, masquerades as
+confirmation). Fork collapse marks the loser ECLIPSED, never deletes it. Rivalry
+itself is *declared, not derived* (structure over-detects — the Adams/Le Verrier
+convergence has fork shape without rivalry), and the declaration is logged as a
+§13 escalation.
 
 ### 3. `OpenQuestion`/`Stub` defined classes (E-3)
 **What:** OWL-side stubs: `Stub ≡ Record ⊓ ∃hasPremise.(unresolved)` — exact
@@ -130,19 +133,18 @@ for future adopters — the ten-second explanation of the whole project.
 trace (design the engine's output with this consumer in mind); one exemplar DAG
 fits legibly on one screen.
 
-### Addendum (post §13–§14): the revision log joins the top tier
+### Addendum (post §13–§14): the revision log joins the top tier — ✅ DONE
 
 **+ Replayable revision log (E-5, promoted).** Originally deferred as a
 test-harness byproduct — that rationale is dead. §13.3 makes the append-only
 log the **carrier of moments** (log position = moment; as-of-moment views are
 what retrospective evaluation and clock-free anachronism detection run on), and
-§14 makes replay the knowledge-automaton's **regeneration** mechanism. Design it
-as a first-class contract *with* the engine (idea 2), not inside it — it is the
-interface between the static ontology and every dynamics consumer.
-**Assumptions to validate:** an append-only assert/retract event format covers
-everything §13.3 needs (communication edges between agents included); log
-position alone suffices as the moment (no hybrid clock needed at exemplar
-scale).
+§14 makes replay the knowledge-automaton's **regeneration** mechanism.
+**Built inside `engine/core.py` (`RevisionLog`/`Event`)** as the engine's sole
+mutable surface: every state is computed from a log prefix, as-of views come
+for free, and the demo proves the puncturing property (no derived record ever
+enters the log). Assumptions validated at exemplar scale: assert/retract/rivals
+events suffice, and log position alone serves as the moment (no hybrid clock).
 
 ### Sequencing note
 

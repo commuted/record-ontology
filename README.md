@@ -3,11 +3,11 @@
 A small OWL 2 DL ontology of the **Record** — the structure of warranted
 knowledge as agents build it.
 
-[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](ontology/record-ontology.ttl)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](ontology/record-ontology.ttl)
 [![OWL 2 DL](https://img.shields.io/badge/OWL-2%20DL-green.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Reasoner-validated](https://img.shields.io/badge/owlrl-validated-green.svg)](scripts/validate.py)
 
-> **Status:** a seed/base (v0.4.0). The conceptual source of truth is
+> **Status:** a seed/base (v0.5.0). The conceptual source of truth is
 > [`ROOT.md`](ROOT.md); this README summarises it. Born at a permanent namespace
 > (`https://www.epistemic-ontology.net/record#`) but not yet hosted.
 
@@ -74,7 +74,7 @@ SKOS/convention). A real artifact is both. See `ROOT.md` §12.
 ```
 record-ontology/
 ├── ontology/
-│   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.4.0)
+│   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.5.0)
 ├── examples/
 │   ├── historical-narrative.ttl   # a derivation DAG (sources → ampliative inferences)
 │   ├── neptune-discovery.ttl      # the §10 flagship: a real discovery with a fork
@@ -90,11 +90,16 @@ record-ontology/
 │       ├── minimal-cogito.ttl         # the cogito as a self-verifying pattern
 │       ├── minimal-composition.ttl    # a record composed of records (compound)
 │       └── minimal-level.ttl          # level of abstraction + pragmatic adequacy
+├── engine/                        # the DYNAMIC stratum (ROOT.md §10): a
+│   ├── __init__.py                #   computational layer OVER the ontology —
+│   ├── core.py                    #   revision log (moments), support/level
+│   └── forks.py                   #   propagation, forks & corroboration
 ├── scripts/
-│   └── validate.py                # syntax + OWL 2 RL reasoner checks + metrics
+│   ├── validate.py                # syntax + OWL 2 RL reasoner checks + metrics
+│   └── engine_demo.py             # runs the engine against the Neptune oracle
 ├── requirements-dev.txt           # rdflib + owlrl
 ├── ROOT.md                        # the conceptual source of truth (read this)
-├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts)
+├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts + engine)
 └── README.md
 ```
 
@@ -122,6 +127,41 @@ from rdflib import Graph
 g = Graph().parse("ontology/record-ontology.ttl", format="turtle")
 ```
 
+## The propagation engine (prototype)
+
+OWL DL is monotonic — it cannot retract — so all dynamics live in a
+**computational layer over** the static ontology (`ROOT.md` §10), implemented
+as the `engine/` package (kin: de Kleer's assumption-based truth maintenance):
+
+- **Revision log = the carrier of moments** (`ROOT.md` §13.3): an append-only
+  event stream of ground assertions, retractions, and decisions; log position
+  is order-derived time, and any state is computable **as-of any moment**.
+  Derived records never enter the log — they regenerate by replay (§14's
+  puncturing: the log holds only leaves + the escalation trail).
+- **Support & re-leveling:** grounds are asserted; conclusions hold iff a live
+  inference yields them; levels are warrant-entailed (formal → certain,
+  ampliative force caps at defeasible). Withdrawn conclusions surface as
+  **open stubs**.
+- **Forks:** structural detection deliberately over-detects (convergence looks
+  like rivalry), so a rivalry is **declared** — a logged decision, i.e. an
+  escalation (§13). **Corroboration is temporal:** only empirical evidence
+  first-asserted *after* the fork opened can collapse it; the losing branch is
+  eclipsed, never deleted.
+
+```bash
+python scripts/engine_demo.py   # runs the Neptune fixture's fork-collapse oracle
+```
+
+```python
+from engine import Engine, fork_report
+eng = Engine("ontology/record-ontology.ttl",
+             "examples/neptune-discovery.ttl", defer=["GalleObservation"])
+eng.declare_rivals("UnseenPlanetClaim", "ModifiedGravityClaim")
+eng.assert_ground("GalleObservation")      # evidence arrives → fork resolves
+eng.retract("LawOfGravitation")            # cascade: both forks re-level out
+state = eng.state()                        # or eng.state(moment) — as-of views
+```
+
 ## Open items
 
 - **Composition transitivity** — `partOf`/`composedOf` left non-transitive on
@@ -129,8 +169,11 @@ g = Graph().parse("ontology/record-ontology.ttl", format="turtle")
 - **Namespace** — confirm `epistemic-ontology.net/record#` before external
   adopters rely on the IRIs; hosting under `epistemic-ontology.net` (slug
   `record`) is pending.
-- **Non-monotonic propagation** — fidelity propagation, forks, and stubs are an
-  unbuilt *computational layer over* the static ontology (`ROOT.md` §10).
+- **Non-monotonic propagation** — a working **prototype** now exists
+  (`engine/`, validated against the Neptune oracle by
+  `scripts/engine_demo.py`). Still open from §10: the combinatorial **fidelity
+  calculus** (the engine's levels are a coarse stand-in) and the what-if
+  visual explorer.
 - **Escalations, formation, and the moment** — the decision layer (trade-offs
   between objectives replacing punitive calculus; escalation history *forming*
   the agent) and order-derived time (moments as positions in the
@@ -149,8 +192,8 @@ permissive, reuse and adapt freely (including commercially), with attribution:
 
 > "The Record Ontology — epistemic-ontology.net" — https://www.epistemic-ontology.net/record
 
-The scripts (`scripts/`) are additionally available under the **MIT License**.
-See [LICENSE](LICENSE). Copyright © 2026 Ron Hinchley / epistemic-ontology.net.
+The software (`scripts/`, `engine/`) is additionally available under the
+**MIT License**. See [LICENSE](LICENSE). Copyright © 2026 Ron Hinchley / epistemic-ontology.net.
 
 ## Related
 
