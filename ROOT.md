@@ -720,6 +720,87 @@ formal Records composed of Records, exercised by a *compiler*
 (`engine/compile.py`) rather than a hand registry — the exercise derived
 from the description, not written beside it.
 
+## 16. The engine grows its own discipline: generated suites, the observation planner, and the cycle run on Mars (prototyped 2026-07-07)
+
+Engine-side throughout, like §15's second half: **nothing here enters the
+Turtle** — three mechanisms, each a payoff of an earlier section, each
+demonstrated green rather than asserted.
+
+**16.1 Generated suites (§15's move, generalized).** The compiler derived an
+exercise from a description; the same rule derives a SUITE from a web. Each
+discipline implies a family of checks and the loaded web supplies the
+instances: replay determinism and calculus agreement at every moment
+(§13.3), label sufficiency and minimality environment-by-environment (§10),
+Level ⇔ grade agreement, category-error refusal for every derived record
+(§14), exercise-closure for every runnable description (§15.3). Nothing is
+written per fixture (`engine/testgen.py`; 590 cases from the merged
+exemplars at first run). The payoff is the **pretender alarm**: a record
+whose exercise fails while it stands unexorcised is formal warrant worn
+without the form — and the generated suite found BOTH planted 2=1 records
+and, once the octants arrived, the vicarious hypothesis, with no test naming
+any of them. §15.3's fabrication detectors, run as a regression suite the
+web writes for itself.
+
+**16.2 The observation planner (§13's escalations, prospective).** A stub or
+explanandum is a hole with a shape: its label says which minimal
+environments would carry it, the state says what each still lacks, and the
+deficit sorts by warrant — *observe* (empirical: only the world supplies
+it), *derive* (formal: an agent can), *secure* (the rest). "Observe X to
+resolve Y", computed (`engine/meta.py`). For forks, corroboration runs
+FORWARD: an unasserted empirical ground that would corroborate exactly one
+rival under the §10 temporal rule DISCRIMINATES — experiment design as a
+query over the DAG. The oracles: as of 1845 the planner's one decisive
+observation is Galle's; as of 1600 it is the octants — the engine designs
+the experiment history ran, before it runs. And when an explanandum has NO
+theoretical environment at all, the planner says so: **no plan completes;
+only a new abduction can** — absence of a route is the discovery signal,
+stated. (Compression as the driver, guarded: a candidate record's worth as
+discovery is the interior it would make derivable — compression progress —
+but the gain is weighed BY an objective (§13.1), never installed as one, or
+the automaton grooms toward triviality.)
+
+**16.3 The puncture report (§14.2, computed) and the cycle run on Mars.**
+The §14.2 partition as a function: constituted leaves and formal pointers
+KEPT, the derivable interior PUNCTURED, the non-seed log — the escalation
+trail — never punctured (§14.4: recipe and audit are one list). The
+interior splits **lossless** (a live amp-free environment: deduction alone
+replays it) vs **decision-pinned** (every live environment crosses an
+ampliative joint: replay needs the trail). §14.2's "the compression ratio
+is the warrant profile" lands in that split, measured: Neptune's ampliative
+resolution grows only the pinned share — such a web compresses only because
+its decisions are kept — while on Mars the octants grow the interior and
+the deprecation shrinks the pinned share. Grooming is recompression, as a
+number moving the right way (`examples/kepler-mars.ttl`,
+`scripts/kepler_demo.py`; the fixture's models are RUN, not narrated —
+`engine/orbits.py` executes the formulations, and the equant model misses
+the octant longitudes by 8.96′ against Tycho's 2′: the eight minutes,
+recomputed).
+
+**16.4 Deprecation, disentangled.** The cycle forces a distinction the
+vocabulary already carried but no fixture had exercised — three ways a
+record leaves the working web, none of them deletion:
+
+| operation | what it is | trigger | the form |
+|---|---|---|---|
+| **puncture** | storage decision | derivable given the kept trail | untouched; regenerates |
+| **exorcise** | warrant withdrawn | formal fabrication: the description does not close (§15.3) | was never there |
+| **deprecate** | jurisdiction suspended | adequacy fell; the description still runs (§15.2, Sommerfeld's pattern) | untouched; retracted as ground |
+
+The vicarious hypothesis is the type case of the third: its geometry passes
+exercise in 1609 and today; its empirical adequacy died at the octants; it
+is RETRACTED at a moment, its claim and ephemeris cascade away, its standing
+stays "failed" (never "exorcised"), and *Astronomia Nova* — the record about
+it — survives untouched (§9). Each operation is an escalation in the log;
+compression supplies the deprecation detector (in no minimal description,
+never exercised, unsupported) and the trail keeps the tombstone.
+
+*Modelled as:* `engine/testgen.py`, `engine/meta.py`, `engine/orbits.py`
+(sidecars where sympy/mpmath enter; `meta.py` is engine-proper) +
+`examples/kepler-mars.ttl` and three demos (`testgen_demo`, `meta_demo`,
+`kepler_demo`). No OWL vocabulary: suites, plans and reports are views over
+the statics and the log, recomputable at any moment — which is what lets
+them be generated rather than maintained.
+
 ---
 
 *Provenance of this document:* reconstructed verbatim from session transcript

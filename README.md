@@ -117,7 +117,10 @@ record-ontology/
 │   ├── bohr_demo.py               # the atom arc: succession, explananda, identity
 │   ├── bohr_math_demo.py          # the arc's mathematics, executed (sympy)
 │   ├── exercise_demo.py           # the triangle run; the pseudo-proof expelled
-│   └── arith_demo.py              # the companion: description → compiled exercise
+│   ├── arith_demo.py              # the companion: description → compiled exercise
+│   ├── testgen_demo.py            # the suite generated from the web itself (§16)
+│   ├── meta_demo.py               # observe X to resolve Y — the planner (§16)
+│   └── kepler_demo.py             # Mars: discovery / grooming / deprecation (§16)
 ├── requirements-dev.txt           # rdflib + owlrl
 ├── ROOT.md                        # the conceptual source of truth (read this)
 ├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts + engine)
@@ -250,6 +253,15 @@ python scripts/exercise_demo.py   # the triangle verified by running it; the 2=1
 python scripts/arith_demo.py      # the companion: the triangle exercised FROM its
                                   #   description (compiled, act logged at a moment);
                                   #   the pretender fails by derivation
+python scripts/testgen_demo.py    # the suite GENERATED from the web: 590+ cases,
+                                  #   none written by hand; the pretender alarm
+                                  #   finds the planted failures unaided
+python scripts/meta_demo.py       # "observe X to resolve Y": the planner names
+                                  #   Galle's observation from the 1845 state;
+                                  #   the §14.2 puncture report, computed
+python scripts/kepler_demo.py     # the war on Mars: fork, the engine designs
+                                  #   Kepler's experiment, the 8.96′ recomputed,
+                                  #   deprecation as jurisdiction, grooming measured
 ```
 
 ```python
