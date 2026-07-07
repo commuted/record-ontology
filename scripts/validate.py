@@ -259,6 +259,11 @@ def main():
               "Install: pip install -r requirements-dev.txt")
 
     ont_graph = validate_syntax(ont_path)
+    # The arithmetic companion (ROOT.md §15) joins the ontology side, so its
+    # subclass bridges (arith:Expression ⊑ rec:Record etc.) reason with it.
+    arith_path = repo_root / "ontology" / "arith.ttl"
+    if arith_path.exists():
+        ont_graph += validate_syntax(arith_path)
     # Merge every example so the defined classes are exercised across them all.
     ex_graph = Graph()
     ex_files = sorted(examples_dir.rglob("*.ttl")) if examples_dir.exists() else []

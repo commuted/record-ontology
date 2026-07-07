@@ -3,11 +3,11 @@
 A small OWL 2 DL ontology of the **Record** — the structure of warranted
 knowledge as agents build it.
 
-[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](ontology/record-ontology.ttl)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](ontology/record-ontology.ttl)
 [![OWL 2 DL](https://img.shields.io/badge/OWL-2%20DL-green.svg)](https://www.w3.org/TR/owl2-overview/)
 [![Reasoner-validated](https://img.shields.io/badge/owlrl-validated-green.svg)](scripts/validate.py)
 
-> **Status:** a seed/base (v0.5.0). The conceptual source of truth is
+> **Status:** a seed/base (v0.6.0). The conceptual source of truth is
 > [`ROOT.md`](ROOT.md); this README summarises it. Born at a permanent namespace
 > (`https://www.epistemic-ontology.net/record#`) but not yet hosted.
 
@@ -45,6 +45,11 @@ by a relation to an object that lies outside all records.*
   - **`atLevelOfAbstraction`**, **`directedToward`** (the intentional object),
     **`hasProvenance`**, **`pragmaticAdequacy`**. Fidelity/completeness are
     *entailed* by warrant, not primitive.
+  - **`formulation`** — the *form as held*, the first datatype property
+    (`ROOT.md` §15): a formula, a constraint list, a text. Opaque to the
+    reasoner by design; for formal records it should suffice to **exercise**
+    them (warrant earned by running the description, withdrawn by exorcism —
+    engine events, never OWL vocabulary).
 - **Inference** — the operational face of the formal: a `Record` with
   `hasPremise` / `concludes`, surfaced as a **defined** class (never a primitive
   kind). Inference carries a **force** (truth-preserving ↔ ampliative). Chains of
@@ -74,11 +79,17 @@ SKOS/convention). A real artifact is both. See `ROOT.md` §12.
 ```
 record-ontology/
 ├── ontology/
-│   └── record-ontology.ttl        # the OWL 2 DL ontology (v0.5.0)
+│   ├── record-ontology.ttl        # the OWL 2 DL ontology (v0.6.0)
+│   └── arith.ttl                  # the arithmetic COMPANION (§15): the formal
+│                                  #   object face, representative, attached
 ├── examples/
 │   ├── historical-narrative.ttl   # a derivation DAG (sources → ampliative inferences)
 │   ├── neptune-discovery.ttl      # the §10 flagship: a real discovery with a fork
 │   │                              #   (engine fixture — fork collapse as oracle)
+│   ├── bohr-atom.ttl              # chained model succession 1885–1927: explananda,
+│   │                              #   environment swap, identification (matrix ≡ wave)
+│   ├── triangle-described.ttl     # the 3-4-5 relation as an expression subgraph
+│   │                              #   (described in full; compiler-exercised)
 │   ├── cogito.ttl                 # the cogito as a self-verifying pattern (+ a promise)
 │   └── minimal/                   # eyeball-sized examples, one feature each
 │       ├── minimal-empirical.ttl      # empirical warrant, directedness, provenance
@@ -89,14 +100,24 @@ record-ontology/
 │       ├── minimal-carrier.ttl        # carrier dissolved into provenance + locus
 │       ├── minimal-cogito.ttl         # the cogito as a self-verifying pattern
 │       ├── minimal-composition.ttl    # a record composed of records (compound)
-│       └── minimal-level.ttl          # level of abstraction + pragmatic adequacy
+│       ├── minimal-level.ttl          # level of abstraction + pragmatic adequacy
+│       └── minimal-exorcism.ttl       # a pseudo-proof: exercise fails → exorcise
 ├── engine/                        # the DYNAMIC stratum (ROOT.md §10): a
 │   ├── __init__.py                #   computational layer OVER the ontology —
 │   ├── core.py                    #   revision log (moments), support/level
-│   └── forks.py                   #   propagation, forks & corroboration
+│   ├── forks.py                   #   propagation, forks & corroboration,
+│   ├── fidelity.py                #   the fidelity calculus (ATMS labels),
+│   ├── mathcontent.py             #   executable math for the atom fixture,
+│   ├── exercise.py                #   exercise-or-exorcise (§15.3),
+│   └── compile.py                 #   + the formulation compiler (arith → sympy)
 ├── scripts/
 │   ├── validate.py                # syntax + OWL 2 RL reasoner checks + metrics
-│   └── engine_demo.py             # runs the engine against the Neptune oracle
+│   ├── engine_demo.py             # runs the engine against the Neptune oracle
+│   ├── fidelity_demo.py           # exercises the calculus + agreement checks
+│   ├── bohr_demo.py               # the atom arc: succession, explananda, identity
+│   ├── bohr_math_demo.py          # the arc's mathematics, executed (sympy)
+│   ├── exercise_demo.py           # the triangle run; the pseudo-proof expelled
+│   └── arith_demo.py              # the companion: description → compiled exercise
 ├── requirements-dev.txt           # rdflib + owlrl
 ├── ROOT.md                        # the conceptual source of truth (read this)
 ├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts + engine)
@@ -147,9 +168,88 @@ as the `engine/` package (kin: de Kleer's assumption-based truth maintenance):
   escalation (§13). **Corroboration is temporal:** only empirical evidence
   first-asserted *after* the fork opened can collapse it; the losing branch is
   eclipsed, never deleted.
+- **Fidelity calculus** (`engine/fidelity.py`): fidelity is *not*
+  probability-of-truth (that would be the apple in numeric dress) but a
+  structured, web-internal measure of **invariance under the web's own
+  dynamics**. The object is the ATMS **label** — a record's minimal
+  environments (sets of grounds, inference tokens included); everything else
+  is *entailed* from the environment: ampliative attenuation (`amp`), leaf
+  warrant profile, fork variables (`via`). Backward **corroborating
+  environments** flow from fresh downstream successes (the temporal rule).
+  Scalars are purpose-relative *projections* — the engine's `Level` is
+  provably the coarsest one (the demo asserts grade ⇔ Level agreement at
+  every moment). Verified structural truths: the Adams/Le Verrier convergence
+  corroborates the *execution*, not the premises (their environments differ
+  only in inference tokens); Galle's corroboration is genuinely new evidence
+  (in no base environment of the hypothesis).
+
+- **Identification** (`Engine.identify`): rivals proven equivalent — the fork
+  **dissolves** rather than collapsing (status `identified`, no winner, no
+  eclipsed; pre-empts eclipse), and the pair's environments **pool** in the
+  fidelity view: corroboration earned by either formulation accrues to both.
+  Matrix vs wave mechanics (1926) is the type case.
+- **Explananda** (`fidelity.explananda`): the second stub species — phenomena
+  *supported but only observationally*, no live theoretical environment
+  (convention: a theoretical environment carries a formally-warranted
+  machinery leaf). `stubs()` is support that fell (drives repair);
+  `explananda()` is support that never rose past observation (drives
+  discovery). Fine structure 1891–1916 is the type case.
+
+- **Executable mathematics** (`engine/mathcontent.py`, a deliberate *sidecar*
+  — content now enters the graph as **`rec:formulation`**, the form as held,
+  decided in `ROOT.md` §15; *execution* stays engine-side, since the reasoner
+  never evaluates a formulation): the atom fixture's key inference tokens carry
+  runnable sympy derivations, making three claims demonstrable rather than
+  asserted. **Formal warrant, run** (§2): E_n and the Balmer formula are
+  re-derived from the postulates; the Rydberg constant computed from e, m, h,
+  c matches spectroscopy to ~10⁻⁸; the reduced-mass answer to Fowler lands on
+  his measured 4.0016. **The Sommerfeld coincidence, exact**: the 1916 and
+  Dirac-form spectra are *identical* under k = j + ½ — same conclusion,
+  disjoint premises. **§14 puncturing, run**: delete the derived records'
+  content and it regenerates from postulates + machinery alone; the data
+  leaves do not — the punctured core is exactly the non-derivable residue.
+
+- **Exercise-or-exorcise** (`engine/exercise.py` + `Engine.exorcise`,
+  `ROOT.md` §15.3): formal warrant is **earned, not stipulated** — a formal
+  record's `formulation` is a description (sides, angles, relationships) that
+  can be *run*; exercising it confirms the warrant, and a failed exercise
+  **exorcises** it: a log event with a moment that expels the *pretender*
+  (the record stays — history keeps the document; records about it survive —
+  but it can no longer transmit support, and everything resting on it
+  cascades away). Never-exercised = testimonially held, stated honestly.
+  Kempe/Heawood in miniature: the demo pair is the triangle (passes) and the
+  2 = 1 pseudo-proof (fails at its hidden division by zero).
+- **The arithmetic companion + the formulation compiler**
+  (`ontology/arith.ttl` + `engine/compile.py`): full structural description —
+  "the whole thing: sides, and all, coming together." The companion lays out
+  the formal *object* face at representative scope: four operations in a
+  **definitional hierarchy** bottoming at the Peano ground (mathematics' own
+  derivation web, all formal — §14's limiting case), and **expressions as
+  formal Records composed of Records** (`arith:Expression ⊑ rec:Record`,
+  operands ⊑ `composedOf`). Described records are exercised by a *compiler*
+  that walks the subgraph into sympy — exercise derived from the description,
+  not hand-written beside it; closed-world well-formedness (a missing operand)
+  is a `CompileError`, since OWL cannot see absence. **Performative
+  provenance**: every exercise act is logged at a moment
+  (`Engine.log_exercise`), so earned warrant has a genealogy and each record
+  carries a lifecycle **standing**: unexercised → confirmed / failed →
+  exorcised.
 
 ```bash
-python scripts/engine_demo.py   # runs the Neptune fixture's fork-collapse oracle
+python scripts/engine_demo.py     # runs the Neptune fixture's fork-collapse oracle
+python scripts/fidelity_demo.py   # exercises the calculus; agreement + §2 checks
+python scripts/bohr_demo.py       # the atom 1885–1927: explananda resolved one per
+                                  #   era; the Sommerfeld coincidence as environment
+                                  #   swap; matrix ≡ wave as fork dissolution
+python scripts/bohr_math_demo.py  # the same arc's mathematics, executed: Bohr's
+                                  #   derivation run, Rydberg recomputed, the
+                                  #   coincidence exact, puncturing demonstrated
+python scripts/exercise_demo.py   # the triangle verified by running it; the 2=1
+                                  #   pseudo-proof exorcised; the cascade + the
+                                  #   surviving publication
+python scripts/arith_demo.py      # the companion: the triangle exercised FROM its
+                                  #   description (compiled, act logged at a moment);
+                                  #   the pretender fails by derivation
 ```
 
 ```python
@@ -170,10 +270,10 @@ state = eng.state()                        # or eng.state(moment) — as-of view
   adopters rely on the IRIs; hosting under `epistemic-ontology.net` (slug
   `record`) is pending.
 - **Non-monotonic propagation** — a working **prototype** now exists
-  (`engine/`, validated against the Neptune oracle by
-  `scripts/engine_demo.py`). Still open from §10: the combinatorial **fidelity
-  calculus** (the engine's levels are a coarse stand-in) and the what-if
-  visual explorer.
+  (`engine/`, validated against the Neptune oracle by `scripts/engine_demo.py`),
+  including the **fidelity calculus** (`engine/fidelity.py`: exact ATMS
+  semantics at exemplar scale; approximation at scale is a known open
+  problem). Still open from §10: the what-if visual explorer.
 - **Escalations, formation, and the moment** — the decision layer (trade-offs
   between objectives replacing punitive calculus; escalation history *forming*
   the agent) and order-derived time (moments as positions in the

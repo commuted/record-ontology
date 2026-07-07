@@ -1,0 +1,46 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec:  <https://www.epistemic-ontology.net/record#> .
+@prefix ex:   <https://www.epistemic-ontology.net/record/examples/minimal#> .
+
+# ============================================================================
+# MINIMAL 10: exercise-or-exorcise (ROOT.md §15.3)
+# Shows: a PSEUDO-PROOF -- a record CLAIMING formal warrant whose formulation
+#        fails its own exercise (the classic 2=1 fallacy: a hidden division
+#        by a-b = 0). The engine exorcises the warrant claim; the conclusion
+#        resting on it cascades away; the PUBLICATION -- a record about the
+#        proof (§9) -- survives, because history keeps the document while the
+#        warrant is what is expelled. (Kempe 1879 / Heawood 1890, in miniature.)
+# Eyeball: 1 agent + 4 records
+# ============================================================================
+
+ex:Prover a rec:Agent .
+
+# The pretender: formal warrant CLAIMED; the formulation is a description
+# that can be run -- and running it fails at the cancellation step.
+ex:PseudoProofTwoEqualsOne a rec:Record ;
+    rdfs:label "a 'proof' that 2 = 1"@en ;
+    rec:forAgent   ex:Prover ;
+    rec:hasWarrant rec:Formal ;   # the CLAIM -- earned only by exercise
+    rec:formulation "premise a=b; a^2=ab; a^2-b^2=ab-b^2; (a+b)(a-b)=b(a-b); a+b=b [cancels a-b]; 2=1" .
+
+# A conclusion resting on the pretender: exorcism must cascade here.
+ex:Inf_FromPseudo a rec:Record , rec:Inference ;
+    rdfs:label "inference: therefore arithmetic is inconsistent"@en ;
+    rec:forAgent   ex:Prover ;
+    rec:hasForce   rec:TruthPreserving ;
+    rec:hasPremise ex:PseudoProofTwoEqualsOne ;
+    rec:concludes  ex:BogusCorollary .
+
+ex:BogusCorollary a rec:Record ;
+    rdfs:label "corollary: arithmetic is inconsistent"@en ;
+    rec:forAgent   ex:Prover ;
+    rec:hasWarrant rec:Formal .
+
+# History keeps the document: a record ABOUT the proof (no metadata layer,
+# §9). Empirically warranted, untouched by the exorcism -- what is expelled
+# is the warrant, never the archive.
+ex:PseudoProofPublication a rec:Record ;
+    rdfs:label "the published paper containing the pseudo-proof"@en ;
+    rec:forAgent   ex:Prover ;
+    rec:hasWarrant rec:Empirical ;
+    rec:metadataOf ex:PseudoProofTwoEqualsOne .

@@ -11,6 +11,9 @@ ex:Bob a rec:Agent .
 
 ex:PythagoreanTheorem a rec:Record ;
     rec:forAgent   ex:Bob ;
-    rec:hasWarrant rec:Formal .   # internally completable; verifies itself
+    rec:hasWarrant rec:Formal ;   # internally completable; verifies itself
+    # the form as held (ROOT.md §15): a description sufficient to EXERCISE --
+    # sides, angles, relationships (engine/exercise.py runs exactly these)
+    rec:formulation "right triangle; token sides 3,4,5; a^2+b^2=c^2; angle opposite c is right; angles sum to pi" .
 
 # A triangle, not an inference: it has no premises.

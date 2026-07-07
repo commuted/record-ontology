@@ -163,6 +163,11 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   provenance — a *pattern*, not a class; the regress halts in the warrant. §11.
 - **Stance:** DL-in-form, ecumenical-in-content — the OWL/DL ↔ SKOS schism is
   demoted to the `warrant` attribute, not a choice of framework. §12.
+- **Formulation** — `rec:formulation`, the form as held: the first datatype
+  property (§15). Opaque to the reasoner by design (DL stays decidable); for
+  formally-warranted records it should suffice to *exercise* them. Exercise
+  and exorcism are engine events, never OWL vocabulary — warrant is earned by
+  exercise, withdrawn by exorcism, at a moment. §15.
 
 **Open (left uncommitted on purpose):**
 - **Composition transitivity** — `partOf`/`composedOf` left non-transitive for
@@ -185,6 +190,12 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   *Authenticity*/*Fabrication* become record-web–internal notions (genuine link
   to a *claimed* origin; a false *posit* exposed by incoherence with other
   records) — not correspondence to the noumenon.
+- **arith** (`ontology/arith.ttl`, slug `arith`) — the **arithmetic
+  companion** (§15): the formal *object* face laid out in full, representative
+  scope (four operations in a definitional hierarchy bottoming at the Peano
+  ground; expressions as formal Records — `arith:Expression ⊑ rec:Record`,
+  operands ⊑ `composedOf`). Attached never absorbed (§12's pattern applied to
+  mathematics itself); the reasoner checks shape, the engine computes value.
 - **epistemic-ontology.net** (`eon`) is the intended home; slug `record`.
 
 ## 8. Inference, the derivation DAG, and narrative
@@ -580,6 +591,134 @@ self-fabrication** (§13.1) — a trade-off made against one's own web and not
 recorded. The explicitness discipline is what keeps the asset auditable: the
 escalation trail it must keep for *reconstruction* is the same trail that keeps
 it *honest*. Compression and integrity turn out to be one requirement.
+
+## 15. The form, fattened: formulation, provenance of the formal, exercise-or-exorcise (decided 2026-07-03)
+
+Unlike §13–§14 this section **settles vocabulary**: `rec:formulation` enters
+the stub (v0.6.0), the ontology's first datatype property. The rest is
+engine-side discipline, prototyped.
+
+**15.1 Formulation — the missing first component.** §1 defines a Record as *a
+form, in a carrier, for an agent, at a level of abstraction* — and until now
+every record in the fixtures carried **no form**: labels (prose glosses) and
+structure (premises, warrants), but E_n and the triangle's description lived
+nowhere in the graph. The ontology of forms-in-carriers contained no forms.
+`rec:formulation` closes the gap: **the form as held, serialized** — a literal
+carrying the record's own content (a formula, a constraint list, a text, a
+data table — it is *not* math-specific; the Atticus letter's formulation is
+its text). This passes the founding rule: it is the *token serialization of
+what this agent holds*, not the form-in-itself (§1's refused `Form` class
+stays refused; §4's limit stays excluded — the triangle has content here, but
+no birthday, 15.2).
+
+Two disciplines ride with it:
+
+- **The reasoner never evaluates a formulation.** OWL 2 DL is decidable
+  *because* it excludes nearly all mathematics; a formulation is opaque
+  content to the classifier. Execution belongs to the engine — the §10
+  architectural rule striking a second time, symmetrically: *dynamics live
+  over the statics because DL is monotonic; computation lives over the
+  statics because DL is decidable.* One rule, two corollaries: the ontology
+  holds structure, engines perform operations (which §2 already located:
+  internal completability "is an operation the agent performs").
+- **For a formally-warranted record, the formulation must suffice to
+  exercise it** (15.3): a description — the triangle's three sides, its
+  angles, their relationships — not a picture. A formal record whose
+  formulation cannot be run is held testimonially, whatever its warrant
+  claims.
+
+**15.2 Provenance of the formal — the coupling spectrum.** Formal warrant is
+agent-independent and type-level (§2); provenance is agent-relative and
+constitutive (§2, §5). No contradiction: they answer different questions —
+warrant is *how is it justified?*, provenance is *whence did it come?* (Kant:
+knowledge that *begins with* experience need not *arise out of* it; the
+rationalist/empiricist quarrel was each collapsing one into the other). Ask
+how tightly warrant couples to provenance and the triad completes itself, one
+value per limit again:
+
+| warrant | coupling | consequence |
+|---|---|---|
+| formal | **decoupled** — warrant survives total provenance loss | anonymous theorems are fine |
+| empirical | **constituted** — lose the chain of custody, lose the warrant | anonymous data is worthless |
+| self-verifying | **coincident** — the act is both genealogy and justification (§11) | an anonymous cogito is impossible |
+
+Corollaries, several already living in the fixtures:
+
+- Decoupling is *why* "the type is recoverable from the token" (§2), why
+  formal codes transmit well, and why §14's puncturing works. Restated: **you
+  may drop whatever is provenance-decoupled; you must keep whatever is
+  provenance-constituted** — the minimal asset (leaves + escalation trail) is
+  exactly the provenance-constituted residue.
+- **Most mathematics-as-held is testimonially warranted.** §2's "internally
+  complet*able*" is a capacity, rarely exercised; theorems are mostly held on
+  traversal-between-agents (provenance). Running the derivation converts
+  testimonial holding into formal holding — which is what the executable
+  mathematics does.
+- **Provenance and warrant can diverge under a standing conclusion**: the
+  fine-structure formula's provenance forever runs through Sommerfeld's
+  ellipses; its warrant now runs through spin. The environment swap is this
+  divergence, computed.
+- **Formal records are retracted as jurisdictions, never as forms**: 1926
+  retracted the *postulates*; the phase-integral mathematics survives (as
+  WKB). Same shape as Bohr's 1913 escalation — suspend the law's
+  jurisdiction, not the law.
+- A formal genealogy bottoms out in **an act of derivation by some agent** —
+  never in the form. The form-in-itself stays an excluded limit (§4), so
+  formal provenance approaches it exactly as directedness approaches the
+  world-in-itself: asymptotically. **The triangle has no birthday**; only
+  graspings of it do. (Epistemically constructivist, metaphysically silent.)
+
+**15.3 Exercise-or-exorcise — warrant earned, not stipulated.** The validator
+has always refused stipulated inference-hood: strip `a rec:Inference`, demand
+the reasoner re-derive it. The same discipline now extends to formal warrant:
+`hasWarrant rec:Formal` is a **claim**, and *exercising* the formulation —
+running its description, checking it closes — is what confirms it. The
+lifecycle:
+
+> claim (assert formal) → **exercise** (run the description) →
+> confirmed (warrant earned) *or* **exorcised** (warrant withdrawn)
+
+with the common third state *before* the fork: never exercised = testimonially
+held (15.2). What exorcism expels is a **pretender** — formal warrant worn
+without the form — not the record: Kempe's 1879 "proof" of the four-color
+theorem stood eleven years until Heawood exercised it; the paper remains a
+real, historically important record (a record *about* it — §9 — keeps the
+history), but its formal warrant is withdrawn, **at a moment** (1890). As-of
+1885, trusting Kempe was justified — hindsight-blame stays the temporal apple
+(§13). A repaired proof is a *new* record, not a restoration.
+
+Two failure modes, now cleanly split (the fixtures bracket them):
+
+- **jurisdictional** (Sommerfeld): the mathematics *passes* exercise — valid
+  then, valid now — but its empirical premises fell. Retract the premises;
+  the form is untouched.
+- **formal** (Kempe): the description itself does not close. Exorcise the
+  warrant; downstream support cascades away (the four-color theorem reverts
+  to an *explanandum* until Appel–Haken — whose own exercise, fittingly,
+  required a new machine).
+
+This hands record-harm its second detector: **empirical fabrication** is
+exposed by incoherence *with the web* (a concealed escalation, §13);
+**formal fabrication** — the pseudo-proof — by incoherence *with itself*,
+failing its own exercise. One fabrication concept, two detectors, one per
+excluded limit.
+
+*Modelled as:* `rec:formulation` (datatype property, v0.6.0) in the stub;
+**no** OWL vocabulary for exercise or exorcism — like fork collapse, they are
+**engine events over static structure** (`engine/exercise.py`,
+`Engine.exorcise`; an exorcised ground keeps its place in the graph and the
+log but can no longer transmit support). **Exercise acts are themselves
+logged, at a moment — performative provenance**: a formal genealogy bottoms
+out in acts of derivation (15.2), and the log entry is such an act's own
+record — it attests itself (the performative face) while what it confirms is
+formal (the content); two warrants, stacked. The earned warrant thereby *has*
+a genealogy ("exercised at m, passed"), and the lifecycle carries a standing
+per record: unexercised → confirmed / failed → exorcised. Full structural
+descriptions — "the whole thing: sides, and all, coming together" — live in
+the **arithmetic companion** (`ontology/arith.ttl`, §7): expressions as
+formal Records composed of Records, exercised by a *compiler*
+(`engine/compile.py`) rather than a hand registry — the exercise derived
+from the description, not written beside it.
 
 ---
 

@@ -29,7 +29,7 @@
     dc:title "The Record Ontology"@en ;
     dc:creator "Ron Hinchley / epistemic-ontology.net" ;
     dc:license <http://creativecommons.org/licenses/by/4.0/> ;
-    owl:versionInfo "0.5.0 — carrier dissolved into provenance + locus; cogito is a self-verifying pattern, not a class" ;
+    owl:versionInfo "0.6.0 — rec:formulation (the form as held, first datatype property); exercise-or-exorcise discipline recorded (ROOT.md §15)" ;
     rdfs:comment "A base ontology of the Record, constrained to agents. One class (Record); warrant (formal/empirical/self-verifying) is an attribute, not a kind; the carrier dissolves into provenance + locus (no Carrier class); two excluded limits (world-in-itself, form-in-itself) are never instantiated. See ROOT.md for the full rationale."@en .
 
 
@@ -210,6 +210,21 @@ rec:pragmaticAdequacy a owl:ObjectProperty ;
     rdfs:label "pragmatic adequacy"@en ;
     rdfs:domain rec:Record ;
     rdfs:comment "Fitness for purpose ('expected to work'), relative to a purpose and an agent (Peirce/Dewey). Range deferred."@en .
+
+# -- formulation: the FORM AS HELD (ROOT.md §15) -------------------------------
+# The first datatype property. A Record is "a form, in a carrier, for an
+# agent" (§1) -- this is the form's serialization: a formula, a constraint
+# list, a text, a data table. It is the token serialization of what THIS agent
+# holds, never the form-in-itself (the Form class stays refused, the limit
+# stays excluded). The reasoner NEVER evaluates it -- OWL 2 DL is decidable
+# because it excludes nearly all mathematics; execution belongs to the engine
+# stratum (exercise-or-exorcise, §15.3). For a formally-warranted record the
+# formulation should SUFFICE TO EXERCISE it: a description that can be run --
+# else the record is held testimonially, whatever its warrant claims.
+rec:formulation a owl:DatatypeProperty ;
+    rdfs:label "formulation"@en ;
+    rdfs:domain rec:Record ;
+    rdfs:comment "The form as held, serialized (ROOT.md §15). Opaque content to the reasoner; for formal records, a description sufficient to exercise them (engine-side). Notation is a content decision, not ontology."@en .
 
 
 # ----------------------------------------------------------------------------
