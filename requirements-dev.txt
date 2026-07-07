@@ -7,3 +7,7 @@
 # here to ensure CI actually exercises the `Inference` definition.
 rdflib>=7.0
 owlrl>=7.1
+# sympy powers the executable mathematics of the atom fixture
+# (engine/mathcontent.py + scripts/bohr_math_demo.py). The engine package
+# itself never imports it -- it is only needed for that demo.
+sympy>=1.12
