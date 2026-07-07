@@ -105,22 +105,26 @@ in ROOT.md.
 a skip* (§13.1, "the ethical hinge"), so the modelling should carry the skip's
 **reason** ("deferred, for objective Y, at this moment"), not just the hole.
 
-### 4. Fidelity calculus (E-2)
-**What:** A written spec + implementation in the engine: how warrant and force
-per edge combine over a sub-DAG into computed fidelity; forks split it,
-truth-preserving edges pass it through, ampliative edges attenuate it,
-self-verifying leaves are certain-but-barren (fidelity 1, amplification 0 — §2
-already dictates this boundary condition).
-**Why:** it operationalizes "fidelity is entailed by the whole sub-DAG" and is
-the thing that makes fork-collapse *quantitative* — without it, "one fork's
-fidelity dominates" has no meaning. §2's entailments act as fixed test cases.
-**Assumptions to validate:** a simple algebra (intervals or discrete grades)
-suffices before reaching for full Bayesian networks; fidelity composition is
-actually associative/order-independent over the DAG (property-test this).
-**§13/§14 update:** the calculus gained a second consumer — §14's puncturing map
-makes it double as a **rate–distortion theory** (what may be dropped and
-regenerated is entailed by warrant), and §13.3 implies fidelity must be
-computable **as-of-moment**, which couples its design to the revision log below.
+### 4. Fidelity calculus (E-2) — ✅ DONE
+**Built as `engine/fidelity.py`, tested by `scripts/fidelity_demo.py` (all
+green).** The design that emerged: fidelity is a **structured object, not a
+scalar** — the ATMS label (minimal environments of grounds, inference tokens
+included), with every annotation *entailed* from the environment (amp = count
+of ampliative tokens, set semantics de-duplicating shared ancestry; leaf
+warrant profile; fork variables via inference tokens). Two flows: forward
+attenuation + **backward corroborating environments** (fresh downstream
+successes under the temporal rule). Scalars are projections; the engine's
+`Level` is *provably the coarsest* (grade ⇔ Level agreement asserted at every
+moment of the replay and across all fixtures merged). Assumptions validated:
+discrete grades suffice (no Bayesian nets needed at this stage — numeric
+priors, when wanted, are *records*, not framework); order-independence holds
+(subset-minimality is Pareto-complete since env₁ ⊆ env₂ ⇒ amp₁ ≤ amp₂).
+Structural truths proven on Neptune: the Adams/Le Verrier convergence differs
+only in inference tokens (it corroborates *execution*, not premises); Galle's
+corroborating environment is genuinely novel; the rivals' shared grounds
+explain oracle 3's double collapse. Known cliff, documented: label blow-up at
+scale — the prototype fixes exact semantics for future approximations to be
+judged against.
 
 ### 5. "What-if" DAG explorer (D-1 + D-2 merged)
 **What:** A single self-contained HTML visualization of the exemplar DAG —

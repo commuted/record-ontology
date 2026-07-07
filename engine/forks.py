@@ -45,6 +45,34 @@ class Rivalry:
 
 
 @dataclass(frozen=True)
+class Identity:
+    """A declared equivalence between two records -- rivals proven one.
+    Content-level like Rivalry (the proof is a record; declaring is a
+    decision), logged with its moment. Identification PRE-EMPTS eclipse: a
+    fork between identified records is 'identified', never 'resolved', even
+    if fresh evidence later corroborates one formulation's downstream --
+    that evidence accrues to the pair (fidelity pooling)."""
+    a: object
+    b: object
+    moment: int
+    note: str = ""
+
+
+def identity_partners(state, record) -> frozenset:
+    """The record plus everything identified with it (transitive closure)."""
+    partners = {record}
+    changed = True
+    while changed:
+        changed = False
+        for ident in state.identities:
+            pair = {ident.a, ident.b}
+            if partners & pair and not pair <= partners:
+                partners |= pair
+                changed = True
+    return frozenset(partners)
+
+
+@dataclass(frozen=True)
 class Corroboration:
     """One piece of fork-relevant support: a live inference whose premises
     join the rival's downstream with fresh empirical evidence."""
@@ -56,7 +84,7 @@ class Corroboration:
 @dataclass(frozen=True)
 class ForkReport:
     rivalry: Rivalry
-    status: str                    # "open" | "resolved" | "contested" | "moot"
+    status: str        # "open" | "resolved" | "contested" | "moot" | "identified"
     winner: Optional[object]
     eclipsed: Optional[object]
     corroborations: Mapping        # rival -> tuple[Corroboration, ...]
@@ -147,6 +175,10 @@ def corroborations(web: Web, state: State, rival, since_moment: int) -> tuple:
 def fork_report(web: Web, state: State, rivalry: Rivalry) -> ForkReport:
     """The fork's standing as of this state.
 
+    identified -- the rivals were declared equivalent (Identity): the fork
+                  DISSOLVES rather than collapsing. No winner, no eclipsed;
+                  the incompatibility was an artifact of presentation.
+                  Checked first: identification pre-empts eclipse.
     moot      -- neither rival is supported (e.g. the shared ancestry fell).
     resolved  -- exactly one rival stands, or exactly one is corroborated by
                  evidence that arrived after the fork opened. The loser is
@@ -155,8 +187,13 @@ def fork_report(web: Web, state: State, rivalry: Rivalry) -> ForkReport:
     open      -- both stand on the shared evidence alone.
     """
     a, b = rivalry.a, rivalry.b
-    standing = [r for r in (a, b) if state.supported.get(r, False)]
     corr = {r: corroborations(web, state, r, rivalry.moment) for r in (a, b)}
+
+    pair = frozenset((a, b))
+    if any(frozenset((i.a, i.b)) == pair for i in state.identities):
+        return ForkReport(rivalry, "identified", None, None, corr)
+
+    standing = [r for r in (a, b) if state.supported.get(r, False)]
 
     if not standing:
         return ForkReport(rivalry, "moot", None, None, corr)

@@ -22,9 +22,16 @@ never enter the log -- they regenerate by re-derivation on replay. That is
 """
 
 from .core import Engine, Event, Level, RevisionLog, State, Web, load_web, short
-from .forks import Corroboration, ForkReport, Rivalry, fork_report, structural_candidates
+from .fidelity import (EnvView, FidelityReport, explananda, fidelity,
+                       fork_fidelity, grade, labels, supported_by_labels,
+                       theoretical)
+from .forks import (Corroboration, ForkReport, Identity, Rivalry, fork_report,
+                    identity_partners, structural_candidates)
 
 __all__ = [
     "Engine", "Event", "Level", "RevisionLog", "State", "Web", "load_web", "short",
-    "Corroboration", "ForkReport", "Rivalry", "fork_report", "structural_candidates",
+    "Corroboration", "ForkReport", "Identity", "Rivalry", "fork_report",
+    "identity_partners", "structural_candidates",
+    "EnvView", "FidelityReport", "explananda", "fidelity", "fork_fidelity",
+    "grade", "labels", "supported_by_labels", "theoretical",
 ]

@@ -80,6 +80,8 @@ class Web:
     warrants: Mapping              # record -> frozenset of warrant IRIs
     justifications_of: Mapping     # conclusion -> tuple[Justification, ...]
     labels: Mapping                # record -> rdfs:label (for reporting)
+    graph: Graph                   # the merged RDF, read-only (companion
+                                   # vocabularies, formulations, descriptions)
 
     def justifications(self) -> Iterable[Justification]:
         for js in self.justifications_of.values():
@@ -119,6 +121,7 @@ def load_web(paths: Sequence) -> Web:
         warrants=warrants,
         justifications_of={c: tuple(js) for c, js in justifications_of.items()},
         labels=labels,
+        graph=g,
     )
 
 
@@ -132,9 +135,11 @@ class Event:
     order-derived time. Clock time, if wanted, is content (a note), never the
     index -- the moment is load-bearing, the clock is overlay."""
     moment: int
-    kind: str          # "assert" | "retract" | "rivals"
-    subjects: tuple    # (record,) or (a, b) for rivals
+    kind: str          # "assert" | "retract" | "rivals" | "identify"
+                       #   | "exorcise" | "exercise"
+    subjects: tuple    # (record,) or (a, b) for rivals/identify
     note: str = ""
+    flag: Optional[bool] = None   # exercise outcome (passed?), else None
 
 
 class RevisionLog:
@@ -144,9 +149,10 @@ class RevisionLog:
     def __init__(self) -> None:
         self._events: list = []
 
-    def append(self, kind: str, *subjects, note: str = "") -> Event:
+    def append(self, kind: str, *subjects, note: str = "",
+               flag: Optional[bool] = None) -> Event:
         ev = Event(moment=len(self._events), kind=kind,
-                   subjects=tuple(subjects), note=note)
+                   subjects=tuple(subjects), note=note, flag=flag)
         self._events.append(ev)
         return ev
 
@@ -171,8 +177,23 @@ class State:
     asserted: frozenset            # grounds currently in
     first_asserted: Mapping        # ground -> moment of first assertion
     rivalries: tuple               # forks declared so far (see forks.Rivalry)
+    identities: tuple              # equivalences declared (see forks.Identity)
+    exorcised: frozenset           # grounds whose warrant claim failed exercise
+    exercised: Mapping             # record -> (moment, passed) of last exercise
     supported: Mapping             # record -> bool
     level: Mapping                 # record -> Level | None (None when out)
+
+    def standing(self, record) -> str:
+        """The §15.3 lifecycle state of a warrant claim:
+        'exorcised'   -- expelled (a decision, after failure);
+        'confirmed'   -- exercised and passed (warrant earned, at a moment);
+        'failed'      -- exercised and did not pass; expulsion pending (§13);
+        'unexercised' -- claimed only: testimonially held (§15.2)."""
+        if record in self.exorcised:
+            return "exorcised"
+        if record in self.exercised:
+            return "confirmed" if self.exercised[record][1] else "failed"
+        return "unexercised"
 
     def is_live(self, j: Justification) -> bool:
         """A justification carries support iff its inference record is itself
@@ -180,13 +201,21 @@ class State:
         return (self.supported.get(j.inference, False)
                 and all(self.supported.get(p, False) for p in j.premises))
 
+    def env_live(self, env) -> bool:
+        """An environment carries support iff all its grounds are asserted
+        and none is exorcised -- a broken proof transmits nothing (§15.3)."""
+        return env <= self.asserted and not (env & self.exorcised)
+
 
 def compute_state(web: Web, events: Sequence[Event]) -> State:
-    from .forks import Rivalry  # local import to avoid a cycle
+    from .forks import Identity, Rivalry  # local import to avoid a cycle
 
     asserted: set = set()
     first_asserted: dict = {}
     rivalries: list = []
+    identities: list = []
+    exorcised: set = set()
+    exercised: dict = {}
     for ev in events:
         if ev.kind == "assert":
             (r,) = ev.subjects
@@ -198,6 +227,15 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
         elif ev.kind == "rivals":
             a, b = ev.subjects
             rivalries.append(Rivalry(a=a, b=b, moment=ev.moment, note=ev.note))
+        elif ev.kind == "identify":
+            a, b = ev.subjects
+            identities.append(Identity(a=a, b=b, moment=ev.moment, note=ev.note))
+        elif ev.kind == "exorcise":
+            (r,) = ev.subjects
+            exorcised.add(r)
+        elif ev.kind == "exercise":
+            (r,) = ev.subjects
+            exercised[r] = (ev.moment, bool(ev.flag))
 
     # -- support: monotone fixpoint from all-False (recompute-from-scratch
     #    makes retraction trivially correct; see module docstring) -----------
@@ -207,7 +245,10 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
         changed = False
         for n in web.universe:
             if n in web.grounds:
-                s = n in asserted
+                # An exorcised ground keeps its place in the graph and the
+                # log, but its warrant claim failed exercise: it can no
+                # longer stand or transmit support (§15.3).
+                s = n in asserted and n not in exorcised
             else:
                 s = any(
                     supported.get(j.inference, False)
@@ -258,6 +299,9 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
         asserted=frozenset(asserted),
         first_asserted=dict(first_asserted),
         rivalries=tuple(rivalries),
+        identities=tuple(identities),
+        exorcised=frozenset(exorcised),
+        exercised=dict(exercised),
         supported=supported,
         level=level,
     )
@@ -315,6 +359,45 @@ class Engine:
         cannot see it and structure alone over-detects it, so declaring it is
         a decision -- an escalation record in the log (§13)."""
         return self.log.append("rivals", self.resolve(a), self.resolve(b), note=note)
+
+    def log_exercise(self, name, passed: bool, note: str = "") -> Event:
+        """Record the ACT of exercising -- PERFORMATIVE PROVENANCE (§15.2/.3).
+        A formal genealogy bottoms out in acts of derivation, and this is
+        one, logged at a moment: the event is the act's own record, so the
+        earned warrant now has a genealogy ('exercised at m, passed').
+        Two warrants stack here: the exercise-event's record is
+        performatively warranted (the run happened -- the log attests the
+        act), while what it confirms is formal (the content). A failed
+        exercise does NOT exorcise by itself -- expulsion is a separate
+        decision (§13), taken by Engine.exorcise."""
+        r = self.resolve(name)
+        return self.log.append("exercise", r, note=note, flag=passed)
+
+    def exorcise(self, name, note: str = "") -> Event:
+        """Withdraw a ground's warrant claim after a failed exercise
+        (ROOT.md §15.3). What is expelled is a PRETENDER -- formal warrant
+        worn without the form -- not the record: the node stays in the graph
+        and the log (history keeps the document; records ABOUT it are
+        untouched), but it can no longer stand or transmit support, and
+        everything resting on it cascades away. No reversal event exists on
+        purpose: a repaired proof is a NEW record, not a restoration."""
+        r = self.resolve(name)
+        if r not in self.web.grounds:
+            raise ValueError(
+                f"{short(r)} is derived; exorcise the machinery it rests on "
+                "instead (§15.3)")
+        return self.log.append("exorcise", r, note=note)
+
+    def identify(self, a, b, note: str = "") -> Event:
+        """Declare two records equivalent -- rivals proven one (matrix vs
+        wave mechanics, 1926). The mirror image of declare_rivals and equally
+        content-level: equivalence takes a proof (itself a record, formally
+        warranted), so the engine cannot derive it; an agent declares it and
+        the declaration is logged with its moment. A fork between identified
+        records DISSOLVES rather than collapsing: no winner, no eclipsed
+        (forks.fork_report), and the pair's environments pool
+        (fidelity.fidelity)."""
+        return self.log.append("identify", self.resolve(a), self.resolve(b), note=note)
 
     # -- views ------------------------------------------------------------------
     def state(self, moment: Optional[int] = None) -> State:
