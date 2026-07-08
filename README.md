@@ -120,7 +120,8 @@ record-ontology/
 │   ├── arith_demo.py              # the companion: description → compiled exercise
 │   ├── testgen_demo.py            # the suite generated from the web itself (§16)
 │   ├── meta_demo.py               # observe X to resolve Y — the planner (§16)
-│   └── kepler_demo.py             # Mars: discovery / grooming / deprecation (§16)
+│   ├── kepler_demo.py             # Mars: discovery / grooming / deprecation (§16)
+│   └── saccheri_demo.py           # the promontory: suppose, verdicts, landing (§17)
 ├── requirements-dev.txt           # rdflib + owlrl
 ├── ROOT.md                        # the conceptual source of truth (read this)
 ├── LICENSE                        # CC BY 4.0 (ontology + docs) · MIT (scripts + engine)
@@ -262,6 +263,9 @@ python scripts/meta_demo.py       # "observe X to resolve Y": the planner names
 python scripts/kepler_demo.py     # the war on Mars: fork, the engine designs
                                   #   Kepler's experiment, the 8.96′ recomputed,
                                   #   deprecation as jurisdiction, grooming measured
+python scripts/saccheri_demo.py   # the promontory (§17): two hypotheses supposed,
+                                  #   the force asymmetry computed, the failed
+                                  #   cleanup exorcised, the guess lands in 1868
 ```
 
 ```python

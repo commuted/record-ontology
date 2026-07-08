@@ -100,6 +100,77 @@ def _run_pseudoproof() -> ExerciseResult:
 
 
 # ---------------------------------------------------------------------------
+# Saccheri (saccheri.ttl): two hypotheses stood on, three descriptions run
+# ---------------------------------------------------------------------------
+
+def _run_bounded_lines() -> ExerciseResult:
+    """Exercise ex:BoundedLines -- 'on the obtuse hypothesis every straight
+    line closes on itself'. The obtuse model is the sphere: run it. A
+    geodesic's total length computes to 2*pi*R -- finite; prolonging past it
+    revisits every point. The description CLOSES internally, and precisely
+    thereby contradicts the held axiom of indefinite prolongation (Euclid
+    post. 2), which is the datum the exercise tests against -- adequacy
+    against what is held, exactly as the orbit models test against
+    observations."""
+    t = sp.symbols("t", real=True)
+    # unit-sphere great circle through the poles, arc-length parameter t
+    point = sp.Matrix([sp.cos(t), sp.sin(t), 0])
+    speed = sp.sqrt(sum(c.diff(t) ** 2 for c in point))
+    total = sp.integrate(speed, (t, 0, 2 * sp.pi))   # closes at 2*pi
+    revisits = sp.simplify(point.subs(t, 0) - point.subs(t, total)) == sp.zeros(3, 1)
+    if sp.simplify(total - 2 * sp.pi) == 0 and revisits:
+        return ExerciseResult(
+            False,
+            "the obtuse model's straights close at length 2π and revisit — "
+            "prolongation is bounded, contradicting the indefinite-"
+            "prolongation axiom held since Euclid: the consequence fails "
+            "against the held web")
+    return ExerciseResult(True, "the geodesic did not close (it must!)")
+
+
+def _run_angle_sum_deficit() -> ExerciseResult:
+    """Exercise ex:AngleSumDeficit -- 'on the acute hypothesis a triangle's
+    angles fall short of two right angles, the deficit growing with the
+    triangle'. Run the acute model (hyperbolic law of cosines, equilateral
+    triangles of side 1 and 2): both sums under pi, the deficit strictly
+    growing. Saccheri derived this to find an absurdity; it verifies."""
+    sums = []
+    for side in (sp.Integer(1), sp.Integer(2)):
+        cos_angle = sp.cosh(side) / (sp.cosh(side) + 1)
+        sums.append(3 * sp.acos(cos_angle))
+    below_pi = all(sp.simplify(s - sp.pi) < 0 for s in sums)
+    growing_deficit = sp.simplify((sp.pi - sums[1]) - (sp.pi - sums[0])) > 0
+    ok = bool(below_pi and growing_deficit)
+    return ExerciseResult(
+        ok,
+        "equilateral sides 1 and 2: angle sums "
+        f"{float(sums[0]):.4f} and {float(sums[1]):.4f} rad, both < π, "
+        "deficit growing with the triangle — the description closes"
+        if ok else "an angle-sum check failed")
+
+
+def _run_repugnance() -> ExerciseResult:
+    """Exercise ex:SaccheriRepugnance -- Proposition XXXIII's 'refutation'
+    of the acute hypothesis: asymptotic straights 'meet at infinity and
+    there share a common perpendicular', which he declares repugnant. Run
+    the step his argument needs: the angle between the asymptote and the
+    perpendicular, acos(tanh x), has limit 0 at infinity -- but ATTAINS 0
+    at no point. The argument treats the limit as a point; the description
+    does not close. His conviction was content; this is the computation."""
+    x = sp.symbols("x", real=True)
+    angle = sp.acos(sp.tanh(x))
+    limit_ok = sp.limit(angle, x, sp.oo) == 0
+    attained = sp.solveset(sp.Eq(angle, 0), x, domain=sp.S.Reals)
+    if limit_ok and attained is sp.S.EmptySet:
+        return ExerciseResult(
+            False,
+            "the perpendicularity his argument needs is approached "
+            "(limit 0) but attained at NO point — 'at infinity' is not a "
+            "place where lines meet; the refutation fails at its own step")
+    return ExerciseResult(True, "the limit is attained (it must not be!)")
+
+
+# ---------------------------------------------------------------------------
 # Registry
 # ---------------------------------------------------------------------------
 
@@ -109,6 +180,14 @@ EXERCISES: Mapping[str, Exercise] = {
                  "the triangle's description, run", _run_pythagorean),
         Exercise("PseudoProofTwoEqualsOne",
                  "the 2=1 pseudo-proof, run", _run_pseudoproof),
+        Exercise("BoundedLines",
+                 "the obtuse hypothesis's closed straights, run",
+                 _run_bounded_lines),
+        Exercise("AngleSumDeficit",
+                 "the acute hypothesis's angle deficit, run",
+                 _run_angle_sum_deficit),
+        Exercise("SaccheriRepugnance",
+                 "Saccheri's refutation of the acute, run", _run_repugnance),
     )
 }
 

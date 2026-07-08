@@ -803,6 +803,79 @@ them be generated rather than maintained.
 
 ---
 
+## 17. The promontory: supposition, the force asymmetry, and the two exits (built 2026-07-07)
+
+**17.1 Enlarging the cut.** An agent may construct a record it does not hold
+— unsupported, or believed false — and *stand on it*: derive its downstream
+not to extend knowledge but to expose it to test. This is §14.1's cut,
+deliberately enlarged: the supposition excises more Continuum than the agent
+holds, and the enlargement is itself an escalation, made for an objective
+(exploration), recorded at a moment. One register covers the whole spectrum
+— extending an expectation that is proving likely, the outright Hail Mary
+thrown to see what the cat drags in, the reductio erected to be exploded —
+because the agent's credence is CONTENT (a note in the log), never
+framework: conviction of falsehood is itself defeasible, and within the
+agent's imperfection the guess can still be found true. The register
+records only the stance: *stood on, not held.*
+
+**17.2 The register.** Two log events (`suppose`, `convert`) and support
+computed twice: the HELD register (asserted grounds — what the agent knows)
+and the PROMONTORY register (supposed grounds count — what the agent can
+see from up there). Everything reachable only through a scaffold is
+**quarantined**: visible, derivable, exercisable, transmitting nothing into
+the held web — the planner does not propose repairing it (a view is not a
+hole), fidelity does not pool it, the puncture report never counts it in
+the asset. The ATMS core was born for this; the register only names what
+environments always could do. Standing gains a state: `supposed` — worn
+openly, which is exactly what distinguishes the scaffold from §15.3's
+pretender (the scaffold claims nothing; the pretender claims warrant).
+
+**17.3 The force asymmetry — why falsification is instrumental to
+discovery.** §2 already contains the reason. A quarantined consequence that
+PASSES its exercise corroborates the scaffold *ampliatively* — defeasible,
+whatever the force of the path it rode down. One that FAILS, reached from
+the scaffold by truth-preserving steps alone, is modus tollens: what
+propagates back is FORMAL, relative to the test — the scaffold is refuted
+with the certainty of the derivation. You learn more, at higher grade, from
+the scaffold's death than from its survival; **the false record is the one
+place from which deduction points outward.** Popper's asymmetry falls out
+of `rec:hasForce`; the engine computes the verdicts (`scaffold_report`:
+*refutes (formal)* / *impugns (defeasible)* — an ampliative joint on the
+path — / *corroborates (defeasible)*).
+
+**17.4 The two exits.** Refuted: the discovery IS the refutation — a formal
+verdict born of a false record — and the scaffold is dismantled
+(retracted). The cleanup is free in §14.2's accounting: the quarantined
+interior was never in the asset; only the episode's decisions stay, and
+they must (a concealed scaffold is §13's concealed escalation in as-if
+dress). Landed: the consequences keep passing, evidence arrives, and the
+scaffold CONVERTS — the same record re-asserted as held, at a moment;
+nothing was broken, so nothing is "repaired" (§15.3's new-record rule is
+for pretenders, not scaffolds). Its provenance keeps the suppose event:
+born on the promontory, forever legible; held only from the convert moment
+(the temporal apple stays in order).
+
+**17.5 The type case is Saccheri (fixture + demo).** Both exits from one
+construction, 135 years apart. The obtuse hypothesis: its consequence
+(straights close on themselves) runs against the held prolongation axiom,
+fails, refutes formally, and the scaffold comes down. The acute hypothesis:
+its consequence (the angle-sum deficit) runs and passes — corroboration
+only — so Saccheri, needing a death, published one anyway: Proposition
+XXXIII, whose own exercise fails at its own step (the limit treated as a
+point where lines meet). **The cleanup was the pretender** — exorcised,
+while the scaffold he was convinced was false stood untouched until
+Beltrami's model landed it (1868). His conviction was content, and it was
+wrong; the web's verdict machinery never consulted it.
+
+*Modelled as:* `suppose`/`convert` events and the two-register fixpoint in
+`engine/core.py` (State.supposed, State.reachable, State.quarantined,
+standing `supposed`); verdicts in `engine/meta.py` (`scaffold_report`);
+the geometry run in `engine/exercise.py`; `examples/saccheri.ttl` +
+`scripts/saccheri_demo.py`. **No OWL vocabulary** — supposition is stance,
+stance is dynamics, and the strata rule holds for the third time running.
+
+---
+
 *Provenance of this document:* reconstructed verbatim from session transcript
 `8adf28a9` after a network failure (ConnectionRefused) killed the original
 write mid-sentence — the base had been agreed but never hit disk. Recovered and

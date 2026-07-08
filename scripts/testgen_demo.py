@@ -72,18 +72,21 @@ def main():
 
     alarms = {c.subject for c, r in failed if c.kind == "alarm"}
     check(alarms == {"PseudoProofTwoEqualsOne", "TwoEqualsOneEquation",
-                     "VicariousPostulates"},
-          f"the alarms are exactly the planted failures — the registry "
-          f"fallacy, its arith-described equation, and the equant model "
-          f"that cannot match the octants ({', '.join(sorted(alarms))}) — "
-          "found by generation, not by any test naming them")
+                     "VicariousPostulates", "SaccheriRepugnance",
+                     "BoundedLines"},
+          f"the alarms are exactly the planted failures — two 2=1 records, "
+          f"the equant model, Saccheri's refutation, and the obtuse "
+          f"consequence (held here only because a raw merge seeds every "
+          f"ground; the saccheri demo shows the proper register) — "
+          f"({', '.join(sorted(alarms))}), found by generation, not by any "
+          "test naming them")
 
-    print("\n🔍 Expelling and deprecating, each by its own discipline...")
+    print("\n🔍 Clearing each alarm by its own discipline...")
     # formal fabrication -> exorcise (the description does not close, §15.3)
-    for name in ("PseudoProofTwoEqualsOne", "TwoEqualsOneEquation"):
+    for name in ("PseudoProofTwoEqualsOne", "TwoEqualsOneEquation",
+                 "SaccheriRepugnance"):
         eng.log_exercise(name, passed=False,
-                         note="generated alarm: fails at the hidden "
-                              "division by a-b")
+                         note="generated alarm: the description fails")
         eng.exorcise(name, note="expelled on the generated suite's finding")
     # jurisdictional failure -> retract (the geometry runs; adequacy fell,
     # §15.2 -- the same act kepler_demo performs as deprecation)
@@ -91,6 +94,14 @@ def main():
                      note="generated alarm: 8.96' > 2' at the octants")
     eng.retract("VicariousPostulates",
                 note="deprecated on the generated suite's finding")
+    # a scaffold seeded as held -> dismantle (§17: the raw merge asserted
+    # what was only ever stood on; retraction restores the register)
+    eng.log_exercise("BoundedLines", passed=False,
+                     note="generated alarm: straights close at 2π against "
+                          "the prolongation axiom")
+    eng.retract("HypObtuseAngle",
+                note="dismantled on the generated suite's finding — the "
+                     "consequence's alarm traces to the scaffold")
     cases2 = generate(eng, lab)
     _, failed2 = run_suite(cases2)
     check(not [f for f in failed2 if f[0].kind == "alarm"],

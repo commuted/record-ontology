@@ -153,10 +153,15 @@ def plans_for(web: Web, state: State, record,
 def observation_plans(web: Web, state: State,
                       label_map: Optional[Mapping] = None) -> Mapping:
     """Every open item's plans: stubs (support fell) and explananda (support
-    never rose), each mapped to its ranked plans."""
+    never rose), each mapped to its ranked plans. Quarantined records are
+    NOT open items (§17): a conclusion visible only from a scaffold is a
+    view, not a hole -- the planner does not propose repairing what was
+    never held."""
     label_map = label_map if label_map is not None else atms_labels(web)
+    quarantine = state.quarantined(web.universe)
     open_items = tuple(sorted(
-        (n for n in web.derived if not state.supported.get(n, False)),
+        (n for n in web.derived
+         if not state.supported.get(n, False) and n not in quarantine),
         key=str)) + explananda(web, state, label_map)
     return {r: plans_for(web, state, r, label_map) for r in open_items}
 
@@ -299,6 +304,86 @@ def puncture_report(web: Web, state: State, events: Sequence[Event],
         drift_risk=frozenset(drift_risk),
         decisions=decisions,
     )
+
+
+# ---------------------------------------------------------------------------
+# Scaffold verdicts -- the force asymmetry, computed (§17)
+# ---------------------------------------------------------------------------
+
+@dataclass(frozen=True)
+class ConsequenceVerdict:
+    """One tested consequence of one scaffold."""
+    consequence: object
+    passed: bool
+    tp_only: bool       # every promontory path from scaffold to consequence
+                        # is free of ampliative joints
+    verdict: str        # "refutes (formal)" | "impugns (defeasible)"
+                        # | "corroborates (defeasible)"
+
+
+@dataclass(frozen=True)
+class ScaffoldReport:
+    """One scaffold's standing, read off its tested consequences.
+
+    THE FORCE ASYMMETRY (§2, cashed out): refutation flows truth-preservingly
+    -- a consequence failing its exercise, reached from the scaffold by
+    deduction alone, is modus tollens, and what propagates back is FORMAL
+    (relative to the test): the scaffold is refuted with the certainty of the
+    derivation. Confirmation flows ampliatively no matter the path's force --
+    a passing consequence corroborates, defeasibly, full stop. You learn
+    more, at higher grade, from the scaffold's death than from its survival;
+    the false record is the one place deduction points outward. And the
+    verdict is the WEB's, not the agent's: Saccheri's conviction that the
+    acute hypothesis was absurd never entered this computation -- conviction
+    is content, and it was wrong."""
+    scaffold: object
+    consequences: tuple    # ConsequenceVerdicts, refutations first
+
+    @property
+    def refuted(self) -> bool:
+        return any(v.verdict == "refutes (formal)" for v in self.consequences)
+
+    @property
+    def corroborated(self) -> int:
+        return sum(1 for v in self.consequences
+                   if v.verdict == "corroborates (defeasible)")
+
+
+def scaffold_report(web: Web, state: State, scaffold,
+                    label_map: Optional[Mapping] = None) -> ScaffoldReport:
+    """Verdicts for one supposed ground, from the exercised records among
+    its quarantined downstream. A consequence counts only if it PINS on the
+    scaffold: every promontory-live environment contains it (otherwise the
+    outcome is evidence about something else the agent already holds)."""
+    from .fidelity import amp  # local: keep the module head declarative
+    label_map = label_map if label_map is not None else atms_labels(web)
+    out = []
+    for c in sorted(web.derived, key=str):
+        if c not in state.exercised:
+            continue
+        envs = [e for e in label_map[c] if state.env_on_promontory(e)]
+        if not envs or not all(scaffold in e for e in envs):
+            continue
+        passed = state.exercised[c][1]
+        tp_only = all(amp(web, e) == 0 for e in envs)
+        if passed:
+            verdict = "corroborates (defeasible)"
+        elif tp_only:
+            verdict = "refutes (formal)"
+        else:
+            verdict = "impugns (defeasible)"
+        out.append(ConsequenceVerdict(consequence=c, passed=passed,
+                                      tp_only=tp_only, verdict=verdict))
+    out.sort(key=lambda v: (v.passed, str(v.consequence)))
+    return ScaffoldReport(scaffold=scaffold, consequences=tuple(out))
+
+
+def scaffold_reports(web: Web, state: State,
+                     label_map: Optional[Mapping] = None) -> Mapping:
+    """Every current scaffold's report."""
+    label_map = label_map if label_map is not None else atms_labels(web)
+    return {s: scaffold_report(web, state, s, label_map)
+            for s in sorted(state.supposed, key=str)}
 
 
 def describe_plan(web: Web, plan: Plan, label_of=None) -> str:

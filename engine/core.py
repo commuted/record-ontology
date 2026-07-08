@@ -136,7 +136,7 @@ class Event:
     index -- the moment is load-bearing, the clock is overlay."""
     moment: int
     kind: str          # "assert" | "retract" | "rivals" | "identify"
-                       #   | "exorcise" | "exercise"
+                       #   | "exorcise" | "exercise" | "suppose" | "convert"
     subjects: tuple    # (record,) or (a, b) for rivals/identify
     note: str = ""
     flag: Optional[bool] = None   # exercise outcome (passed?), else None
@@ -174,25 +174,34 @@ class RevisionLog:
 @dataclass(frozen=True)
 class State:
     moment: int
-    asserted: frozenset            # grounds currently in
+    asserted: frozenset            # grounds currently in (HELD)
+    supposed: frozenset            # grounds stood on, not held (§17 scaffolds)
     first_asserted: Mapping        # ground -> moment of first assertion
     rivalries: tuple               # forks declared so far (see forks.Rivalry)
     identities: tuple              # equivalences declared (see forks.Identity)
     exorcised: frozenset           # grounds whose warrant claim failed exercise
     exercised: Mapping             # record -> (moment, passed) of last exercise
-    supported: Mapping             # record -> bool
-    level: Mapping                 # record -> Level | None (None when out)
+    supported: Mapping             # record -> bool (the HELD register)
+    reachable: Mapping             # record -> bool (the PROMONTORY register:
+                                   #   held + supposed grounds together)
+    level: Mapping                 # record -> Level | None (None when out;
+                                   #   levels are a HELD notion -- quarantined
+                                   #   records have none)
 
     def standing(self, record) -> str:
         """The §15.3 lifecycle state of a warrant claim:
         'exorcised'   -- expelled (a decision, after failure);
         'confirmed'   -- exercised and passed (warrant earned, at a moment);
         'failed'      -- exercised and did not pass; expulsion pending (§13);
+        'supposed'    -- stood on, not held: a scaffold, worn openly (§17 --
+                         unlike the pretender, it claims nothing);
         'unexercised' -- claimed only: testimonially held (§15.2)."""
         if record in self.exorcised:
             return "exorcised"
         if record in self.exercised:
             return "confirmed" if self.exercised[record][1] else "failed"
+        if record in self.supposed:
+            return "supposed"
         return "unexercised"
 
     def is_live(self, j: Justification) -> bool:
@@ -206,11 +215,27 @@ class State:
         and none is exorcised -- a broken proof transmits nothing (§15.3)."""
         return env <= self.asserted and not (env & self.exorcised)
 
+    def env_on_promontory(self, env) -> bool:
+        """The promontory register's liveness: supposed grounds count.
+        What is visible from the scaffold, as distinct from what is held."""
+        return (env <= (self.asserted | self.supposed)
+                and not (env & self.exorcised))
+
+    def quarantined(self, universe) -> frozenset:
+        """Records visible only from the promontory: reachable but not
+        supported. The scaffolds themselves and everything that stands
+        only on them -- derivable, exercisable, transmitting nothing
+        into the held web."""
+        return frozenset(n for n in universe
+                         if self.reachable.get(n, False)
+                         and not self.supported.get(n, False))
+
 
 def compute_state(web: Web, events: Sequence[Event]) -> State:
     from .forks import Identity, Rivalry  # local import to avoid a cycle
 
     asserted: set = set()
+    supposed: set = set()
     first_asserted: dict = {}
     rivalries: list = []
     identities: list = []
@@ -220,10 +245,28 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
         if ev.kind == "assert":
             (r,) = ev.subjects
             asserted.add(r)
+            supposed.discard(r)
             first_asserted.setdefault(r, ev.moment)
+        elif ev.kind == "suppose":
+            (r,) = ev.subjects
+            # Stood on, not held: enlarges the cut without enlarging the
+            # held web (§17). Never sets first_asserted -- a scaffold's
+            # arrival is not evidence arriving.
+            if r not in asserted:
+                supposed.add(r)
+        elif ev.kind == "convert":
+            (r,) = ev.subjects
+            # The landing: the same record, re-asserted as held, at a
+            # moment. Its provenance keeps the suppose event -- born on
+            # the promontory.
+            if r in supposed:
+                supposed.discard(r)
+                asserted.add(r)
+                first_asserted.setdefault(r, ev.moment)
         elif ev.kind == "retract":
             (r,) = ev.subjects
             asserted.discard(r)
+            supposed.discard(r)   # cleanup: dismantling a scaffold
         elif ev.kind == "rivals":
             a, b = ev.subjects
             rivalries.append(Rivalry(a=a, b=b, moment=ev.moment, note=ev.note))
@@ -238,26 +281,36 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
             exercised[r] = (ev.moment, bool(ev.flag))
 
     # -- support: monotone fixpoint from all-False (recompute-from-scratch
-    #    makes retraction trivially correct; see module docstring) -----------
-    supported = {n: False for n in web.universe}
-    changed = True
-    while changed:
-        changed = False
-        for n in web.universe:
-            if n in web.grounds:
-                # An exorcised ground keeps its place in the graph and the
-                # log, but its warrant claim failed exercise: it can no
-                # longer stand or transmit support (§15.3).
-                s = n in asserted and n not in exorcised
-            else:
-                s = any(
-                    supported.get(j.inference, False)
-                    and all(supported.get(p, False) for p in j.premises)
-                    for j in web.justifications_of.get(n, ())
-                )
-            if s != supported[n]:
-                supported[n] = s
-                changed = True
+    #    makes retraction trivially correct; see module docstring). Run in
+    #    TWO REGISTERS (§17): held (asserted grounds only) and promontory
+    #    (supposed grounds count too) -- what the agent knows vs what the
+    #    agent can see from the scaffolds it stands on. ----------------------
+    def _fixpoint(base: set) -> dict:
+        sup = {n: False for n in web.universe}
+        changed = True
+        while changed:
+            changed = False
+            for n in web.universe:
+                if n in web.grounds:
+                    # An exorcised ground keeps its place in the graph and
+                    # the log, but its warrant claim failed exercise: it can
+                    # no longer stand or transmit support (§15.3) -- in
+                    # either register.
+                    s = n in base and n not in exorcised
+                else:
+                    s = any(
+                        sup.get(j.inference, False)
+                        and all(sup.get(p, False) for p in j.premises)
+                        for j in web.justifications_of.get(n, ())
+                    )
+                if s != sup[n]:
+                    sup[n] = s
+                    changed = True
+        return sup
+
+    supported = _fixpoint(asserted)
+    reachable = (_fixpoint(asserted | supposed) if supposed
+                 else dict(supported))
 
     # -- levels: warrant-entailed for grounds; propagated through force ------
     level: dict = {n: None for n in web.universe}
@@ -297,12 +350,14 @@ def compute_state(web: Web, events: Sequence[Event]) -> State:
     return State(
         moment=events[-1].moment if events else -1,
         asserted=frozenset(asserted),
+        supposed=frozenset(supposed),
         first_asserted=dict(first_asserted),
         rivalries=tuple(rivalries),
         identities=tuple(identities),
         exorcised=frozenset(exorcised),
         exercised=dict(exercised),
         supported=supported,
+        reachable=reachable,
         level=level,
     )
 
@@ -353,6 +408,34 @@ class Engine:
             raise ValueError(
                 f"{short(r)} is derived; retract its grounds instead (§14)")
         return self.log.append("retract", r, note=note)
+
+    def suppose(self, name, note: str = "") -> Event:
+        """Erect a scaffold (ROOT.md §17): stand on a ground WITHOUT holding
+        it -- an enlargement of the cut (§14.1) made for exploration. The
+        agent's credence, from extended-expectation to Hail Mary to
+        convinced-it-is-false, is CONTENT (put it in the note), never
+        framework: the register records only that the ground is stood on,
+        because conviction of falsehood is itself defeasible -- within the
+        agent's imperfection, the guess can still land. Everything derivable
+        only through a supposed ground is QUARANTINED: visible from the
+        promontory, exercisable, transmitting nothing into the held web."""
+        r = self.resolve(name)
+        if r not in self.web.grounds:
+            raise ValueError(
+                f"{short(r)} is derived; suppose its grounds instead -- "
+                "derived records regenerate, in either register (§14)")
+        return self.log.append("suppose", r, note=note)
+
+    def convert(self, name, note: str = "") -> Event:
+        """The landing (§17): a supposed ground re-asserted as HELD, at a
+        moment -- the unexpected guess found true. The same record converts
+        (nothing was broken, so nothing is 'repaired'); its provenance keeps
+        the suppose event: born on the promontory, forever legible."""
+        r = self.resolve(name)
+        if r not in self.web.grounds:
+            raise ValueError(f"{short(r)} is derived; it lands when its "
+                             "grounds do (§14)")
+        return self.log.append("convert", r, note=note)
 
     def declare_rivals(self, a, b, note: str = "") -> Event:
         """Rivalry (fork-ness between two conclusions) is content-level: OWL
