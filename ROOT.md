@@ -189,7 +189,9 @@ whole Continuum ⇒ no total support, no complete [empirical] record.** This is
   (and `Agent`) from **this** ontology once this stabilises. Its
   *Authenticity*/*Fabrication* become record-web–internal notions (genuine link
   to a *claimed* origin; a false *posit* exposed by incoherence with other
-  records) — not correspondence to the noumenon.
+  records) — not correspondence to the noumenon. **The full translation is
+  §18** — the dictionary between its act-shaped taxonomy and this web's
+  warrant-shaped cuts.
 - **arith** (`ontology/arith.ttl`, slug `arith`) — the **arithmetic
   companion** (§15): the formal *object* face laid out in full, representative
   scope (four operations in a definitional hierarchy bottoming at the Peano
@@ -299,7 +301,8 @@ discoveries are built on earlier work and bottom out in observation:
 
 - **Tie to record-harm.** A revision is *controlled* change; **fabrication** is
   *uncontrolled* false change, exposed by incoherence with the DAG. The
-  propagation engine and the harm model are two readings of the same web.
+  propagation engine and the harm model are two readings of the same web
+  (the full dictionary between the two readings: §18).
 
 ## 11. The carrier dissolved, and the cogito as self-verifying foundation (resolving §6)
 
@@ -873,6 +876,130 @@ standing `supposed`); verdicts in `engine/meta.py` (`scaffold_report`);
 the geometry run in `engine/exercise.py`; `examples/saccheri.ttl` +
 `scripts/saccheri_demo.py`. **No OWL vocabulary** — supposition is stance,
 stance is dynamics, and the strata rule holds for the third time running.
+
+---
+
+## 18. The harm dictionary: two factorizations of damage (recorded 2026-07-10)
+
+**Nothing here enters the Turtle, and nothing new is built** — this section is
+a translation table. `record-harm` (v2.3) predates the founding rule, and it
+shows: its definitions are correspondence-shaped ("distorts reality",
+"continuity with its original referent", "existential link to reality"). §7
+promised that on sourcing `Record` and `Agent` from here its notions would
+become web-internal, and left the promise one sentence long. This section
+writes the dictionary that rewrite requires — and states precisely the sense
+in which the harm taxonomy already exists here: **isomorphic in coverage,
+refactored in shape.** Every phenomenon record-harm names reappears in this
+web; almost none reappears at the same joint.
+
+The two shapes: record-harm's primes are **act-shaped** — what a perpetrator
+does to an artifact (destroy, fabricate, alter, omit, deny). This ontology's
+native cuts are **warrant-shaped** — where in the web the incoherence lands (a
+leaf lost, a moment rewritten, a skip unrecorded, a pretender's exercise
+failing). Both are factorizations of the same damage; neither is wrong; the
+dictionary is the isomorphism made explicit, refactoring and all.
+
+**18.1 The theorem: a harm is a legitimate operation minus its escalation
+record.** §13.1 already said it in passing — "the same gap left unrecorded is
+where negligence and fabrication live" — and §14.4 ("concealed grooming is
+self-fabrication") and §17.2 (the scaffold "claims nothing; the pretender
+claims warrant") said it again. Assembled, it is the dictionary's spine:
+**every prime harm is a normal web operation with its explicitness removed.**
+The act was never the harm — excision is constitutive (§5), retraction is
+routine (§13.3), skips are mandatory for finite agents (§13.1); *concealment*
+is the harm.
+
+| the operation, recorded (legitimate) | the same operation, concealed (record-harm prime) |
+|---|---|
+| **puncture** — storage decision; leaves and trail kept, interior regenerates (§14.2, §16.4) | **Destruction** — the non-regenerable residue lost: empirical leaves, the escalation trail |
+| **supposition** — stood on, worn openly; quarantined, transmits nothing (§17.2) | **Fabrication** — the pretender: unearned warrant transmitted into the held web (§15.3) |
+| **retraction** — a new moment appended; old moments never rewritten (§13.3) | **Alteration** — a rewrite of old moments; change without a moment |
+| **stub** — the skip that became a record: "X deferred, for Y, at m" (§13.1) | **Omission** — the unrecorded skip |
+| **exorcism / deprecation** — standing withdrawn *by a verdict*, logged at a moment (§15.3, §16.4) | **Denial** — standing refused without a verdict |
+
+Read down the right column and record-harm's five primes appear; read across
+and each is its left-hand twin with the escalation record deleted. This is why
+the ontology never needed a harm vocabulary: **the engine's disciplines are
+the detectors** — the pretender alarm (§16.1) is Fabrication's formal
+detector, as-of-moment anachronism (§13.3) catches Alteration, the planner's
+deficits (§16.2) render Omission as the stub that isn't there, the puncture
+report's must-keep partition (§16.3) says exactly what Destruction can and
+cannot reach, and environment-liveness (§10, §15.3) computes what a poisoned
+ground infects.
+
+**18.2 Where the factorizations genuinely differ (the refactoring).** Three of
+the act-primes converge, web-internally, on one genus — **concealed
+escalation**: Fabrication (a trade-off against the web, unrecorded — §13.1),
+harmful Omission (the unrecorded skip — same sentence), harmful Alteration (an
+unlogged change — the log's discipline violated). Distinct acts to a
+perpetrator; one shape to the web. And **Denial refactors most instructively**:
+promoted to prime in record-harm's v2.1 precisely because no act of hiding,
+creating or modifying is involved — irreducible *as an act*. Web-internally it
+reduces after all, one level up: "that document is fake" is a *record directed
+at a record*, a fabrication-charge the web does not corroborate —
+**Fabrication at the meta-level**, a false posit whose content is another
+record's standing. Prime in one factorization, composite in the other, and
+both classifications correct *in their own shape* — the cleanest exhibit that
+the isomorphism does not preserve the prime/composite structure.
+
+**18.3 The composites, translated.** Some sharpen, one dissolves:
+
+- **ForgeryOfProvenance** — sharpened by the coupling spectrum (§15.2):
+  provenance is *constituted* for empirical warrant and *decoupled* for
+  formal, so provenance-forgery is devastating against data and nearly idle
+  against theorems ("anonymous theorems are fine"). The act-taxonomy states
+  the attack; the warrant-taxonomy predicts its blast radius.
+- **Contamination** — environment poisoning: a fabricated ground entering
+  minimal environments, so that sound conclusions' labels now cross a
+  pretender. "Doubt infects the whole" is computed, not felt — env-liveness
+  after an exorcism is the infection map (§15.3).
+- **Obfuscation** — adversarial puncturing: §14.3's textbook is puncturing
+  tuned so the decoder strengthens by decoding; obfuscation is puncturing
+  tuned so the decoder fails. Same operation, inverted objective.
+- **Suppression** — traversal withheld: no communication record, no
+  happened-before edge (§13.3); the record's moments stay incomparable to the
+  victim web's. "Socially inert" = unreachable in the order.
+- **Fragmentation** — the patchwork's mereology attacked: `composedOf` paths
+  scattered across webs that do not communicate, so no single register can
+  compute support.
+- **Repudiation** — meta-level fabrication at the provenance joint: a false
+  record about authorship. (Denial + Fabrication in the act-shape; one
+  fabrication, aimed at a provenance edge, in the web-shape.)
+- **Decontextualization** — **dissolves.** There is no metadata (§9) and the
+  excision is part of the support (§5): "stripping context" is not a distinct
+  operation on an intact record but Alteration/Omission of the record itself.
+  The composite loses its object in translation — the one entry with no
+  right-hand side.
+
+**18.4 The aspects become projections.** Record-harm stamps six aspects per
+harm type; here every one is entailed, not stamped (the §10 move again):
+*Existence* → presence in the log (a moment); *Authenticity* → coherence of
+provenance with the claimed origin (§7's sentence, kept); *Integrity* → the
+mereology intact (`composedOf`); *Accessibility* → cost of traversal and
+regeneration (§14.2); *Context* → provenance itself, constitutive and
+unstrippable (§2); *Trustworthiness* → fidelity — a projection of the whole
+web, never a property of the node (§10). A "harm to trustworthiness" is
+therefore never an attack on a record; it is an attack on environments.
+
+**18.5 What the dictionary settles — and the division of labor it leaves.**
+The §7 sourcing direction stands, now with its content specified: record-harm's
+v3.0 keeps its taxonomy and re-grounds every definition through this table —
+correspondence language out, web-internal readings in. But the dictionary also
+says why record-harm should survive as a **companion** (§12's pattern; arith
+is the precedent — attached, never absorbed) rather than be re-derived and
+dropped: the act-shape carries what this ontology's discipline deliberately
+refuses. A `HarmEvent` has a *perpetrator*, a date, a severity — attribution
+content a court or an archive genuinely needs, and which §13.1 forbids this
+web to compute (punitive calculus stays refused; here, harm is *detected*,
+never *charged*). So the division: **this ontology computes the incoherence;
+record-harm names the act and the actor.** Two readings of the same web —
+§10's tie, upgraded to a dictionary.
+
+*Modelled as:* nothing — deliberately. No vocabulary enters the Turtle (a harm
+class would stamp per node what the web entails); no engine change is needed
+(the detectors in 18.1 all exist and run green). The dictionary is itself the
+§14.2 lesson applied to record-harm: everything on the right-hand side is
+*derivable* from disciplines already kept — one fewer ontology to assert.
 
 ---
 
