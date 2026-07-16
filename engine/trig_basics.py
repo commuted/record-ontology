@@ -70,16 +70,39 @@ def derive_pythagorean_identity() -> sp.Expr:
     return sp.Integer(1)  # The identity evaluates to 1
 
 
+def _rotation(angle) -> sp.Matrix:
+    """R(angle), read off the unit-circle definition: a rotation of the
+    plane carries (1,0) to (cos, sin) and (0,1) to (-sin, cos)."""
+    return sp.Matrix([[sp.cos(angle), -sp.sin(angle)],
+                      [sp.sin(angle),  sp.cos(angle)]])
+
+
 def derive_sine_addition() -> sp.Expr:
-    """Inf_DeriveSineAddition: Geometric derivation from unit circle"""
-    # This would involve rotation matrices in full derivation
-    # For now, we state the result (the form as held)
-    return sp.sin(alpha) * sp.cos(beta) + sp.cos(alpha) * sp.sin(beta)
+    """Inf_DeriveSineAddition: rotation composition, run.
+
+    Rotations about the origin compose by adding angles (the unit
+    circle's group structure), so R(α)·R(β) = R(α+β). The matrix product
+    COMPUTES the (1,0) entry as sinα·cosβ + cosα·sinβ; reading the same
+    entry off R(α+β) names it sin(α+β). The derived form comes from the
+    product — not from expand_trig, which would just ask the CAS oracle
+    for the identity — and the assert corroborates that the composition
+    actually closes. (An earlier draft stated this result; it was the
+    load-bearing testimonial root of the whole double-angle sub-DAG.)"""
+    product_entry = sp.expand((_rotation(alpha) * _rotation(beta))[1, 0])
+    named_entry = _rotation(alpha + beta)[1, 0]
+    assert sp.simplify(product_entry - named_entry) == 0, \
+        "rotation composition failed to close for sine"
+    return product_entry
 
 
 def derive_cosine_addition() -> sp.Expr:
-    """Inf_DeriveCosineAddition: Geometric derivation from unit circle"""
-    return sp.cos(alpha) * sp.cos(beta) - sp.sin(alpha) * sp.sin(beta)
+    """Inf_DeriveCosineAddition: the (0,0) entry of the same composition:
+    R(α)·R(β) computes cosα·cosβ − sinα·sinβ where R(α+β) reads cos(α+β)."""
+    product_entry = sp.expand((_rotation(alpha) * _rotation(beta))[0, 0])
+    named_entry = _rotation(alpha + beta)[0, 0]
+    assert sp.simplify(product_entry - named_entry) == 0, \
+        "rotation composition failed to close for cosine"
+    return product_entry
 
 
 def derive_sine_double_angle() -> sp.Expr:
