@@ -101,10 +101,12 @@ def act_3_consumption() -> bool:
             flag = " <-- " if v.category == consumption.ALARM else "     "
             print(f"   {flag}{v.category:16s} {v.inference}")
     print()
-    print("  NOTE: arith_properties' alarms are a live finding, not a demo")
-    print("  artifact -- those joints restate their conclusions and should be")
-    print("  either genuinely derived or declared in STATED_JOINTS (the")
-    print("  honest stub). The detector reports the repo's true condition.")
+    print("  NOTE: arith_properties' eleven proof joints are DECLARED stated")
+    print("  (STATED_JOINTS -- the derive-or-declare decision of 2026-07-15:")
+    print("  structural induction from Peano was judged more trouble than the")
+    print("  return). Declared statement is the honest testimonial holding;")
+    print("  the identical return value undeclared would alarm as circular")
+    print("  provenance -- the negative control below demonstrates exactly that.")
 
     # -- negative control ------------------------------------------------------
     print()
@@ -126,7 +128,10 @@ def act_3_consumption() -> bool:
     print(f"   Inf_Restate -> {control.get('Inf_Restate')}   "
           f"({'caught' if caught else 'MISSED'})")
 
-    return total_alarms["engine.orbital_mechanics"] == 0 and caught
+    # The whole repo must now be alarm-free: orbital derives, trig derives
+    # or is ground-embedded, arith declares. Any new restating joint anywhere
+    # fails this demo.
+    return all(n == 0 for n in total_alarms.values()) and caught
 
 
 def main() -> int:

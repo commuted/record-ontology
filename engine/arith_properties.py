@@ -10,6 +10,20 @@ What this demonstrates:
 * Properties proven from Peano axioms and recursive definitions
 * The sidecar pattern: structure in Turtle, content in Python
 * Validation: derived forms match stored forms exactly
+
+Standing decision (2026-07-15, the derive-or-declare follow-up from the
+consumption check, ROOT.md §15.4): the eleven proof joints below STATE
+their conclusions rather than derive them, and are DECLARED as such in
+STATED_JOINTS. Genuine derivation would mean structural induction from
+the Peano ground -- machinery sympy does not provide and whose
+construction was judged more trouble than the return (the properties are
+among the most corroborated statements in mathematics; the fixture's
+value is the derivation STRUCTURE, not fresh warrant for commutativity).
+Declared statement is the honest testimonial holding (§13.1's stub):
+the consumption check reports these joints as `stated`, never alarms.
+If anyone later wants the real thing, right-distributivity is the cheap
+first target (substitution through commutativity, trig-double-angle
+style); the inductive proofs need a term-rewriting layer.
 """
 
 from __future__ import annotations
@@ -188,6 +202,24 @@ JOINTS = [
     Joint("Inf_ExtendToIntegers", "IntegerExtension", derive_integer_extension),
     Joint("Inf_ProveAdditiveInverse", "AdditiveInverse", derive_additive_inverse),
 ]
+
+# Declared statements (see the module docstring): these joints return their
+# stored forms -- testimonial holdings, worn openly. The consumption check
+# (engine/consumption.py) treats declared joints as `stated`; the same
+# return value UNdeclared would be circular provenance (ROOT.md §15.4).
+STATED_JOINTS = frozenset({
+    "Inf_DefineMultiplication",
+    "Inf_ProveAdditionAssociativity",
+    "Inf_ProveMultiplicationAssociativity",
+    "Inf_ProveAdditionCommutativity",
+    "Inf_ProveMultiplicationCommutativity",
+    "Inf_ProveLeftDistributivity",
+    "Inf_DeriveRightDistributivity",
+    "Inf_ProveAdditiveIdentity",
+    "Inf_ProveMultiplicativeIdentity",
+    "Inf_ProveMultiplicativeZero",
+    "Inf_ProveAdditiveInverse",
+})
 
 
 # -- regeneration -------------------------------------------------------------
