@@ -173,11 +173,126 @@ CUBAN_MISSILE_NOTICE_TO_RESOLUTION_DAYS = 13.0
 DECISION_MOMENT = 4.95      # the strike order
 CONSENT_MOMENT = 7.50       # the resolution vote
 
+# Records whose content was open to independent inspection by the parties
+# the consent bound, at the moment of consent. The testimony was a public
+# ASSERTION, but the records under it (the cables) were withheld.
+TONKIN_PUBLIC = ["ExecutiveTestimony"]
+
 
 def load_tonkin(repo_root: Optional[Path] = None) -> Web:
     root = repo_root or Path(__file__).resolve().parent.parent
     return Web.load(root / "examples" / "tonkin-consent.ttl",
                     TONKIN_EXTANT, TONKIN_IMPUGNS)
+
+
+# -- the Cuban Missile Crisis registries (content, engine-side) --------------------
+# Fractional days from 1962-10-01 00:00 Washington time; hour-approximate.
+
+CUBA_EXTANT: Dict[str, float] = {
+    "U2Photographs":            14.5,
+    "MissileSiteIdentification": 15.7,
+    "ExcommDeliberations":      16.5,    # notice was the Oct 16 morning briefing
+    "AirstrikeOption":          17.0,
+    "PearlHarborDissent":       17.5,
+    "SovietDenial":             18.6,
+    "QuarantineProclamation":   23.3,    # signed Oct 23, effective Oct 24
+    "OASResolution":            23.5,
+    "StevensonDisplay":         25.7,
+    "KhrushchevLetter1":        26.8,
+    "KhrushchevLetter2":        27.4,
+    "U2Shootdown":              27.5,
+    "PreCommittedRetaliation":  17.0,    # armed in advance
+    "ArkhipovRefusal":          27.5,
+    "ReplyLetter":              27.7,
+    "DobryninChannel":          27.85,
+    "Withdrawal":               28.5,
+    "HotlineAgreement":         262.0,   # June 1963
+}
+
+CUBA_IMPUGNS: Dict[str, List[str]] = {
+    "U2Photographs":     ["SovietDenial"],
+    "StevensonDisplay":  ["SovietDenial"],
+    "PearlHarborDissent": ["AirstrikeOption"],
+}
+
+CUBA_LADDER = Ladder(
+    notice=("MissileSiteIdentification briefed", 16.35),
+    record=("ExcommDeliberations", 16.5),
+    rank=("Inf_QuarantineDecision", 20.5),
+    act=("quarantine effective", 24.4),
+    consent=("OASResolution", 23.5),      # consent BEFORE the act took effect
+)
+
+# Rung refusals: pre-committed or authorized escalations declined at the
+# moment, at two very different grains.
+CUBA_REFUSALS: List[Tuple[float, str, str]] = [
+    (27.5, "Arkhipov", "B-59 nuclear torpedo authorization withheld"),
+    (27.6, "Excomm", "pre-committed SAM-site retaliation after the U-2 shootdown, declined"),
+]
+
+# Open to inspection by the parties the consent bound: the photographs were
+# SHOWN (allies, then the UN), not summarized.
+CUBA_PUBLIC = ["U2Photographs", "MissileSiteIdentification", "QuarantineProclamation"]
+
+CUBA_RESOLUTION_MOMENT = 28.5
+
+
+def load_cuba(repo_root: Optional[Path] = None) -> Web:
+    root = repo_root or Path(__file__).resolve().parent.parent
+    return Web.load(root / "examples" / "cuban-missile.ttl",
+                    CUBA_EXTANT, CUBA_IMPUGNS)
+
+
+def record_selection_report(web: Web, inference: str,
+                            skipped: Sequence[str],
+                            moment: float) -> Dict:
+    """Classify a premise curation: fork-selection or defeater-concealment.
+
+    Both Tonkin and the Trollope ploy skip an extant record. The engine
+    distinguishes them from the impugnment structure alone: a skipped
+    record that IMPUGNS a used premise was a defeater, and its omission is
+    §18's harm-shape; a skipped record that impugns nothing in the
+    premise-set is a rival branch, and selecting between branches is an
+    ordinary fork choice. (Visibility to the affected party — whether the
+    curation itself was open — is the second axis, carried by the
+    publicity registry.)"""
+    premises = web.premises_of(inference)
+    verdicts = {}
+    for s in skipped:
+        targets = [p for p in premises if p in web.impugns.get(s, [])]
+        extant = web.extant_at.get(s, float("inf")) <= moment
+        if not extant:
+            verdicts[s] = "not yet extant — no curation occurred"
+        elif targets:
+            verdicts[s] = f"DEFEATER-CONCEALMENT: impugns used premise(s) {targets}"
+        else:
+            verdicts[s] = "fork-selection: impugns nothing in the premise-set"
+    return {"inference": inference, "premises": premises, "skipped": verdicts}
+
+
+def restraint_edges(web: Web, options: Sequence[str]) -> Dict[str, Dict]:
+    """The maximal rung never taken, computed: for each ranked option, is
+    there any inference consuming it (an act edge), and what impugns it?
+    The same missing-edge machinery that convicts a concealed omission
+    here preserves restraint — the web shows what was NOT done."""
+    out = {}
+    consumed = {p for _, _, o in web.graph.triples((None, REC.hasPremise, None))
+                for p in [_local(o)]}
+    for opt in options:
+        out[opt] = {
+            "act_edge_exists": opt in consumed,
+            "impugned_by": web.impugners_of(opt),
+        }
+    return out
+
+
+def premise_publicity(web: Web, inference: str,
+                      public: Sequence[str]) -> Tuple[float, List[str]]:
+    """Fraction of an inference's premises open to independent inspection
+    by the parties the conclusion binds."""
+    premises = web.premises_of(inference)
+    pub = [p for p in premises if p in set(public)]
+    return (len(pub) / len(premises) if premises else 0.0), pub
 
 
 def counterfactual_restoration(web: Web, inference: str,
