@@ -1,0 +1,233 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rec:  <https://www.epistemic-ontology.net/record#> .
+@prefix ex:   <https://www.epistemic-ontology.net/record/examples/orbital-mechanics#> .
+
+# ============================================================================
+# Orbital Mechanics: Layer 2 Bridge Between Pure Math and Neptune Discovery
+# ============================================================================
+# Demonstrates the sidecar pattern for physical mathematics:
+#   - Turtle defines structure (what depends on what)
+#   - Python sidecar (engine/orbital_mechanics.py) provides executable content
+#   - Validation proves consistency between structure and execution
+#
+# This is the MISSING LAYER between:
+#   Layer 1: Pure mathematics (arith-properties, trig-basics)
+#   Layer 2: Physical mathematics (THIS FILE - orbital mechanics)
+#   Layer 3: Historical application (neptune-discovery)
+#
+# Content covered (Phase 1 - foundational):
+#   - Kepler's laws (empirical grounds from observation)
+#   - Newton's law of gravitation (empirical ground from induction)
+#   - Derivation of Kepler from Newton (two-body problem)
+#   - Orbital elements and position calculations
+#   - Basic perturbation theory (first-order)
+# ============================================================================
+
+<https://www.epistemic-ontology.net/record/examples/orbital-mechanics>
+    a owl:Ontology ;
+    rdfs:comment "Orbital mechanics for the Record Ontology - Layer 2 bridge."@en ;
+    owl:imports <https://www.epistemic-ontology.net/record> .
+
+# -- Agent --------------------------------------------------------------------
+ex:Astronomer a owl:NamedIndividual , rec:Agent ;
+    rdfs:label "The Astronomer"@en .
+
+# -- Foundational Observations (Empirical Grounds) ----------------------------
+
+ex:PlanetaryObservations a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Observed planetary positions (Tycho Brahe, 1576-1601)"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "Precise positional measurements of Mars and other planets"^^xsd:string ;
+    rdfs:comment "Empirical ground - observations that led to Kepler's laws."@en .
+
+# -- Kepler's Laws (Induced from Observation) ---------------------------------
+
+ex:KeplersFirstLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Kepler's first law: planets move in ellipses with Sun at focus"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludedBy ex:Inf_InduceFirstLaw ;
+    rec:formulation "r = a(1-e²)/(1+e·cos(θ))"^^xsd:string ;
+    rdfs:comment "Induced from observation, not derived - empirical warrant."@en .
+
+ex:Inf_InduceFirstLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Induce elliptical orbits from observations"@en ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludes ex:KeplersFirstLaw ;
+    rec:hasForce rec:Ampliative .
+
+ex:KeplersSecondLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Kepler's second law: equal areas in equal times"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludedBy ex:Inf_InduceSecondLaw ;
+    rec:formulation "dA/dt = L/(2m) = constant"^^xsd:string ;
+    rdfs:comment "Angular momentum conservation, induced from observation."@en .
+
+ex:Inf_InduceSecondLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Induce area law from observations"@en ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludes ex:KeplersSecondLaw ;
+    rec:hasForce rec:Ampliative .
+
+ex:KeplersThirdLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Kepler's third law: P² ∝ a³"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludedBy ex:Inf_InduceThirdLaw ;
+    rec:formulation "P² = (4π²/GM)·a³"^^xsd:string ;
+    rdfs:comment "Period-distance relation, induced from observation."@en .
+
+ex:Inf_InduceThirdLaw a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Induce period-distance relation from observations"@en ;
+    rec:hasPremise ex:PlanetaryObservations ;
+    rec:concludes ex:KeplersThirdLaw ;
+    rec:hasForce rec:Ampliative .
+
+# -- Newton's Law (Empirical Ground from Induction) ---------------------------
+
+ex:NewtonsLawOfGravitation a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Newton's law of universal gravitation: F = G·m₁·m₂/r²"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "F = G·m₁·m₂/r²"^^xsd:string ;
+    rdfs:comment "Induced from terrestrial and celestial observations - empirical warrant."@en .
+
+# -- Derivation of Kepler from Newton (Truth-Preserving) ---------------------
+
+ex:Inf_DeriveKeplerFirstFromNewton a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Derive elliptical orbits from inverse square law"@en ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludes ex:KeplerFirstLawDerived ;
+    rec:hasForce rec:TruthPreserving ;
+    rdfs:comment "Solve F=ma with F=-GMm/r² using conservation laws."@en .
+
+ex:KeplerFirstLawDerived a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Elliptical orbits derived from Newton's law"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "r = a(1-e²)/(1+e·cos(θ))"^^xsd:string ;
+    rdfs:comment "Same form as Kepler's first law, but now DERIVED."@en .
+
+ex:Inf_DeriveKeplerSecondFromNewton a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Derive area law from central force"@en ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludes ex:KeplerSecondLawDerived ;
+    rec:hasForce rec:TruthPreserving ;
+    rdfs:comment "Central force → angular momentum conservation."@en .
+
+ex:KeplerSecondLawDerived a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Area law derived from Newton's law"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "dA/dt = L/(2m) = constant"^^xsd:string .
+
+ex:Inf_DeriveKeplerThirdFromNewton a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Derive period-distance relation from Newton's law"@en ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:hasPremise ex:KeplerFirstLawDerived ;
+    rec:concludes ex:KeplerThirdLawDerived ;
+    rec:hasForce rec:TruthPreserving .
+
+ex:KeplerThirdLawDerived a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Period-distance relation derived from Newton's law"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "P² = (4π²/GM)·a³"^^xsd:string .
+
+# -- Orbital Elements ---------------------------------------------------------
+
+ex:OrbitalElementsDefinition a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Definition of orbital elements (a, e, i, Ω, ω, M₀)"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Formal ;
+    rec:hasPremise ex:KeplerFirstLawDerived ;
+    rec:concludedBy ex:Inf_DefineOrbitalElements ;
+    rec:formulation "Six elements: a (semi-major axis), e (eccentricity), i (inclination), Ω (ascending node), ω (argument of periapsis), M₀ (mean anomaly at epoch)"^^xsd:string .
+
+ex:Inf_DefineOrbitalElements a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Define orbital elements from elliptical orbit"@en ;
+    rec:hasPremise ex:KeplerFirstLawDerived ;
+    rec:concludes ex:OrbitalElementsDefinition ;
+    rec:hasForce rec:TruthPreserving .
+
+# -- Position Calculation -----------------------------------------------------
+
+ex:Inf_CalculatePosition a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Calculate position from orbital elements"@en ;
+    rec:hasPremise ex:OrbitalElementsDefinition ;
+    rec:hasPremise ex:KeplerFirstLawDerived ;
+    rec:hasPremise ex:KeplerSecondLawDerived ;
+    rec:concludes ex:PositionFormula ;
+    rec:hasForce rec:TruthPreserving ;
+    rdfs:comment "Solve Kepler's equation M = E - e·sin(E), then compute r, θ."@en .
+
+ex:PositionFormula a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Position formula from orbital elements"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Empirical ;
+    rec:formulation "r = a(1-e·cos(E)); θ = 2·arctan(√((1+e)/(1-e))·tan(E/2))"^^xsd:string .
+
+# -- Perturbation Theory (First Order) ----------------------------------------
+
+ex:TwoBodyProblem a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Two-body problem: exact solution"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Formal ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludedBy ex:Inf_SolveTwoBody ;
+    rec:formulation "Exact solution: elliptical orbits (Kepler's laws)"^^xsd:string .
+
+ex:Inf_SolveTwoBody a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Solve two-body problem exactly"@en ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludes ex:TwoBodyProblem ;
+    rec:hasForce rec:TruthPreserving .
+
+ex:ThreeBodyProblem a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Three-body problem: no general analytical solution"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Formal ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludedBy ex:Inf_StateThreeBodyProblem ;
+    rec:formulation "N≥3: no closed-form solution, requires approximation"^^xsd:string .
+
+ex:Inf_StateThreeBodyProblem a owl:NamedIndividual , rec:Record ;
+    rdfs:label "State three-body problem"@en ;
+    rec:hasPremise ex:NewtonsLawOfGravitation ;
+    rec:concludes ex:ThreeBodyProblem ;
+    rec:hasForce rec:TruthPreserving .
+
+ex:PerturbationTheoryFirstOrder a owl:NamedIndividual , rec:Record ;
+    rdfs:label "First-order perturbation theory"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Formal ;
+    rec:hasPremise ex:TwoBodyProblem ;
+    rec:hasPremise ex:ThreeBodyProblem ;
+    rec:concludedBy ex:Inf_DerivePerturbationTheory ;
+    rec:formulation "r(t) = r₀(t) + ε·r₁(t) + O(ε²)"^^xsd:string ;
+    rdfs:comment "Approximate N-body solution as two-body + small corrections."@en .
+
+ex:Inf_DerivePerturbationTheory a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Derive first-order perturbation expansion"@en ;
+    rec:hasPremise ex:TwoBodyProblem ;
+    rec:hasPremise ex:ThreeBodyProblem ;
+    rec:concludes ex:PerturbationTheoryFirstOrder ;
+    rec:hasForce rec:TruthPreserving ;
+    rdfs:comment "Expand solution as power series in small parameter ε."@en .
+
+# -- Connection to Neptune Discovery ------------------------------------------
+
+ex:PerturbationMathematics a owl:NamedIndividual , rec:Record ;
+    rdfs:label "Perturbation mathematics (canonical form)"@en ;
+    rec:forAgent ex:Astronomer ;
+    rec:hasWarrant rec:Formal ;
+    owl:sameAs ex:PerturbationTheoryFirstOrder ;
+    rdfs:comment "This is the mathematical machinery referenced in neptune-discovery.ttl."@en .

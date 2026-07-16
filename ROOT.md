@@ -704,7 +704,7 @@ This hands record-harm its second detector: **empirical fabrication** is
 exposed by incoherence *with the web* (a concealed escalation, §13);
 **formal fabrication** — the pseudo-proof — by incoherence *with itself*,
 failing its own exercise. One fabrication concept, two detectors, one per
-excluded limit.
+excluded limit — and a third at the joint, found later in the field (15.4).
 
 *Modelled as:* `rec:formulation` (datatype property, v0.6.0) in the stub;
 **no** OWL vocabulary for exercise or exorcism — like fork collapse, they are
@@ -722,6 +722,51 @@ the **arithmetic companion** (`ontology/arith.ttl`, §7): expressions as
 formal Records composed of Records, exercised by a *compiler*
 (`engine/compile.py`) rather than a hand registry — the exercise derived
 from the description, not written beside it.
+
+**15.4 Circular provenance — the third detector (recorded 2026-07-15).**
+Reviewing an external draft exposed a fabrication species 15.3 cannot see:
+the **restating joint** — a "derivation" whose output is its stored
+conclusion, retyped. Its exercise CLOSES: regeneration compares x with x,
+and every light stays green. Kempe's pretender failed when Heawood ran it;
+the restating pretender cannot fail, which is worse. Name the defect
+precisely, because two things it is *not*: the **content** is usually true
+(Kepler III restated is still Kepler III — running true content succeeds,
+which is exactly why exercise-failure is blind here), and truth-in-virtue-
+of-form remains the very thing formal warrant *names* (§2). What is
+fabricated is the **joint, not the node**: the record claims a position in
+the derivation DAG — `hasPremise` edges, truth-preserving force — while
+the generative act consumed nothing. The genealogy is a loop; the warrant
+was never transmitted, only worn.
+
+- **The test must be counterfactual.** No inspection of the output can
+  see circular provenance — the output is fine. Provenance claims are
+  causal claims, so the audit is an intervention: **poison a premise and
+  re-derive** (`engine/consumption.py` poisons both the stored content
+  and the derive-chain, since honest joints often *recompute* premises
+  rather than read them). Output changed, or the derivation's own asserts
+  raised — the joint consumes; output identical — the alarm.
+- **Stating is never the crime.** The identical act — returning the
+  canonical form — is legitimate as a *declared* statement
+  (`STATED_JOINTS`: the testimonial holding, the honest stub of 13.1) and
+  fabrication as an undeclared derivation. Between the two cases not one
+  symbol of content differs; only the escalation record does. The §18
+  spine, at the joint: a harm is a legitimate operation minus its
+  declaration.
+- **Honest limits, kept honest.** A joint whose premises are all grounds,
+  their content embedded in its own machinery (the Binet ODE just *is*
+  the inverse-square law in u-substitution), cannot be poisoned at the
+  content level: reported as ground-embedded, never alarmed; its warrant
+  rests on the asserts its own exercise carries.
+- **Nobody passed it for free.** Day one it caught the external draft
+  that motivated it, the reviewing agent's own first draft, and eleven
+  standing joints in this repo's arith layer (derive-or-declare is the
+  open follow-up). A detector all parties fail on first contact is
+  measuring something real.
+
+The series, complete: wrong about the world (incoherent with the web),
+wrong in the form (the exercise fails), and — subtlest — **right for
+unearned reasons** (the exercise closes by circularity). Detected
+observationally, by running, and counterfactually, respectively.
 
 ## 16. The engine grows its own discipline: generated suites, the observation planner, and the cycle run on Mars (prototyped 2026-07-07)
 
@@ -921,11 +966,13 @@ Read down the right column and record-harm's five primes appear; read across
 and each is its left-hand twin with the escalation record deleted. This is why
 the ontology never needed a harm vocabulary: **the engine's disciplines are
 the detectors** — the pretender alarm (§16.1) is Fabrication's formal
-detector, as-of-moment anachronism (§13.3) catches Alteration, the planner's
-deficits (§16.2) render Omission as the stub that isn't there, the puncture
-report's must-keep partition (§16.3) says exactly what Destruction can and
-cannot reach, and environment-liveness (§10, §15.3) computes what a poisoned
-ground infects.
+detector, the consumption check (§15.4) is its counterfactual one (the
+restating joint: Fabrication whose *content* is true and only the genealogy
+is forged — the undeclared twin of the stated stub), as-of-moment anachronism
+(§13.3) catches Alteration, the planner's deficits (§16.2) render Omission as
+the stub that isn't there, the puncture report's must-keep partition (§16.3)
+says exactly what Destruction can and cannot reach, and environment-liveness
+(§10, §15.3) computes what a poisoned ground infects.
 
 **18.2 Where the factorizations genuinely differ (the refactoring).** Three of
 the act-primes converge, web-internally, on one genus — **concealed
